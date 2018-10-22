@@ -1,0 +1,82 @@
+import java.io.*;
+import java.util.*;
+
+public class tester
+{
+    public static void main(String args[])
+    {
+        Scanner kbr = new Scanner(System.in);
+        int x = 0;
+        
+        while (x < 3)
+        {
+            System.out.print("Enter an integer: ");
+            
+            int num = kbr.nextInt();
+            int answer = num % 2;
+            
+            String word;
+            
+            if (answer == 1)
+            {
+                word = "odd";
+            } 
+            else
+            {
+                word = ("even");
+            }
+        
+            System.out.println("The integer " + num + " is " + word + ".");
+            
+            x = x + 1;
+        }
+    }
+}
+
+
+
+public class Project1
+{
+    public static void main(String args[]) 
+    {
+        int x = 3;
+        int total = 0;
+  
+        while (x < 1000)
+        {
+            total = total + x;
+            x = x + 3;
+        }
+
+        {
+            int y = 5;
+            int total2 = 0;
+
+            while (y < 1000)
+            {
+                total2 = total2 + y;
+                y = y + 5;
+            }
+
+            {
+                int z = 15;
+                int total3 = 0;
+  
+                while (z < 1000)
+                {
+                    total3 = total3 + z;
+                    z = z + 15;
+                }
+ 
+                int sum = total + total2 - total3;
+
+                {
+                    System.out.println("The total is" + " " + sum );
+                }
+            }   
+        }
+    }
+}
+
+
+

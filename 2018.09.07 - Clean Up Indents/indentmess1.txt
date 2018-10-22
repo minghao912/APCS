@@ -1,0 +1,34 @@
+import java.io.*;
+import java.util.*;
+
+public class tester
+{
+    public static void main(String args[])
+    {
+        Scanner kbr = new Scanner(System.in);
+        int x = 0;
+        
+        while (x < 3)
+        {
+            System.out.print("Enter an integer: ");
+            
+            int num = kbr.nextInt();
+            int answer = num % 2;
+            
+            String word;
+            
+            if (answer == 1)
+            {
+                word = "odd";
+            } 
+            else
+            {
+                word = ("even");
+            }
+        
+            System.out.println("The integer " + num + " is " + word + ".");
+            
+            x = x + 1;
+        }
+    }
+}
