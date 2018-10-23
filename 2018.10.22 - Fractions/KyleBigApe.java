@@ -43,3 +43,5 @@ public class KyleBigApe {
         System.out.println("Your reduced fraction is " + reduced.getNumerator() + "/" + reduced.getDenominator());
     }
 }
+
+//22 October 2018 (22 10 2018) 17:04
