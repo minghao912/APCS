@@ -37,6 +37,8 @@ public class Robot {
                     pos--;
             }
         }
+
+        //System.out.println("positon: " + pos + ", items: " + hall[pos] + ", facing right: " + right);
     }
 
     public int clearHall() {
@@ -53,10 +55,13 @@ public class Robot {
             
             if (allClear)   //If hall is clear, stop
                 break clear;
-            else if (hall[i] == 0) {    //If hall is not clear, continue
+
+            //If hall is not clear, continue   
+            else if (hall[i] == 0) {    //Once all items have been removed, SitRep as clear, and proceed
                 clear[i] = true;
                 continue clear;
             }
+
             while (hall[i] > 0 && !clear[i]) {
                 move();
                 moves++;
@@ -66,3 +71,5 @@ public class Robot {
         return moves;
     }
 }
+
+//28 October 2018 (28 10 2018) 18:06
