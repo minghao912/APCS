@@ -8,3 +8,5 @@ public class FInChat {
         System.out.println("Hall cleared in " + moves + " moves.");
     }
 }
+
+//29/10/2018 09:55
