@@ -4,7 +4,7 @@ import java.net.URL;
 import java.io.*;
 import javax.sound.sampled.*;
 
-public class PlaySound extends JFrame {
+public class PlaySound {
     public PlaySound() {
         try {
             URL url = this.getClass().getClassLoader().getResource("Explosion2.wav");
