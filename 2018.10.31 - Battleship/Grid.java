@@ -47,6 +47,9 @@ public class Grid extends JFrame implements ActionListener {
         int x = Integer.parseInt(xy[0]);
         int y = Integer.parseInt(xy[1]);
 
+        //Actions
         buttons[y][x].setBackground(Color.red);
+        PlaySound sound = new PlaySound();
+        System.out.println("User called a hit on (" + x + ", " + y + ")");
     }
 }
