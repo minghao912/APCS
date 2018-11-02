@@ -5,9 +5,9 @@ import java.io.*;
 import javax.sound.sampled.*;
 
 public class PlaySound extends JFrame {
-    public PlaySound() {
+    public void play(String sound) {
         try {
-            URL url = this.getClass().getClassLoader().getResource("Explosion2.wav");
+            URL url = this.getClass().getClassLoader().getResource(sound);
             AudioInputStream audioIn = AudioSystem.getAudioInputStream(url);
             Clip clip = AudioSystem.getClip();
             clip.open(audioIn);

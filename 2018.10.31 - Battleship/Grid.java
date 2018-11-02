@@ -49,7 +49,7 @@ public class Grid extends JFrame implements ActionListener {
 
         //Actions
         buttons[y][x].setBackground(Color.red);
-        PlaySound sound = new PlaySound();
+        new PlaySound().play("Sounds/Explosion2.wav");
         System.out.println("User called a hit on (" + x + ", " + y + ")");
     }
 }
