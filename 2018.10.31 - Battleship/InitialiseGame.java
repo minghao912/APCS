@@ -24,6 +24,7 @@ public class InitialiseGame implements WindowListener {
     @Override
     public void windowClosing(WindowEvent e) {
         JOptionPane.showConfirmDialog(null, "Are you sure you want to quit?");
+        System.exit(0);
     }
 
     @Override
