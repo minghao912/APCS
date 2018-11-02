@@ -18,6 +18,14 @@ public class InitialiseGame implements WindowListener {
         return testGrid;
     }
 
+    private void createComputerGrid() {
+        Ship carrier = new Ship("Carrier", 5, Computer.generateRandom());
+        Ship battleship = new Ship("Battleship", 4, Computer.generateRandom());
+        Ship cruiser = new Ship("Cruiser", "3", Computer.generateRandom());
+        Ship submarine = new Ship("Submarine", "3", Computer.generateRandom());
+        Ship destroyer = new Ship("Destroyer", "2", Computer.generateRandom());
+    }
+
     @Override
     public void windowOpened(WindowEvent e) {}
 

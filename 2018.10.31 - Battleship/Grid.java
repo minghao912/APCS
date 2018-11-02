@@ -4,14 +4,17 @@ import javax.swing.*;
 import java.util.Arrays;
 
 public class Grid extends JFrame implements ActionListener {
-    private int rows = 10;
-    private int columns = 10;
+    private int rows;
+    private int columns;
     private JButton[][] buttons; // Create 2D array of buttons
+    private int[] size = new int[2];
 
     public Grid(int inputRows, int inputColumns) {
         rows = inputRows;
         columns = inputColumns;
         buttons = new JButton[rows][columns];
+        size[0] = columns;  //x
+        size[1] = rows;     //y
     }
     
     void setFrameTitle(String title) {
@@ -38,6 +41,10 @@ public class Grid extends JFrame implements ActionListener {
                 pane.add(buttons[y][x]);
             }
         }
+    }
+
+    int[] getGridSize() {
+        return size;
     }
 
     public void actionPerformed(ActionEvent e) {
