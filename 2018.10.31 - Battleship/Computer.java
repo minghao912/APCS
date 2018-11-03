@@ -9,8 +9,8 @@ public class Computer {
         boolean[][] shipGrid = new boolean[gridSize[0]][gridSize[1]];
         
         boolean startDirVertical;
-        if (radDir == 0) startDirVertical = true;
-        else if (radDir == 1) startDirVertical = false;
+        //if (radDir == 0) startDirVertical = true;
+        //else if (radDir == 1) startDirVertical = false;
 
         return shipGrid;
     }
@@ -23,3 +23,5 @@ public class Computer {
         return new int[] {startX, startY, radDir};
     }
 }
+
+// 31/10/2018 21:15

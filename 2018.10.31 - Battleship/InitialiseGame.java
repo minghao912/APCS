@@ -3,27 +3,39 @@ import javax.swing.*;
 
 public class InitialiseGame implements WindowListener {
     public static void main(String[] args) {
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (UnsupportedLookAndFeelException e) {
+            System.out.println(e);
+        } catch (ClassNotFoundException e) {
+            System.out.println(e);
+        } catch (InstantiationException e) {
+            System.out.println(e);
+        } catch (IllegalAccessException e) {
+            System.out.println(e);
+        }
+
         Grid playfield = new InitialiseGame().createPlayfield();
     }
 
     private Grid createPlayfield() {
-        Grid testGrid = new Grid(10, 10);
-        testGrid.createGrid();
-        testGrid.setFrameTitle("Battlehsip");
-        testGrid.addWindowListener(this);
-        testGrid.pack();
-        testGrid.setLocationRelativeTo(null);
-        testGrid.setVisible(true);
+        Grid pleasefuckingwork = new Grid(10, 10);
+        pleasefuckingwork.createGrid();
+        pleasefuckingwork.setFrameTitle("Battlehsip");
+        pleasefuckingwork.addWindowListener(this);
+        pleasefuckingwork.pack();
+        pleasefuckingwork.setLocationRelativeTo(null);
+        pleasefuckingwork.setVisible(true);
 
-        return testGrid;
+        return pleasefuckingwork;
     }
 
     private void createComputerGrid() {
         Ship carrier = new Ship("Carrier", 5, Computer.generateRandom());
         Ship battleship = new Ship("Battleship", 4, Computer.generateRandom());
-        Ship cruiser = new Ship("Cruiser", "3", Computer.generateRandom());
-        Ship submarine = new Ship("Submarine", "3", Computer.generateRandom());
-        Ship destroyer = new Ship("Destroyer", "2", Computer.generateRandom());
+        Ship cruiser = new Ship("Cruiser", 3, Computer.generateRandom());
+        Ship submarine = new Ship("Submarine", 3, Computer.generateRandom());
+        Ship destroyer = new Ship("Destroyer", 2, Computer.generateRandom());
     }
 
     @Override
@@ -50,3 +62,5 @@ public class InitialiseGame implements WindowListener {
     @Override
     public void windowDeactivated(WindowEvent e) {}
 }
+
+//03/11/2018 16:15

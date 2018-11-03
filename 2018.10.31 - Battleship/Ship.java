@@ -7,7 +7,9 @@ public class Ship {
 
     public Ship(String boatName, int boatLength, int[] boatStartingPositions) {
         name = boatName;
-        lenth = boatLength;
+        length = boatLength;
         startingPositions = boatStartingPositions;
     }
 }
+
+//31/10/2018 21:15
