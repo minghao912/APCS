@@ -7,7 +7,8 @@ public class Grid extends JFrame implements ActionListener {
     private int rows;
     private int columns;
     private JButton[][] buttons; // Create 2D array of buttons
-    private int[] size = new int[2];
+    private int[] size = new int[2];  
+    public Container pane = getContentPane();
 
     public Grid(int inputRows, int inputColumns) {
         rows = inputRows;
@@ -22,8 +23,7 @@ public class Grid extends JFrame implements ActionListener {
     }
 
     void createGrid() {
-        Container pane = getContentPane();
-        pane.setBackground(Color.lightGray);
+        pane.setBackground(Color.WHITE);
         pane.setLayout(new GridLayout(rows, columns));
 
         //Create 100 buttons, all at a preferred size of 40x40
@@ -34,7 +34,7 @@ public class Grid extends JFrame implements ActionListener {
                 buttonID = ++buttonCount + "";
 
                 buttons[y][x] = new JButton();
-                buttons[y][x].setPreferredSize(new Dimension(40, 40));
+                buttons[y][x].setPreferredSize(new Dimension(100, 100));
                 buttons[y][x].setName(buttonID);
                 buttons[y][x].addActionListener(this);
                 buttons[y][x].setActionCommand(x + ", " + y);
@@ -54,9 +54,13 @@ public class Grid extends JFrame implements ActionListener {
         int x = Integer.parseInt(xy[0]);
         int y = Integer.parseInt(xy[1]);
 
-        //Actions
-        buttons[y][x].setBackground(Color.red);
-        new PlaySound().play("Sounds/Explosion2.wav");
-        System.out.println("User called a hit on (" + x + ", " + y + ")");
+        if (buttons[y][x].getName().contains(" &")) {}
+        else {
+            //Actions
+            buttons[y][x].setBackground(Color.red);
+            buttons[y][x].setName(buttons[y][x].getName() + " &");
+            new PlaySound().play("Files/Sounds/Explosion2.wav");
+            System.out.println("User called a hit on (" + x + ", " + y + ")");
+        }
     }
 }

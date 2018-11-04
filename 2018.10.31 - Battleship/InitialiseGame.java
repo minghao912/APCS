@@ -1,4 +1,6 @@
+import java.awt.*;
 import java.awt.event.*;
+import java.net.URL;
 import javax.swing.*;
 
 public class InitialiseGame implements WindowListener {
@@ -22,10 +24,21 @@ public class InitialiseGame implements WindowListener {
         Grid pleasefuckingwork = new Grid(10, 10);
         pleasefuckingwork.createGrid();
         pleasefuckingwork.setFrameTitle("Battlehsip");
+        pleasefuckingwork.setIconImage((new ImageIcon(this.getClass().getResource("Files/icon.png"))).getImage());
         pleasefuckingwork.addWindowListener(this);
+
         pleasefuckingwork.pack();
         pleasefuckingwork.setLocationRelativeTo(null);
         pleasefuckingwork.setVisible(true);
+
+        /*
+        JFrame stats = new JFrame();
+        stats.add(new JLabel("Ships Left"), JLabel.NORTH);
+        stats.add(new JLabel("Ships Sunk"), JLabel.SOUTH);
+        stats.pack();
+        stats.setLocationRelativeTo(pleasefuckingwork);
+        stats.setVisible(true);
+        */
 
         return pleasefuckingwork;
     }
