@@ -70,7 +70,18 @@ public class InitialiseGame implements WindowListener {
         int[] gridSize = {10, 10};  //{y, x}
         Computer ai = new Computer(gridSize);
 
-        Ship carrier = new Ship("Carrier", 5, ai.generateRandom());
+        Ship[] ships = new Ship[5];
+        String[] shipNames = {"Carrier", "Battleship", "Cruiser", "Submarine", "Destroyer"};
+        int[] shipLengths = {5, 4, 3, 3, 2};
+
+        for (int i = 0; i < 5; i++) {
+            ships[i] = new Ship(shipNames[i], shipLengths[i], ai.generateRandom());
+            while(!ai.checkShipPlacement(ships[i]))
+                ships[i].setNewPosition(ai.generateRandom());
+            ai.placeShip(ships[i]);
+        }
+
+        /* Ship carrier = new Ship("Carrier", 5, ai.generateRandom());
         while(!ai.checkShipPlacement(carrier)) {
             carrier.setNewPosition(ai.generateRandom());
         }
@@ -99,12 +110,12 @@ public class InitialiseGame implements WindowListener {
             destroyer.setNewPosition(ai.generateRandom());
         }
         ai.placeShip(destroyer);
-
-        /*
+ */
+        
         for (int i = 0; i < 10; i++) {
             System.out.println(Arrays.toString(ai.getGrid()[i]));
         }
-        */
+        
     }
 
     @Override
