@@ -21,24 +21,24 @@ public class InitialiseGame implements WindowListener {
     }
 
     private Grid createPlayfield() {
+        JFrame theAbsoluteUnit = new JFrame();
+        JPanel flippingHeck = new JPanel();
+
         Grid pleasefuckingwork = new Grid(10, 10);
+
         pleasefuckingwork.createGrid();
-        pleasefuckingwork.setFrameTitle("Battlehsip");
-        pleasefuckingwork.setIconImage((new ImageIcon(this.getClass().getResource("Files/icon.png"))).getImage());
-        pleasefuckingwork.addWindowListener(this);
+        //pleasefuckingwork.setFrameTitle("Battlehsip");
+        //pleasefuckingwork.setIconImage((new ImageIcon(this.getClass().getResource("Files/icon.png"))).getImage());
+        //pleasefuckingwork.addWindowListener(this);
+    
+        //flippingHeck.add(pleasefuckingwork);
+        //flippingHeck.pack();
+        //flippingHeck.setLocationRelativeTo(null);
+        //flippingHeck.setVisible(true);
 
-        pleasefuckingwork.pack();
-        pleasefuckingwork.setLocationRelativeTo(null);
-        pleasefuckingwork.setVisible(true);
-
-        /*
-        JFrame stats = new JFrame();
-        stats.add(new JLabel("Ships Left"), JLabel.NORTH);
-        stats.add(new JLabel("Ships Sunk"), JLabel.SOUTH);
-        stats.pack();
-        stats.setLocationRelativeTo(pleasefuckingwork);
-        stats.setVisible(true);
-        */
+        theAbsoluteUnit.add(pleasefuckingwork);
+        theAbsoluteUnit.setLocationRelativeTo(null);
+        theAbsoluteUnit.setVisible(true);
 
         return pleasefuckingwork;
     }
@@ -76,4 +76,4 @@ public class InitialiseGame implements WindowListener {
     public void windowDeactivated(WindowEvent e) {}
 }
 
-//03/11/2018 16:15
+//04/11/2018 19:25

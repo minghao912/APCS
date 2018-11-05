@@ -3,12 +3,12 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.util.Arrays;
 
-public class Grid extends JFrame implements ActionListener {
+public class Grid extends JPanel implements ActionListener {
     private int rows;
     private int columns;
     private JButton[][] buttons; // Create 2D array of buttons
     private int[] size = new int[2];  
-    public Container pane = getContentPane();
+    public JPanel pane = new JPanel();
 
     public Grid(int inputRows, int inputColumns) {
         rows = inputRows;
@@ -18,9 +18,11 @@ public class Grid extends JFrame implements ActionListener {
         size[1] = rows;     //y
     }
     
+    /*
     void setFrameTitle(String title) {
         this.setTitle(title);
     }
+    */
 
     void createGrid() {
         pane.setBackground(Color.WHITE);
@@ -58,6 +60,7 @@ public class Grid extends JFrame implements ActionListener {
         else {
             //Actions
             buttons[y][x].setBackground(Color.red);
+            buttons[y][x].setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.red), BorderFactory.createLoweredBevelBorder()));
             buttons[y][x].setName(buttons[y][x].getName() + " &");
             new PlaySound().play("Files/Sounds/Explosion2.wav");
             System.out.println("User called a hit on (" + x + ", " + y + ")");
