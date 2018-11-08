@@ -52,12 +52,14 @@ public class Grid2 extends JPanel implements ActionListener {
         int x = Integer.parseInt(xy[0]);
         int y = Integer.parseInt(xy[1]);
 
-        if (buttons[y][x].getName().contains(" &")) {}
+        if (buttons[y][x].getName().contains(" &")) return;
         else {
             //Actions
-            buttons[y][x].setBackground(Color.red);
-            buttons[y][x].setName(buttons[y][x].getName() + " &");
-            new PlaySound().play("Files/Sounds/Explosion2.wav");
+            // buttons[y][x].setBackground(Color.red);
+            // buttons[y][x].setName(buttons[y][x].getName() + " &");
+            // new PlaySound().play("Files/Sounds/Explosion2.wav");
+            InitialiseGame.accessToCheckGuess(new int[] {y, x});
+
             System.out.println("User called a hit on (" + x + ", " + y + ")");
         }
     }

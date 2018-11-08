@@ -7,7 +7,8 @@ import java.util.Arrays;
 public class InitialiseGame implements WindowListener {
     public static void main(String[] args) {
         try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            if (System.getProperty("os.name").contains("Windows")) UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            else UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
         } catch (UnsupportedLookAndFeelException e) {
             System.out.println(e);
         } catch (ClassNotFoundException e) {
@@ -21,6 +22,12 @@ public class InitialiseGame implements WindowListener {
         JFrame playfield = new InitialiseGame().createPlayfield();
         createComputerGrid();
     }
+    
+    private static int[] gridSize = { 10, 10 }; // {y, x}
+    private static Computer ai = new Computer(gridSize);
+    public static void accessToCheckGuess(int[] coordinates) {
+        ai.checkGuess(coordinates);
+    }
 
     private JFrame createPlayfield() {
         JFrame anAbsoluteUnit = new JFrame("Batttleship");
@@ -31,7 +38,7 @@ public class InitialiseGame implements WindowListener {
         
         //Stats
         JPanel stickthisupyourbum = new JPanel();
-        stickthisupyourbum.add(new JLabel("fuck yes"));
+        stickthisupyourbum.add(new JLabel("god bless"));
         stickthisupyourbum.add(new JLabel("this works"));
 
         //Battlehsip grid
@@ -51,25 +58,11 @@ public class InitialiseGame implements WindowListener {
         anAbsoluteUnit.addWindowListener(this);
         anAbsoluteUnit.pack();
         anAbsoluteUnit.setLocationRelativeTo(null);
-        
-
-        /*
-        pleasefuckingwork.setFrameTitle("Battlehsip");
-        pleasefuckingwork.setIconImage((new ImageIcon(this.getClass().getResource("Files/icon.png"))).getImage());
-        pleasefuckingwork.addWindowListener(this);
-
-        pleasefuckingwork.pack();
-        pleasefuckingwork.setLocationRelativeTo(null);
-        pleasefuckingwork.setVisible(true);
-        */
 
         return anAbsoluteUnit;
     }
 
     private static void createComputerGrid() {
-        int[] gridSize = {10, 10};  //{y, x}
-        Computer ai = new Computer(gridSize);
-
         Ship[] ships = new Ship[5];
         String[] shipNames = {"Carrier", "Battleship", "Cruiser", "Submarine", "Destroyer"};
         int[] shipLengths = {5, 4, 3, 3, 2};
@@ -81,37 +74,6 @@ public class InitialiseGame implements WindowListener {
             ai.placeShip(ships[i]);
         }
 
-        /* Ship carrier = new Ship("Carrier", 5, ai.generateRandom());
-        while(!ai.checkShipPlacement(carrier)) {
-            carrier.setNewPosition(ai.generateRandom());
-        }
-        ai.placeShip(carrier);
-
-        Ship battleship = new Ship("Battleship", 4, ai.generateRandom());
-        while (!ai.checkShipPlacement(battleship)) {
-            battleship.setNewPosition(ai.generateRandom());
-        }
-        ai.placeShip(battleship);
-
-        Ship cruiser = new Ship("Cruiser", 3, ai.generateRandom());
-        while (!ai.checkShipPlacement(cruiser)) {
-            cruiser.setNewPosition(ai.generateRandom());
-        }
-        ai.placeShip(cruiser);
-
-        Ship submarine = new Ship("Submarine", 3, ai.generateRandom());
-        while (!ai.checkShipPlacement(submarine)) {
-            submarine.setNewPosition(ai.generateRandom());
-        }
-        ai.placeShip(submarine);
-        
-        Ship destroyer = new Ship("Destroyer", 2, ai.generateRandom());
-        while (!ai.checkShipPlacement(destroyer)) {
-            destroyer.setNewPosition(ai.generateRandom());
-        }
-        ai.placeShip(destroyer);
- */
-        
         for (int i = 0; i < 10; i++) {
             System.out.println(Arrays.toString(ai.getGrid()[i]));
         }

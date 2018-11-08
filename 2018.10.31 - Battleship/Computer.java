@@ -70,6 +70,11 @@ public class Computer {
         return gridOfShips;
     }
 
+    boolean checkGuess(int[] coordinate) {
+        if(gridOfShips[coordinate[0]][coordinate[1]] != null) return true;
+        else return false;
+    }
+
     String[][] getGrid() {
         return gridOfShips;
     }
