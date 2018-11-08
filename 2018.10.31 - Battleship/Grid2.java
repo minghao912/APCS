@@ -34,15 +34,12 @@ public class Grid2 extends JPanel implements ActionListener {
                 buttons[y][x].setName(buttonID);
                 buttons[y][x].addActionListener(this);
                 buttons[y][x].setActionCommand(x + ", " + y);
+
                 pane.add(buttons[y][x]);
             }
         }
 
         return pane;
-    }
-
-    int[] getGridSize() {
-        return size;
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -54,13 +51,21 @@ public class Grid2 extends JPanel implements ActionListener {
 
         if (buttons[y][x].getName().contains(" &")) return;
         else {
-            //Actions
-            // buttons[y][x].setBackground(Color.red);
-            // buttons[y][x].setName(buttons[y][x].getName() + " &");
-            // new PlaySound().play("Files/Sounds/Explosion2.wav");
-            InitialiseGame.accessToCheckGuess(new int[] {y, x});
+            InitialiseGame.userGuess(new int[] {y, x});
 
             System.out.println("User called a hit on (" + x + ", " + y + ")");
         }
     }
+    
+    int[] getGridSize() {
+        return size;
+    }
+
+    void changeButtonColour(int[] coordinates, Color colour) {
+        buttons[coordinates[0]][coordinates[1]].setBackground(colour);
+        buttons[coordinates[0]][coordinates[1]].setContentAreaFilled(false);
+        buttons[coordinates[0]][coordinates[1]].setOpaque(true);
+    }
+
+    
 }

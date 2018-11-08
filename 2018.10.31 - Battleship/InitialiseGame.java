@@ -22,36 +22,32 @@ public class InitialiseGame implements WindowListener {
         JFrame playfield = new InitialiseGame().createPlayfield();
         createComputerGrid();
     }
-    
-    private static int[] gridSize = { 10, 10 }; // {y, x}
-    private static Computer ai = new Computer(gridSize);
-    public static void accessToCheckGuess(int[] coordinates) {
-        ai.checkGuess(coordinates);
-    }
 
+    //Battleship grid
+    private static Grid2 pleasefuckingwork = new Grid2(10, 10);
+    
     private JFrame createPlayfield() {
         JFrame anAbsoluteUnit = new JFrame("Batttleship");
         anAbsoluteUnit.setTitle("Battlehsip");
         anAbsoluteUnit.setIconImage((new ImageIcon(this.getClass().getResource("Files/icon.png"))).getImage());
 
         JSplitPane flippingheck = new JSplitPane();
-        
-        //Stats
+
+        // Stats
         JPanel stickthisupyourbum = new JPanel();
         stickthisupyourbum.add(new JLabel("god bless"));
         stickthisupyourbum.add(new JLabel("this works"));
 
-        //Battlehsip grid
-        Grid2 pleasefuckingwork = new Grid2(10, 10);
+        // Battlehsip grid
         JPanel whywontyoujustwork = pleasefuckingwork.createGrid();
 
-        //Configure the split pane
+        // Configure the split pane
         flippingheck.setOrientation(JSplitPane.VERTICAL_SPLIT);
         flippingheck.setDividerLocation(50);
         flippingheck.setTopComponent(stickthisupyourbum);
         flippingheck.setBottomComponent(whywontyoujustwork);
 
-        //Set main frame visible
+        // Set main frame visible
         anAbsoluteUnit.setLayout(new BorderLayout());
         anAbsoluteUnit.setVisible(true);
         anAbsoluteUnit.add(flippingheck);
@@ -61,6 +57,9 @@ public class InitialiseGame implements WindowListener {
 
         return anAbsoluteUnit;
     }
+    
+    private static int[] gridSize = { 10, 10 }; // {y, x}
+    private static Computer ai = new Computer(gridSize);
 
     private static void createComputerGrid() {
         Ship[] ships = new Ship[5];
@@ -78,6 +77,21 @@ public class InitialiseGame implements WindowListener {
             System.out.println(Arrays.toString(ai.getGrid()[i]));
         }
         
+    }
+
+    public static void userGuess(int[] coordinates) {
+        boolean hit = ai.checkGuess(coordinates);
+        if (hit) {
+            pleasefuckingwork.changeButtonColour(coordinates, Color.RED);
+            new PlaySound().play("Explosion2.wav");
+            System.out.println("Hit!");
+        } else if (!hit) {
+            pleasefuckingwork.changeButtonColour(coordinates, Color.BLACK);
+            System.out.println("Miss!");
+        } else {
+            System.out.println("Error determining hit or miss.");
+            System.exit(128);
+        }
     }
 
     @Override

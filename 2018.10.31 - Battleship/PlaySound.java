@@ -7,9 +7,8 @@ import javax.sound.sampled.*;
 
 public class PlaySound {
     public void play(String sound) {
-
         try {
-            URL url = this.getClass().getClassLoader().getResource(sound);
+            URL url = this.getClass().getClassLoader().getResource("Files/Sounds/" + sound);
             AudioInputStream audioIn = AudioSystem.getAudioInputStream(url);
             Clip clip = AudioSystem.getClip();
             clip.open(audioIn);
