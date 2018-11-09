@@ -5,6 +5,7 @@ public class Computer {
     private Random rand = new Random();
     private String[][] gridOfShips;
     private int[] gridSize;
+    public static int moveCounter = 0;
 
     public Computer(int[] givenGridSize) {
         gridSize = givenGridSize;
@@ -56,11 +57,13 @@ public class Computer {
         if (direct == 0) {
             for (int x = startX; x < startX + shipLength; x++) {
                 gridOfShips[startY][x] = shipName;
+                ship.addCoordinate(new Integer[] { startY, x });
             }
             return gridOfShips;
         } else if (direct == 1) { // else if direction is vertial
             for (int y = startY; y < startY + shipLength; y++) {
                 gridOfShips[y][startX] = shipName;
+                ship.addCoordinate(new Integer[] { y, startX });
             }
             return gridOfShips;
         } else {
@@ -73,6 +76,25 @@ public class Computer {
     boolean checkGuess(int[] coordinate) {
         if(gridOfShips[coordinate[0]][coordinate[1]] != null) return true;
         else return false;
+    }
+
+    String removeShip(int[] coordinates) {
+        String shipname = null;
+        if (gridOfShips[coordinates[0]][coordinates[1]] != null) {
+            gridOfShips[coordinates[0]][coordinates[1]] = null;
+            shipname = gridOfShips[coordinates[0]][coordinates[1]];
+        } else return null;
+
+        for (int i = 0; i < 10; i++) {
+            System.out.println(Arrays.toString(gridOfShips[i]));
+        }
+
+        return shipname;
+    }
+
+    boolean checkSunk(Ship ship) {
+        
+        return false;
     }
 
     String[][] getGrid() {
@@ -88,4 +110,4 @@ public class Computer {
     }
 }
 
-// 31/10/2018 21:15
+// 08/11/2018 17:07

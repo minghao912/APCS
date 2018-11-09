@@ -3,11 +3,13 @@ public class Ship {
     private int length;
     private int[] startingPositions;
     private int hits;
+    private java.util.ArrayList<Integer[]> coordinates;
 
     public Ship(String boatName, int boatLength, int[] boatStartingPositions) {
         name = boatName;
         length = boatLength;
         startingPositions = boatStartingPositions;
+        coordinates = new java.util.ArrayList<>();
     }
 
     public void setNewPosition(int[] boatStartingPositions) {
@@ -28,6 +30,10 @@ public class Ship {
 
     public int getHits() {
         return hits;
+    }
+
+    public void addCoordinate(Integer[] coordinate) {
+        coordinates.add(coordinate);
     }
 }
 
