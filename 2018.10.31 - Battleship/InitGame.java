@@ -97,7 +97,7 @@ public class InitGame implements WindowListener {
 
             System.out.println(indexOfShip);
         } else if (!hit) {
-            pleasefuckingwork.changeButtonColour(coordinates, Color.BLACK);
+            pleasefuckingwork.changeButtonColour(coordinates, Color.BLUE);
             System.out.println("> Miss!");
         } else {
             System.out.println("> Error determining hit or miss.");
