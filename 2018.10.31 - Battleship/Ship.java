@@ -35,6 +35,10 @@ public class Ship {
     public void addCoordinate(Integer[] coordinate) {
         coordinates.add(coordinate);
     }
+
+    public java.util.ArrayList<Integer[]> getCoordinate() {
+        return coordinates;
+    }
 }
 
 //31/10/2018 21:15

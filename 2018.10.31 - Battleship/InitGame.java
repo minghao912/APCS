@@ -3,6 +3,7 @@ import java.awt.event.*;
 import java.net.URL;
 import javax.swing.*;
 import java.util.Arrays;
+import java.util.ArrayList;
 
 public class InitGame implements WindowListener {
     public static void main(String[] args) {
@@ -26,9 +27,10 @@ public class InitGame implements WindowListener {
 
     //Battleship grid
     private static Grid2 pleasefuckingwork = new Grid2(10, 10);
+    private static JFrame anAbsoluteUnit = new JFrame("Batttleship");
     
     private JFrame createPlayfield() {
-        JFrame anAbsoluteUnit = new JFrame("Batttleship");
+        anAbsoluteUnit.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         anAbsoluteUnit.setTitle("Battlehsip");
         anAbsoluteUnit.setIconImage((new ImageIcon(this.getClass().getResource("Files/icon.png"))).getImage());
 
@@ -92,10 +94,21 @@ public class InitGame implements WindowListener {
             System.out.println("> Hit!");
 
             String removedShipname = ai.removeShip(coordinates);
-            int indexOfShip = -1;   //doesn't work
-            for (int i = 0; i < shipNames.length; i++) if (shipNames[i].equalsIgnoreCase(removedShipname)) indexOfShip = i;
+            int indexOfShip = -1;
+            for (int i = 0; i < shipNames.length; i++) 
+                if (shipNames[i].equalsIgnoreCase(removedShipname)) 
+                    indexOfShip = i;
 
-            System.out.println(indexOfShip);
+            System.out.println(indexOfShip);    
+
+            if (indexOfShip == -1) {
+                System.out.println("> Error: Cannot determine type of ship.");
+                System.exit(128);
+            } else {
+                ArrayList<Integer[]> shipCoord = ships[indexOfShip].getCoordinate();
+                System.out.println(Arrays.toString(shipCoord.toArray()));
+            }
+
         } else if (!hit) {
             pleasefuckingwork.changeButtonColour(coordinates, Color.BLUE);
             System.out.println("> Miss!");
@@ -111,8 +124,11 @@ public class InitGame implements WindowListener {
 
     @Override
     public void windowClosing(WindowEvent e) {
-        JOptionPane.showConfirmDialog(null, "Are you sure you want to quit?");
-        System.exit(0);
+        int close = JOptionPane.showConfirmDialog(null, "Are you sure you want to quit?", "Quit?", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+        if (close == 0) {
+            anAbsoluteUnit.dispose();
+            System.exit(0);
+        } else return;
     }
 
     @Override
