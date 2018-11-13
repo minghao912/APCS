@@ -9,7 +9,7 @@ public class Ship {
         name = boatName;
         length = boatLength;
         startingPositions = boatStartingPositions;
-        coordinates = new java.util.ArrayList<>();
+        coordinates = new java.util.ArrayList<Integer[]>();
     }
 
     public void setNewPosition(int[] boatStartingPositions) {
@@ -38,6 +38,11 @@ public class Ship {
 
     public java.util.ArrayList<Integer[]> getCoordinate() {
         return coordinates;
+    }
+
+    public void removeCoordinate(Integer[] coordinate) {
+        boolean ableToRemove = coordinates.remove(coordinate);
+        if (!ableToRemove) Error.displayError("Fatal Error", "Cannot remove coordinates of hit ship.");
     }
 }
 

@@ -38,7 +38,8 @@ public class Computer {
             }
             return true;
         } else {
-            System.out.println("Fatal error");
+            System.out.println("> Error placing ships.");
+            Error.displayError("Fatal Error", "Unable to place ships.");
             System.exit(128);
         }
 
@@ -67,7 +68,8 @@ public class Computer {
             }
             return gridOfShips;
         } else {
-            System.out.println("Error reading direction.");
+            System.out.println("> Error reading direction.");
+            Error.displayError("Error", "Unable to read direction.");
         }
 
         return gridOfShips;
@@ -93,8 +95,8 @@ public class Computer {
     }
 
     boolean checkSunk(Ship ship) {
-        
-        return false;
+        if (ship.getCoordinate().isEmpty()) return true;
+        else return false;
     }
 
     String[][] getGrid() {
@@ -110,4 +112,4 @@ public class Computer {
     }
 }
 
-// 08/11/2018 17:07
+// 13/11/2018 13:50

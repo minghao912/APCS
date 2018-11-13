@@ -99,21 +99,27 @@ public class InitGame implements WindowListener {
                 if (shipNames[i].equalsIgnoreCase(removedShipname)) 
                     indexOfShip = i;
 
-            System.out.println(indexOfShip);    
+            System.out.println(removedShipname + ", " + indexOfShip);   
 
             if (indexOfShip == -1) {
                 System.out.println("> Error: Cannot determine type of ship.");
-                System.exit(128);
+                Error.displayError("Fatal Error", "Cannot determine type of ship.");
+                System.exit(128);   
             } else {
                 ArrayList<Integer[]> shipCoord = ships[indexOfShip].getCoordinate();
-                System.out.println(Arrays.toString(shipCoord.toArray()));
-            }
+                for (int i = 0; i < shipCoord.size(); i++)
+                    System.out.println(Arrays.toString(shipCoord.get(i)));
 
+                System.out.println("Hit: " + Arrays.toString(coordinates));
+                ships[indexOfShip].removeCoordinate(new Integer[] {(Integer) coordinates[0], (Integer) coordinates[1]});
+                if (ai.checkSunk(ships[indexOfShip])) System.out.println("> Ship Sunk");
+            }
         } else if (!hit) {
             pleasefuckingwork.changeButtonColour(coordinates, Color.BLUE);
             System.out.println("> Miss!");
         } else {
             System.out.println("> Error determining hit or miss.");
+            Error.displayError("Fatal Error", "Cannot determine hit or miss.");
             System.exit(128);
         }
     }
