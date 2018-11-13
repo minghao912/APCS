@@ -81,8 +81,8 @@ public class Computer {
     String removeShip(int[] coordinates) {
         String shipname = null;
         if (gridOfShips[coordinates[0]][coordinates[1]] != null) {
-            gridOfShips[coordinates[0]][coordinates[1]] = null;
             shipname = gridOfShips[coordinates[0]][coordinates[1]];
+            gridOfShips[coordinates[0]][coordinates[1]] = null;
         } else return null;
 
         for (int i = 0; i < 10; i++) {
