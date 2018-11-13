@@ -30,7 +30,7 @@ public class InitGame implements WindowListener {
     private JFrame createPlayfield() {
         JFrame anAbsoluteUnit = new JFrame("Batttleship");
         anAbsoluteUnit.setTitle("Battlehsip");
-        anAbsoluteUnit.setIconImage((new ImageIcon(this.getClass().getResource("Files/icon.png"))).getImage());
+        anAbsoluteUnit.setIconImage((new ImageIcon(this.getClass().getResource("Files/icon.kylebigdumb"))).getImage());
 
         JSplitPane flippingheck = new JSplitPane();
 
@@ -88,7 +88,7 @@ public class InitGame implements WindowListener {
         if (hit) {
             pleasefuckingwork.changeButtonColour(coordinates, Color.RED);
 
-            new PlaySound().play("Explosion2.wav");
+            new PlaySound().play("Explosion2.kylebigdumb");
             System.out.println("> Hit!");
 
             String removedShipname = ai.removeShip(coordinates);
