@@ -1,15 +1,18 @@
+import java.util.Arrays;
+import java.util.ArrayList;
+
 public class Ship {
     private String name;
     private int length;
     private int[] startingPositions;
     private int hits;
-    private java.util.ArrayList<Integer[]> coordinates;
+    private ArrayList<Integer[]> coordinates;
 
     public Ship(String boatName, int boatLength, int[] boatStartingPositions) {
         name = boatName;
         length = boatLength;
         startingPositions = boatStartingPositions;
-        coordinates = new java.util.ArrayList<Integer[]>();
+        coordinates = new ArrayList<Integer[]>();
     }
 
     public void setNewPosition(int[] boatStartingPositions) {
@@ -41,9 +44,12 @@ public class Ship {
     }
 
     public void removeCoordinate(Integer[] coordinate) {
-        boolean ableToRemove = coordinates.remove(coordinate);
-        if (!ableToRemove) Error.displayError("Fatal Error", "Cannot remove coordinates of hit ship.");
+        try {
+            for (int i = 0; i < coordinates.size(); i++) if (Arrays.equals(coordinates.get(i), coordinate)) coordinates.remove(i);
+        } catch (Throwable e) {
+            Error.displayError("Fatal Error", "Error generating error message.\n(An unknown error has occured)");
+        }
     }
 }
 
-//31/10/2018 21:15
+//13/11/2018 18:05

@@ -111,7 +111,9 @@ public class InitGame implements WindowListener {
                     System.out.println(Arrays.toString(shipCoord.get(i)));
 
                 System.out.println("Hit: " + Arrays.toString(coordinates));
-                ships[indexOfShip].removeCoordinate(new Integer[] {(Integer) coordinates[0], (Integer) coordinates[1]});
+                
+                Integer[] bigI = Arrays.stream(coordinates).boxed().toArray(Integer[]::new);
+                ships[indexOfShip].removeCoordinate(bigI);
                 if (ai.checkSunk(ships[indexOfShip])) System.out.println("> Ship Sunk");
             }
         } else if (!hit) {
@@ -153,4 +155,4 @@ public class InitGame implements WindowListener {
     public void windowDeactivated(WindowEvent e) {}
 }
 
-//08/11/2018 17:07
+//13/11/2018 18:05
