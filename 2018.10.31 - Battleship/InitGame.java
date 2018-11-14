@@ -29,6 +29,11 @@ public class InitGame implements WindowListener {
     private static Grid2 pleasefuckingwork = new Grid2(10, 10);
     private static JFrame anAbsoluteUnit = new JFrame("Batttleship");
     
+    //Stat counters
+    private static JLabel movesCounter = new JLabel("<html><div style='text-align: center;'>Moves<br>0</div></html>", SwingConstants.LEFT);
+    private static JLabel shipsSunkCnt = new JLabel("<html><div style='text-align: center;'>Ships Sunk<br>0</div></html>", SwingConstants.CENTER);
+    private static JLabel shipsLeftCnt = new JLabel("<html><div style='text-align: center;'>Ships Left<br>0</div></html>", SwingConstants.RIGHT);
+    
     private JFrame createPlayfield() {
         anAbsoluteUnit.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         anAbsoluteUnit.setTitle("Battlehsip");
@@ -38,8 +43,9 @@ public class InitGame implements WindowListener {
 
         // Stats
         JPanel stickthisupyourbum = new JPanel();
-        stickthisupyourbum.add(new JLabel("god bless"));
-        stickthisupyourbum.add(new JLabel("this works"));
+        stickthisupyourbum.add(movesCounter);
+        stickthisupyourbum.add(shipsLeftCnt);
+        stickthisupyourbum.add(shipsSunkCnt);
 
         // Battlehsip grid
         JPanel whywontyoujustwork = pleasefuckingwork.createGrid();
@@ -51,11 +57,11 @@ public class InitGame implements WindowListener {
         flippingheck.setBottomComponent(whywontyoujustwork);
 
         // Set main frame visible
-        anAbsoluteUnit.setLayout(new BorderLayout());
-        anAbsoluteUnit.setVisible(true);
+        anAbsoluteUnit.setLayout(new BorderLayout());   //For Windows, I think
         anAbsoluteUnit.add(flippingheck);
         anAbsoluteUnit.addWindowListener(this);
         anAbsoluteUnit.pack();
+        anAbsoluteUnit.setVisible(true);
         anAbsoluteUnit.setLocationRelativeTo(null);
 
         return anAbsoluteUnit;
@@ -87,6 +93,7 @@ public class InitGame implements WindowListener {
 
     public static void userGuess(int[] coordinates) {   //Check user's guess and act accordingly
         boolean hit = ai.checkGuess(coordinates);
+        movesCounter.setText("<html><div style='text-align: center;'>Moves<br>" + Computer.moveCounter + "</div></html>"); //Update moves counter
         if (hit) {
             pleasefuckingwork.changeButtonColour(coordinates, Color.RED);
 

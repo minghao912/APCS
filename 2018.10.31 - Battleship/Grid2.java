@@ -51,9 +51,9 @@ public class Grid2 extends JPanel implements ActionListener {
 
         if (buttons[y][x].getName().contains(" &")) return;
         else {
-            buttons[y][x].setName(buttons[y][x].getName() + " &");
-            InitGame.userGuess(new int[] {y, x});
-            Computer.moveCounter++;
+            ++Computer.moveCounter; //Increase user move count
+            buttons[y][x].setName(buttons[y][x].getName() + " &");  //Mark button as already clicked
+            InitGame.userGuess(new int[] {y, x});   //Pass the guess to the main game
 
             System.out.println("> User called a hit on (" + x + ", " + y + ")");
             System.out.println("> User move count: " + Computer.moveCounter);
