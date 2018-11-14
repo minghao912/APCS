@@ -4,6 +4,7 @@ import java.net.URL;
 import javax.swing.*;
 import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.List;
 
 public class InitGame implements WindowListener {
     public static void main(String[] args) {
@@ -26,13 +27,13 @@ public class InitGame implements WindowListener {
     }
 
     //Battleship grid
-    private static Grid2 pleasefuckingwork = new Grid2(10, 10);
+    private static Grid2 pleaseheckingwork = new Grid2(10, 10);
     private static JFrame anAbsoluteUnit = new JFrame("Batttleship");
     
     //Stat counters
     private static JLabel movesCounter = new JLabel("<html><div style='text-align: center;'>Moves<br>0</div></html>", SwingConstants.LEFT);
     private static JLabel shipsSunkCnt = new JLabel("<html><div style='text-align: center;'>Ships Sunk<br>0</div></html>", SwingConstants.CENTER);
-    private static JLabel shipsLeftCnt = new JLabel("<html><div style='text-align: center;'>Ships Left<br>0</div></html>", SwingConstants.RIGHT);
+    private static JLabel shipsLeftCnt = new JLabel("<html><div style='text-align: center;'>Ships Left<br>5</div></html>", SwingConstants.RIGHT);
     
     private JFrame createPlayfield() {
         anAbsoluteUnit.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -42,13 +43,13 @@ public class InitGame implements WindowListener {
         JSplitPane flippingheck = new JSplitPane();
 
         // Stats
-        JPanel stickthisupyourbum = new JPanel();
+        JPanel stickthisupyourbum = new JPanel(new FlowLayout(FlowLayout.CENTER, 100, 5));
         stickthisupyourbum.add(movesCounter);
         stickthisupyourbum.add(shipsLeftCnt);
         stickthisupyourbum.add(shipsSunkCnt);
 
         // Battlehsip grid
-        JPanel whywontyoujustwork = pleasefuckingwork.createGrid();
+        JPanel whywontyoujustwork = pleaseheckingwork.createGrid();
 
         // Configure the split pane
         flippingheck.setOrientation(JSplitPane.VERTICAL_SPLIT);
@@ -95,7 +96,7 @@ public class InitGame implements WindowListener {
         boolean hit = ai.checkGuess(coordinates);
         movesCounter.setText("<html><div style='text-align: center;'>Moves<br>" + Computer.moveCounter + "</div></html>"); //Update moves counter
         if (hit) {
-            pleasefuckingwork.changeButtonColour(coordinates, Color.RED);
+            pleaseheckingwork.changeButtonColour(coordinates, Color.RED);
 
             new PlaySound().play("Explosion2.kylebigdumb");
             System.out.println("> Hit!");
@@ -106,7 +107,7 @@ public class InitGame implements WindowListener {
                 if (shipNames[i].equalsIgnoreCase(removedShipname)) 
                     indexOfShip = i;
 
-            System.out.println(removedShipname + ", " + indexOfShip);   
+            System.out.println("> " + removedShipname + ", " + indexOfShip);   
 
             if (indexOfShip == -1) {
                 System.out.println("> Error: Cannot determine type of ship.");
@@ -114,22 +115,50 @@ public class InitGame implements WindowListener {
                 System.exit(128);   
             } else {
                 ArrayList<Integer[]> shipCoord = ships[indexOfShip].getCoordinate();
+
+                System.out.println();
                 for (int i = 0; i < shipCoord.size(); i++)
                     System.out.println(Arrays.toString(shipCoord.get(i)));
+                System.out.println();
 
-                System.out.println("Hit: " + Arrays.toString(coordinates));
+                System.out.println("> Hit: " + Arrays.toString(coordinates));
                 
                 Integer[] bigI = Arrays.stream(coordinates).boxed().toArray(Integer[]::new);
                 ships[indexOfShip].removeCoordinate(bigI);
-                if (ai.checkSunk(ships[indexOfShip])) System.out.println("> Ship Sunk");
+                if (ai.checkSunk(ships[indexOfShip])) {
+                    int shipsSunk = ++Computer.sunkCounter;
+                    shipsSunkCnt.setText("<html><div style='text-align: center;'>Ships Sunk<br>" + shipsSunk + "</div></html>");
+                    shipsLeftCnt.setText("<html><div style='text-align: center;'>Ships Left<br>" + (5 - shipsSunk) + "</div></html>");
+                    System.out.println("> Ship Sunk");
+
+                    if (shipsSunk >= ships.length) {
+                        winner();
+                    }
+                }
             }
         } else if (!hit) {
-            pleasefuckingwork.changeButtonColour(coordinates, Color.BLUE);
+            pleaseheckingwork.changeButtonColour(coordinates, Color.BLUE);
             System.out.println("> Miss!");
         } else {
             System.out.println("> Error determining hit or miss.");
             Error.displayError("Fatal Error", "Cannot determine hit or miss.");
             System.exit(128);
+        }
+    }
+
+    public static void winner() {
+        JOptionPane.showMessageDialog(anAbsoluteUnit, "You've won!\nYour score: " + Computer.moveCounter);
+        String username = JOptionPane.showInputDialog(anAbsoluteUnit, "Please enter your name:");
+
+        List<String> highscores = FileReadWrite.read("Files/highscores.kylebigdumb");
+        List<String> usernamess = FileReadWrite.read("Files/highusernames.kylebigdumb");
+
+        if (highscores == null || usernamess == null) Error.displayError("Fatal Error", "An unknown error has occured: null returned by FileReadWrite");
+        else {
+            //"Debug"
+            System.out.println("> Leaderboard Info:");
+            System.out.println("> " + Arrays.toString(highscores.toArray()));
+            System.out.println("> " + Arrays.toString(usernamess.toArray()));
         }
     }
 

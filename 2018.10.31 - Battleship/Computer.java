@@ -6,6 +6,7 @@ public class Computer {
     private String[][] gridOfShips;
     private int[] gridSize;
     public static int moveCounter = 0;
+    public static int sunkCounter = 0;
 
     public Computer(int[] givenGridSize) {
         gridSize = givenGridSize;
@@ -87,9 +88,10 @@ public class Computer {
             gridOfShips[coordinates[0]][coordinates[1]] = null;
         } else return null;
 
-        for (int i = 0; i < 10; i++) {
+        System.out.println();
+        for (int i = 0; i < 10; i++) 
             System.out.println(Arrays.toString(gridOfShips[i]));
-        }
+        System.out.println();
 
         return shipname;
     }
