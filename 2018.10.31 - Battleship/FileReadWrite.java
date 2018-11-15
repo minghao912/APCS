@@ -24,6 +24,7 @@ public class FileReadWrite {
 
         } catch (FileNotFoundException e) {
             System.out.println("File not found");
+            e.printStackTrace();
             Error.displayError("Fatal Error", "Could not find file" + filepath);
         }
         return null;

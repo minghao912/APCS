@@ -111,27 +111,24 @@ public class InitGame implements WindowListener {
 
             if (indexOfShip == -1) {
                 System.out.println("> Error: Cannot determine type of ship.");
-                Error.displayError("Fatal Error", "Cannot determine type of ship.");
-                System.exit(128);   
+                Error.displayError("Fatal Error", "Cannot determine type of ship."); 
             } else {
                 ArrayList<Integer[]> shipCoord = ships[indexOfShip].getCoordinate();
 
-                System.out.println();
+                System.out.println();   //Debug stuff
                 for (int i = 0; i < shipCoord.size(); i++)
                     System.out.println(Arrays.toString(shipCoord.get(i)));
                 System.out.println();
-
                 System.out.println("> Hit: " + Arrays.toString(coordinates));
                 
-                Integer[] bigI = Arrays.stream(coordinates).boxed().toArray(Integer[]::new);
-                ships[indexOfShip].removeCoordinate(bigI);
-                if (ai.checkSunk(ships[indexOfShip])) {
-                    int shipsSunk = ++Computer.sunkCounter;
+                ships[indexOfShip].removeCoordinate(new Integer[] {coordinates[0], coordinates[1]});
+                if (ai.checkSunk(ships[indexOfShip])) { //This changes the stats at the top if a ship is sunk
+                    int shipsSunk = ++Computer.sunkCounter; 
                     shipsSunkCnt.setText("<html><div style='text-align: center;'>Ships Sunk<br>" + shipsSunk + "</div></html>");
                     shipsLeftCnt.setText("<html><div style='text-align: center;'>Ships Left<br>" + (5 - shipsSunk) + "</div></html>");
                     System.out.println("> Ship Sunk");
 
-                    if (shipsSunk >= ships.length) {
+                    if (shipsSunk >= ships.length) {    //If all ships are sunk
                         winner();
                     }
                 }
