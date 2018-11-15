@@ -155,7 +155,7 @@ public class InitGame implements WindowListener {
 
         if (highscores == null || usernamess == null) Error.displayError("Fatal Error", "An unknown error has occured: null returned by FileReadWrite");
         else {
-            //"Debug"
+            //"Debug" the user info
             System.out.println("> Leaderboard Info:");
             System.out.println("> " + Arrays.toString(highscores.toArray()));
             System.out.println("> " + Arrays.toString(usernamess.toArray()));
@@ -191,4 +191,4 @@ public class InitGame implements WindowListener {
     public void windowDeactivated(WindowEvent e) {}
 }
 
-//13/11/2018 18:05
+//14/11/2018 16:58

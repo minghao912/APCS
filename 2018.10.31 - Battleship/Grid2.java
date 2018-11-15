@@ -30,7 +30,7 @@ public class Grid2 extends JPanel implements ActionListener {
                 buttonID = ++buttonCount + "";
 
                 buttons[y][x] = new JButton();
-                buttons[y][x].setPreferredSize(new Dimension(100, 100));
+                buttons[y][x].setPreferredSize(new Dimension(90, 90));
                 buttons[y][x].setName(buttonID);
                 buttons[y][x].addActionListener(this);
                 buttons[y][x].setActionCommand(x + ", " + y);
@@ -74,4 +74,4 @@ public class Grid2 extends JPanel implements ActionListener {
     
 }
 
-// 08/11/2018 17:07
+// 14/11/2018 16:58
