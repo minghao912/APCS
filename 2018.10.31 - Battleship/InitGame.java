@@ -147,15 +147,20 @@ public class InitGame implements WindowListener {
         JOptionPane.showMessageDialog(anAbsoluteUnit, "You've won!\nYour score: " + Computer.moveCounter);
         String username = JOptionPane.showInputDialog(anAbsoluteUnit, "Please enter your name:");
 
-        List<String> highscores = FileReadWrite.read("Files/highscores.kylebigdumb");
-        List<String> usernamess = FileReadWrite.read("Files/highusernames.kylebigdumb");
+        List<String> leaderboard = FileReadWrite.read("Files/leaderboard.kylebigdumb");
 
-        if (highscores == null || usernamess == null) Error.displayError("Fatal Error", "An unknown error has occured: null returned by FileReadWrite");
+        if (leaderboard == null) Error.displayError("Fatal Error", "An unknown error has occured: null returned by FileReadWrite");
         else {
+            leaderboard.add(Computer.moveCounter + ": " + username);
+
+            String[] sortedLeaderboard = leaderboard.toArray(new String[0]);
+            Arrays.sort(sortedLeaderboard);
+
+            FileReadWrite.write("Files/leaderboard.kylebigdumb", sortedLeaderboard);
+
             //"Debug" the user info
             System.out.println("> Leaderboard Info:");
-            System.out.println("> " + Arrays.toString(highscores.toArray()));
-            System.out.println("> " + Arrays.toString(usernamess.toArray()));
+            System.out.println("> " + Arrays.toString(leaderboard.toArray()));
         }
     }
 
