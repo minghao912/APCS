@@ -1,6 +1,11 @@
 import java.util.Random;
 import java.util.Arrays;
 
+/**
+ * Represents a Computer.
+ * <p>
+ * Does a lot of the intermediary work.
+ */
 public class Computer {
     private Random rand = new Random();
     private String[][] gridOfShips;

@@ -1,6 +1,9 @@
 import java.util.Arrays;
 import java.util.ArrayList;
 
+/**
+ * Represents a Ship.
+ */
 public class Ship {
     private String name;
     private int length;

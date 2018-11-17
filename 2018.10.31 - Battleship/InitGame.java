@@ -6,7 +6,16 @@ import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Starts the game and produces on-screen GUI.
+ */
 public class InitGame implements WindowListener {
+    /**
+     * Main method.
+     * <p>
+     * Sets the look and feel and initialises the game.
+     * @param args Unused
+     */
     public static void main(String[] args) {
         //Set the look and feel to look like something not from the 90s
         try {

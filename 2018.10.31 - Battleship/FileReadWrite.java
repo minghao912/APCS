@@ -7,6 +7,9 @@ import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
 import java.io.PrintWriter;
 
+/**
+ * Reads and writes files.
+ */
 public class FileReadWrite {
     /**
      * <h3>Reads Specified Files</h3>

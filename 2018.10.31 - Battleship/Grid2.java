@@ -3,6 +3,11 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.util.Arrays;
 
+/**
+ * Represents the Grid of Buttons
+ * <p>
+ * Utilises {@code JPanel} and {@code ActionListener}
+ */
 public class Grid2 extends JPanel implements ActionListener {
     private int rows;
     private int columns;
