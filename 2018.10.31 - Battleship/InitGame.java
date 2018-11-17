@@ -35,6 +35,15 @@ public class InitGame implements WindowListener {
     private static JLabel shipsSunkCnt = new JLabel("<html><div style='text-align: center;'>Ships Sunk<br>0</div></html>", SwingConstants.CENTER);
     private static JLabel shipsLeftCnt = new JLabel("<html><div style='text-align: center;'>Ships Left<br>5</div></html>", SwingConstants.RIGHT);
     
+    /**
+     * <h3>Creates the User's Playfield</h3>
+     * <p>
+     * This sets up a {@code JSplitFrame} to deal with the grid and
+     * the stats panel at the top of the screen. Then, it sets the 
+     * entire {@code JFrame} visible.
+     * 
+     * @return The main {@code JFrame} that is displayed
+     */
     private JFrame createPlayfield() {
         anAbsoluteUnit.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         anAbsoluteUnit.setTitle("Battlehsip");
@@ -76,6 +85,11 @@ public class InitGame implements WindowListener {
     private static String[] shipNames = { "Carrier", "Battleship", "Cruiser", "Submarine", "Destroyer" };
     private static int[] shipLengths = { 5, 4, 3, 3, 2 };
 
+    /**
+     * <h3>Creates the Computer's Grid</h3>
+     * <p>
+     * Places 5 ships with random starting coordinates and directions, and ensures no collisions.
+     */
     private static void createComputerGrid() {
         //Place the ship objects (Make sure the ships don't collide)
         for (int i = 0; i < 5; i++) {
@@ -92,6 +106,11 @@ public class InitGame implements WindowListener {
         
     }
 
+    /** 
+     * <h3>Deals with a user's guess. Determines hit/miss, changes button colours, etc.</h3>
+     * 
+     * @param {int[]}   coordinates Coordinates of the User's Guess
+     **/
     public static void userGuess(int[] coordinates) {   //Check user's guess and act accordingly
         boolean hit = ai.checkGuess(coordinates);
         movesCounter.setText("<html><div style='text-align: center;'>Moves<br>" + Computer.moveCounter + "</div></html>"); //Update moves counter
@@ -143,6 +162,13 @@ public class InitGame implements WindowListener {
         }
     }
 
+    /**
+     * <h3>Executes Code After Winning A Game</h3>
+     * <p>
+     * Calculates and displays the user's score and asks for a name
+     * to be put on the leaderboard. It will then read/write from
+     * the leaderboard file and display the leaderboard on screen.
+     */
     public static void winner() {
         JOptionPane.showMessageDialog(anAbsoluteUnit, "You've won!\nYour score: " + Computer.moveCounter);
         String username = JOptionPane.showInputDialog(anAbsoluteUnit, "Please enter your name:");
