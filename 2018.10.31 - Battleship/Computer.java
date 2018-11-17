@@ -35,7 +35,7 @@ public class Computer {
      * @return  {@code boolean} {@code true} if the ship will not collide
      *                          and {@code false} if the ship will collide
      */
-    boolean checkShipPlacement(Ship ship) {
+    public boolean checkShipPlacement(Ship ship) {
         int shipLength = ship.getLength();
         int[] startingPositions = ship.getPositions();
         int startX = startingPositions[0];
@@ -79,7 +79,7 @@ public class Computer {
      * @return  {@code String[][]} of the {@code Computer}'s grid after
      *          placing the {@code Ship}
      */
-    String[][] placeShip(Ship ship) {
+    public String[][] placeShip(Ship ship) {
         String shipName = ship.getName();
         int shipLength = ship.getLength();
         int[] startingPositions = ship.getPositions();
@@ -117,7 +117,7 @@ public class Computer {
      * @param coordinate - an {@code int[]} {y, x} of the user's guess
      * @return {@code boolean} - {@code true} if hit and {@code false} if miss
      */
-    boolean checkGuess(int[] coordinate) {
+    public boolean checkGuess(int[] coordinate) {
         if(gridOfShips[coordinate[0]][coordinate[1]] != null) return true;
         else return false;
     }
@@ -130,7 +130,7 @@ public class Computer {
      * @param coordinates - an {@code int[]} {y, x}
      * @return {@code String} of the removed {@code Ship}'s name
      */
-    String removeShip(int[] coordinates) {
+    public String removeShip(int[] coordinates) {
         String shipname = null;
         if (gridOfShips[coordinates[0]][coordinates[1]] != null) {
             shipname = gridOfShips[coordinates[0]][coordinates[1]];
@@ -153,7 +153,7 @@ public class Computer {
      * @param ship  - a {@code Ship} to be checked
      * @return {@code boolean} - {@code true} if sunk and {@code false} if not
      */
-    boolean checkSunk(Ship ship) {
+    public boolean checkSunk(Ship ship) {
         if (ship.getCoordinate().isEmpty()) return true;
         else return false;
     }
@@ -174,7 +174,7 @@ public class Computer {
      * 
      * @return {@code int[]} - a set of random values
      */
-    int[] generateRandom() {
+    public int[] generateRandom() {
         int startX = rand.nextInt(10); // This will give a random value betwen 0-9
         int startY = rand.nextInt(10);
         int radDir = rand.nextInt(2); // Generate 0 or 1
@@ -183,4 +183,4 @@ public class Computer {
     }
 }
 
-// 16/11/2018 20:58
+// 16/11/2018 21:26
