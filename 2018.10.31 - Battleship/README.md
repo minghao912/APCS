@@ -15,7 +15,7 @@
 - [x] Check when a ship has been sunk and update counter
   - [x] Check which ship has been sunk
   - [x] Update 'Ships Sunk' counter
-- [ ] Have a system to calculate user score
+- [x] Have a system to calculate user score
 - [ ] Make a leaderboard w/ scores
   - [x] Leaderboard file
   - [x] System to read the file
