@@ -20,6 +20,6 @@
   - [x] Leaderboard file
   - [x] System to read the file
   - [ ] Display the leaderboard
-  - [ ] Update accordingly
+  - [x] Update accordingly
 
-*Last update 14/11/2018 16:57*
+*Last update 16/11/2018*
