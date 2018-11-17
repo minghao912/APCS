@@ -10,6 +10,15 @@ public class Grid2 extends JPanel implements ActionListener {
     private int[] size = new int[2];  
     public JPanel pane = new JPanel();
 
+    /**
+     * <h3>Create User Grid</h3>
+     * Given the number of rows and columns, this will create 
+     * a grid of buttons size 90x90, each with its own 
+     * {@code ActionListener}.
+     * 
+     * @param inputRows - an {@code int}, the number of rows
+     * @param inputColumns - an {@code int}, the number of columns
+     */
     public Grid2(int inputRows, int inputColumns) {
         rows = inputRows;
         columns = inputColumns;
@@ -18,11 +27,18 @@ public class Grid2 extends JPanel implements ActionListener {
         size[1] = rows;     //y
     }
 
+    /**
+     * <h3>Create the Visible Grid of Buttons</h3>
+     * Using {@code JPanel}, this will create a visible grid of
+     * buttons that can be used.
+     * 
+     * @return {@code JPanel} - the grid of buttons
+     */
     JPanel createGrid() {
         pane.setBackground(Color.WHITE);
         pane.setLayout(new GridLayout(rows, columns));
 
-        //Create 100 buttons, all at a preferred size of 40x40
+        //Create 100 buttons, all at a preferred size of 90x90
         int buttonCount = 0;    
         String buttonID;
         for (int y = 0; y < columns; y++) {
@@ -61,10 +77,24 @@ public class Grid2 extends JPanel implements ActionListener {
         }
     }
     
+    /**
+     * Retreives the size of the grid
+     * 
+     * @return {@code int[]} - the size {y, x}
+     */
     int[] getGridSize() {
         return size;
     }
 
+    /**
+     * <h3>Changes Button Colour</h3>
+     * Given the coordinates of a button and the desired colour,
+     * this will enact those changes.
+     * 
+     * @param coordinates - an {@code int[]}, the coordinates
+     *                      of the button
+     * @param colour - the desired {@code Color}
+     */
     void changeButtonColour(int[] coordinates, Color colour) {
         buttons[coordinates[0]][coordinates[1]].setBackground(colour);
         buttons[coordinates[0]][coordinates[1]].setContentAreaFilled(false);
@@ -74,4 +104,4 @@ public class Grid2 extends JPanel implements ActionListener {
     
 }
 
-// 14/11/2018 16:58
+// 16/11/2018 21:12

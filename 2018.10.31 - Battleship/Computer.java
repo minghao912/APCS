@@ -8,11 +8,28 @@ public class Computer {
     public static int moveCounter = 0;
     public static int sunkCounter = 0;
 
+    /**
+     * <h3>Creates a Computer Object</h3>
+     * Creates a {@code Computer} object when given a specified {@code int[] gridSize}
+     * in the format {y[rows], x[columns]}.
+     * 
+     * @param   givenGridSize   - an {@code int[]} of values {y, x}
+     */
     public Computer(int[] givenGridSize) {
         gridSize = givenGridSize;
         gridOfShips = new String[givenGridSize[0]][givenGridSize[1]];
     }
 
+    /**
+     * <h3>Checks Ship Collision</h3>
+     * Given a {@code Ship}, it will retreive its length, location,
+     * and direction. Then, it will determine whether or not the ship
+     * will collide with other ships in that orientation.
+     * 
+     * @param   ship    - the {@code Ship} to check collision
+     * @return  {@code boolean} {@code true} if the ship will not collide
+     *                          and {@code false} if the ship will collide
+     */
     boolean checkShipPlacement(Ship ship) {
         int shipLength = ship.getLength();
         int[] startingPositions = ship.getPositions();
@@ -47,6 +64,16 @@ public class Computer {
         return false;
     }
 
+    /**
+     * <h3>Places Ship on Grid</h3>
+     * Given a {@code Ship}, it will retreive its length, location, and 
+     * direction. Using this information, it will place the {@code Ship}
+     * on the {@code Computer}'s grid.
+     * 
+     * @param ship - the {@code Ship} to be placed
+     * @return  {@code String[][]} of the {@code Computer}'s grid after
+     *          placing the {@code Ship}
+     */
     String[][] placeShip(Ship ship) {
         String shipName = ship.getName();
         int shipLength = ship.getLength();
@@ -76,11 +103,28 @@ public class Computer {
         return gridOfShips;
     }
 
+    /**
+     * <h3>Check's the User's Guess</h3>
+     * Given the coordinates of the user's guess, it will run through the
+     * {@code Computer}'s grid and determine if the guess was a hit or 
+     * miss.
+     * 
+     * @param coordinate - an {@code int[]} {y, x} of the user's guess
+     * @return {@code boolean} - {@code true} if hit and {@code false} if miss
+     */
     boolean checkGuess(int[] coordinate) {
         if(gridOfShips[coordinate[0]][coordinate[1]] != null) return true;
         else return false;
     }
 
+    /**
+     * <h3>Removes a Ship from Grid</h3>
+     * Given the coordinates of the user's guess, it will remove the {@code Ship}
+     * at that location.
+     * 
+     * @param coordinates - an {@code int[]} {y, x}
+     * @return {@code String} of the removed {@code Ship}'s name
+     */
     String removeShip(int[] coordinates) {
         String shipname = null;
         if (gridOfShips[coordinates[0]][coordinates[1]] != null) {
@@ -96,15 +140,35 @@ public class Computer {
         return shipname;
     }
 
+    /**
+     * <h3>Checks if a Ship Has Been Sunk</h3>
+     * Given a ship, this will retreive its coordinate locations and 
+     * will determine if it has been sunk.
+     * 
+     * @param ship  - a {@code Ship} to be checked
+     * @return {@code boolean} - {@code true} if sunk and {@code false} if not
+     */
     boolean checkSunk(Ship ship) {
         if (ship.getCoordinate().isEmpty()) return true;
         else return false;
     }
 
+    /**
+     * Gets the grid of ships.
+     * 
+     * @return {@code String[][]} - the grid of ships
+     */
     String[][] getGrid() {
         return gridOfShips;
     }
 
+    /**
+     * <h3>Generates a Random Set of Integers</h3>
+     * This will generate a random set of integers used to give
+     * each {@code Ship} a location, length, and orientation.
+     * 
+     * @return {@code int[]} - a set of random values
+     */
     int[] generateRandom() {
         int startX = rand.nextInt(10); // This will give a random value betwen 0-9
         int startY = rand.nextInt(10);
@@ -114,4 +178,4 @@ public class Computer {
     }
 }
 
-// 13/11/2018 13:50
+// 16/11/2018 20:58

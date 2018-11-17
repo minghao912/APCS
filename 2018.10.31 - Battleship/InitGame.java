@@ -109,7 +109,7 @@ public class InitGame implements WindowListener {
     /** 
      * <h3>Deals with a user's guess. Determines hit/miss, changes button colours, etc.</h3>
      * 
-     * @param {int[]}   coordinates Coordinates of the User's Guess
+     * @param coordinates - an {@code int[]} Coordinates of the User's Guess
      **/
     public static void userGuess(int[] coordinates) {   //Check user's guess and act accordingly
         boolean hit = ai.checkGuess(coordinates);
@@ -219,4 +219,4 @@ public class InitGame implements WindowListener {
     public void windowDeactivated(WindowEvent e) {}
 }
 
-//14/11/2018 16:58
+//16/11/2018 20:49
