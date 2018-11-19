@@ -58,8 +58,10 @@ public class FileReadWrite {
     public static void write(String filepath, String[] stuffToWrite) {
         try {
             PrintWriter writer = new PrintWriter(filepath, "UTF-8");
-            for (String line : stuffToWrite) 
-                writer.println(line + ",");
+            for (int i = 0; i < stuffToWrite.length - 1; i++) 
+                writer.println(stuffToWrite[i]);
+            writer.println(stuffToWrite[stuffToWrite.length]);  //Don't want comma on last line
+            
             writer.close();
         } catch (UnsupportedEncodingException e) {
             System.out.println("> Unsupported Encoding");
