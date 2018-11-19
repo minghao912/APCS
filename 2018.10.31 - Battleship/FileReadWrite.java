@@ -33,7 +33,7 @@ public class FileReadWrite {
             }
 
             fileIn.close();
-            System.out.println("> Leaderboard scores: " + Arrays.toString(membersCopy.toArray()));
+            System.out.println("> Leaderboard Scores: " + Arrays.toString(membersCopy.toArray()));
 
             return members;
 
@@ -59,8 +59,8 @@ public class FileReadWrite {
         try {
             PrintWriter writer = new PrintWriter(filepath, "UTF-8");
             for (int i = 0; i < stuffToWrite.length - 1; i++) 
-                writer.println(stuffToWrite[i]);
-            writer.println(stuffToWrite[stuffToWrite.length]);  //Don't want comma on last line
+                writer.println(stuffToWrite[i] + ",");
+            writer.println(stuffToWrite[stuffToWrite.length - 1]);  //Don't want comma on last line
             
             writer.close();
         } catch (UnsupportedEncodingException e) {
@@ -75,4 +75,4 @@ public class FileReadWrite {
     }
 }
 
-// 16/11/2018 20:58
+// 18/11/2018 18:25

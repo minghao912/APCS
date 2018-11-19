@@ -39,7 +39,7 @@ public class Grid2 extends JPanel implements ActionListener {
      * 
      * @return {@code JPanel} - the grid of buttons
      */
-    JPanel createGrid() {
+    public JPanel createGrid() {
         pane.setBackground(Color.WHITE);
         pane.setLayout(new GridLayout(rows, columns));
 
@@ -73,12 +73,12 @@ public class Grid2 extends JPanel implements ActionListener {
         if (buttons[y][x].getName().contains(" &")) return;
         else {
             ++Computer.moveCounter; //Increase user move count
-            buttons[y][x].setName(buttons[y][x].getName() + " &");  //Mark button as already clicked
-            InitGame.userGuess(new int[] {y, x});   //Pass the guess to the main game
-
             System.out.println();
             System.out.println("> User called a hit on (" + x + ", " + y + ")");
             System.out.println("> User move count: " + Computer.moveCounter);
+
+            buttons[y][x].setName(buttons[y][x].getName() + " &");  //Mark button as already clicked
+            InitGame.userGuess(new int[] {y, x});   //Pass the guess to the main game
         }
     }
     
@@ -87,7 +87,7 @@ public class Grid2 extends JPanel implements ActionListener {
      * 
      * @return {@code int[]} - the size {y, x}
      */
-    int[] getGridSize() {
+    public int[] getGridSize() {
         return size;
     }
 
@@ -100,13 +100,21 @@ public class Grid2 extends JPanel implements ActionListener {
      *                      of the button
      * @param colour - the desired {@code Color}
      */
-    void changeButtonColour(int[] coordinates, Color colour) {
+    public void changeButtonColour(int[] coordinates, Color colour) {
         buttons[coordinates[0]][coordinates[1]].setBackground(colour);
         buttons[coordinates[0]][coordinates[1]].setContentAreaFilled(false);
         buttons[coordinates[0]][coordinates[1]].setOpaque(true);
     }
 
-    
+    /**
+     * Sets {@code Grid} to the 'Game End' state, disabling
+     * all guessing/pressing of buttons.
+     */
+    public void gameEndGrid() {
+        for (int y = 0; y < columns; y++) 
+            for (int x = 0; x < rows; x++) 
+                buttons[y][x].setName(buttons[y][x].getName() + " &");
+    }    
 }
 
-// 16/11/2018 21:12
+// 18/11/2018 18:25

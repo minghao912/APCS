@@ -11,8 +11,7 @@ import java.util.List;
  */
 public class InitGame implements WindowListener {
     /**
-     * Main method.
-     * <p>
+     * <h3>Main</h3>
      * Sets the look and feel and initialises the game.
      * @param args Unused
      */
@@ -46,7 +45,6 @@ public class InitGame implements WindowListener {
     
     /**
      * <h3>Creates the User's Playfield</h3>
-     * <p>
      * This sets up a {@code JSplitFrame} to deal with the grid and
      * the stats panel at the top of the screen. Then, it sets the 
      * entire {@code JFrame} visible.
@@ -96,7 +94,6 @@ public class InitGame implements WindowListener {
 
     /**
      * <h3>Creates the Computer's Grid</h3>
-     * <p>
      * Places 5 ships with random starting coordinates and directions, and ensures no collisions.
      */
     private static void createComputerGrid() {
@@ -173,30 +170,60 @@ public class InitGame implements WindowListener {
 
     /**
      * <h3>Executes Code After Winning A Game</h3>
-     * <p>
      * Calculates and displays the user's score and asks for a name
      * to be put on the leaderboard. It will then read/write from
      * the leaderboard file and display the leaderboard on screen.
      */
     public static void winner() {
+        pleaseheckingwork.gameEndGrid();    //No more moves
+
+        //Start the leaderboard/scoring stuff
         JOptionPane.showMessageDialog(anAbsoluteUnit, "You've won!\nYour score: " + Computer.moveCounter);
         String username = JOptionPane.showInputDialog(anAbsoluteUnit, "Please enter your name:");
 
         List<String> leaderboard = FileReadWrite.read("Files/leaderboard.kylebigdumb");
 
-        if (leaderboard == null) Error.displayError("Fatal Error", "An unknown error has occured: null returned by FileReadWrite");
-        else {
-            leaderboard.add(Computer.moveCounter + ": " + username);
-
-            String[] sortedLeaderboard = leaderboard.toArray(new String[0]);
-            Arrays.sort(sortedLeaderboard);
-
-            FileReadWrite.write("Files/leaderboard.kylebigdumb", sortedLeaderboard);
-
-            //"Debug" the user info
-            System.out.println("> Leaderboard Info:");
-            System.out.println("> " + Arrays.toString(leaderboard.toArray()));
+        if (leaderboard == null) {
+            Error.displayError("Fatal Error", "An unknown error has occured: null returned by FileReadWrite");
+            return;
         }
+
+        leaderboard.add(Computer.moveCounter + ": " + username);
+
+        String[] sortedLeaderboard = leaderboard.toArray(new String[0]);
+        Arrays.sort(sortedLeaderboard);
+
+        FileReadWrite.write("Files/leaderboard.kylebigdumb", sortedLeaderboard);
+
+        new InitGame().showLeaderboard(sortedLeaderboard);
+
+        //"Debug" the user info
+        System.out.println("> New Leaderboard Info:");
+        System.out.println("> " + Arrays.toString(sortedLeaderboard));
+
+    }
+
+    /**
+     * <h3>Show Leaderboard</h3>
+     * Given a {@code String[]} of elements, it will display each element
+     * in its own {@code JLabel} row.
+     * 
+     * @param elements - a {@code String[]} of elements to display
+     */
+    public void showLeaderboard(String[] elements) {
+        JPanel leaderboardPanel = new JPanel();
+        for (String leaderboardElement : elements) {
+            leaderboardPanel.add(new JLabel(leaderboardElement));
+        }
+        leaderboardPanel.setLayout(new BoxLayout(leaderboardPanel, BoxLayout.Y_AXIS));
+
+        JFrame leaderboardInternalFrame = new JFrame("Leaderboard");
+        
+        leaderboardInternalFrame.getContentPane().add(leaderboardPanel);
+        leaderboardInternalFrame.addWindowListener(this);
+        leaderboardInternalFrame.pack();
+        leaderboardInternalFrame.setLocationRelativeTo(null);
+        leaderboardInternalFrame.setVisible(true);
     }
 
     //Deal with the window closing events and stuff (*mandatory!*)
