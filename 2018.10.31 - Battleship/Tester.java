@@ -5,29 +5,33 @@ import java.awt.*;
 
 public class Tester {
     public static void main(String[] args) {
-        JFrame anAbsoluteUnit = new JFrame("BS");
-        anAbsoluteUnit.add(new JButton("Button"));
-        anAbsoluteUnit.pack();
-        anAbsoluteUnit.setVisible(true);
+        
+        new Tester().hello();
+    }
 
-        String[] elements = {"a", "b", "c", "d", "e"};
+    void hello() {
+        String[] elements = {"a: 5", "b: 777", "c: a320"};
+
         JPanel leaderboardPanel = new JPanel();
-             for (String leaderboardElement : elements) {
-            leaderboardPanel.add(new JLabel(leaderboardElement));
+        leaderboardPanel.setPreferredSize(new Dimension(680, 480));
+        
+        leaderboardPanel.setLayout(new BoxLayout(leaderboardPanel, BoxLayout.Y_AXIS));
+        for (String leaderboardElement : elements) {
+            leaderboardPanel.add(new JLabel(leaderboardElement, SwingConstants.CENTER));
         }
 
-        JInternalFrame leaderboardInternalFrame = new JInternalFrame("Leaderboard");
-        JComponent compPane = (JComponent) leaderboardInternalFrame.getContentPane();
-
-        Dimension largeFrameSize = anAbsoluteUnit.getSize();
-        Dimension smallFrameSize = leaderboardInternalFrame.getSize();
-        leaderboardInternalFrame.setLocation((largeFrameSize.width - smallFrameSize.width)/2, (largeFrameSize.height - smallFrameSize.height)/2);
-  
-                  
-        compPane.add(leaderboardPanel);
+        Box box = new Box(BoxLayout.Y_AXIS);
+        box.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+        box.add(Box.createVerticalGlue());
+        box.add(leaderboardPanel);
+        box.add(Box.createVerticalGlue());
+    
+        JFrame leaderboardInternalFrame = new JFrame("Leaderboard");
+        leaderboardInternalFrame.setPreferredSize(new Dimension(680, 480));
+        leaderboardInternalFrame.getContentPane().add(box);
+        //leaderboardInternalFrame.addWindowListener(this);
         leaderboardInternalFrame.pack();
-        anAbsoluteUnit.add(leaderboardInternalFrame);
-        leaderboardInternalFrame.show();
-        leaderboardInternalFrame.toFront();
+        leaderboardInternalFrame.setLocationRelativeTo(null);
+        leaderboardInternalFrame.setVisible(true);
     }
 }

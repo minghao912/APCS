@@ -154,7 +154,7 @@ public class InitGame implements WindowListener {
                     System.out.println("> Ship Sunk");
 
                     if (shipsSunk >= ships.length) {    //If all ships are sunk
-                        winner();
+                        new InitGame().winner();
                     }
                 }
             }
@@ -174,11 +174,12 @@ public class InitGame implements WindowListener {
      * to be put on the leaderboard. It will then read/write from
      * the leaderboard file and display the leaderboard on screen.
      */
-    public static void winner() {
+    public void winner() {
         pleaseheckingwork.gameEndGrid();    //No more moves
 
         //Start the leaderboard/scoring stuff
-        JOptionPane.showMessageDialog(anAbsoluteUnit, "You've won!\nYour score: " + Computer.moveCounter);
+        JOptionPane.showMessageDialog(anAbsoluteUnit, "You've won!\nYour score: " + Computer.moveCounter, "Winner!", 
+                JOptionPane.INFORMATION_MESSAGE, new ImageIcon(this.getClass().getResource("Files/trophy3.kylebigdumb")));
         String username = JOptionPane.showInputDialog(anAbsoluteUnit, "Please enter your name:");
 
         List<String> leaderboard = FileReadWrite.read("Files/leaderboard.kylebigdumb");
@@ -213,7 +214,7 @@ public class InitGame implements WindowListener {
     public void showLeaderboard(String[] elements) {
         JPanel leaderboardPanel = new JPanel();
         for (String leaderboardElement : elements) {
-            leaderboardPanel.add(new JLabel(leaderboardElement));
+            leaderboardPanel.add(new JLabel(leaderboardElement, SwingConstants.CENTER));
         }
         leaderboardPanel.setLayout(new BoxLayout(leaderboardPanel, BoxLayout.Y_AXIS));
 
@@ -221,6 +222,7 @@ public class InitGame implements WindowListener {
         
         leaderboardInternalFrame.getContentPane().add(leaderboardPanel);
         leaderboardInternalFrame.addWindowListener(this);
+        leaderboardInternalFrame.setPreferredSize(new Dimension(680, 480));
         leaderboardInternalFrame.pack();
         leaderboardInternalFrame.setLocationRelativeTo(null);
         leaderboardInternalFrame.setVisible(true);

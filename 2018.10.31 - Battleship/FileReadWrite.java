@@ -12,14 +12,10 @@ import java.io.PrintWriter;
  */
 public class FileReadWrite {
     /**
-     * <h3>Reads Specified Files</h3>
-     * Reads a file from a specified filepath and
-     * returns a {@code List<String>} of elements
-     * seperated by commas in the file.
+     * <h3>Reads Specified Files</h3> Reads a file from a specified filepath and
+     * returns a {@code List<String>} of elements seperated by commas in the file.
      * 
-     * @param   filepath                 - a {@code String} of the file to read
-     * @return  {@code List<String>}    of elements seperated by commas
-     * @exception   FileNotFoundException   if file not found
+     * @param filepath - a {@code String} of the file to read
      */
     public static List<String> read(String filepath) {
         try {
@@ -52,15 +48,15 @@ public class FileReadWrite {
      * 
      * @param filepath - a {@code String} of the file to be created and/or written to
      * @param stuffToWrite - a {@code String[]} of elements to be written to the file
-     * @throws UnsupportedEncodingException if the file is not utilising UTF-8
-     * @throws FileNotFoundException        when the file could not be found
      */
     public static void write(String filepath, String[] stuffToWrite) {
         try {
             PrintWriter writer = new PrintWriter(filepath, "UTF-8");
             for (int i = 0; i < stuffToWrite.length - 1; i++) 
-                writer.println(stuffToWrite[i] + ",");
-            writer.println(stuffToWrite[stuffToWrite.length - 1]);  //Don't want comma on last line
+                if (stuffToWrite[i].trim().length() != 0)
+                    writer.println(stuffToWrite[i] + ",");
+            if (stuffToWrite[stuffToWrite.length - 1].trim().length() != 0)   //Don't want comma on last line
+                writer.println(stuffToWrite[stuffToWrite.length - 1]);  
             
             writer.close();
         } catch (UnsupportedEncodingException e) {
