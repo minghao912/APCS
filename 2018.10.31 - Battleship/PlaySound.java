@@ -14,7 +14,7 @@ public class PlaySound {
      * @param sound - a {@code String} filename of the sound file within
      *              the directory {@code ./Files/Sounds/}
      */
-    public void play(String sound) {
+    public void play(String sound, float volume) {
         try {
             //Retreive sound
             URL url = this.getClass().getClassLoader().getResource("Files/Sounds/" + sound);
@@ -24,7 +24,7 @@ public class PlaySound {
             //Change volume
             clip.open(audioIn);
             FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-            gainControl.setValue(-20.0f);
+            gainControl.setValue(volume);
 
             //Play sound
             clip.start();

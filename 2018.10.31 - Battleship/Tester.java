@@ -12,18 +12,14 @@ public class Tester {
     void hello() {
         String[] elements = {"a: 5", "b: 777", "c: a320"};
 
-        JPanel leaderboardPanel = new JPanel();
-        leaderboardPanel.setPreferredSize(new Dimension(680, 480));
-        
-        leaderboardPanel.setLayout(new BoxLayout(leaderboardPanel, BoxLayout.Y_AXIS));
-        for (String leaderboardElement : elements) {
-            leaderboardPanel.add(new JLabel(leaderboardElement, SwingConstants.CENTER));
-        }
-
         Box box = new Box(BoxLayout.Y_AXIS);
-        box.setAlignmentX(JComponent.CENTER_ALIGNMENT);
         box.add(Box.createVerticalGlue());
-        box.add(leaderboardPanel);
+        for (String leaderboardElement : elements) {
+            JLabel elementLabel = new JLabel(leaderboardElement, SwingConstants.CENTER);
+            elementLabel.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+            box.add(Box.createRigidArea(new Dimension(0, 10)));
+            box.add(elementLabel);
+        }
         box.add(Box.createVerticalGlue());
     
         JFrame leaderboardInternalFrame = new JFrame("Leaderboard");

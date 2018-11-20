@@ -120,11 +120,13 @@ public class InitGame implements WindowListener {
     public static void userGuess(int[] coordinates) {   //Check user's guess and act accordingly
         boolean hit = ai.checkGuess(coordinates);
         movesCounter.setText("<html><div style='text-align: center;'>Moves<br>" + Computer.moveCounter + "</div></html>"); //Update moves counter
+        new PlaySound().play("Explosion2.kylebigdumb", -40.0f);
+        
         if (hit) {
             pleaseheckingwork.changeButtonColour(coordinates, Color.RED);
 
-            new PlaySound().play("Explosion2.kylebigdumb");
             System.out.println("> Hit!");
+            new PlaySound().play("hit.wav", -10.0f);
 
             String removedShipname = ai.removeShip(coordinates);
             int indexOfShip = -1;
@@ -151,6 +153,9 @@ public class InitGame implements WindowListener {
                     int shipsSunk = ++Computer.sunkCounter; 
                     shipsSunkCnt.setText("<html><div style='text-align: center;'>Ships Sunk<br>" + shipsSunk + "</div></html>");
                     shipsLeftCnt.setText("<html><div style='text-align: center;'>Ships Left<br>" + (5 - shipsSunk) + "</div></html>");
+                    
+                    new PlaySound().play("shipsunk.wav", -10.0f);
+                    
                     System.out.println("> Ship Sunk");
 
                     if (shipsSunk >= ships.length) {    //If all ships are sunk
@@ -159,6 +164,7 @@ public class InitGame implements WindowListener {
                 }
             }
         } else if (!hit) {
+            new PlaySound().play("miss.wav", -10.0f);
             pleaseheckingwork.changeButtonColour(coordinates, Color.BLUE);
             System.out.println("> Miss!");
         } else {
@@ -212,15 +218,26 @@ public class InitGame implements WindowListener {
      * @param elements - a {@code String[]} of elements to display
      */
     public void showLeaderboard(String[] elements) {
-        JPanel leaderboardPanel = new JPanel();
-        for (String leaderboardElement : elements) {
-            leaderboardPanel.add(new JLabel(leaderboardElement, SwingConstants.CENTER));
+        Box box = new Box(BoxLayout.Y_AXIS);
+        box.add(Box.createVerticalGlue());
+        for (int i = 0; i < elements.length; i++) {
+            String element = elements[i];
+            JLabel elementLabel;
+
+            if (i >= 10) break;  //Only display the top 10 on the leaderboard
+            else if (i == 0) elementLabel = new JLabel("<html><h1>" + element + "</h1></html>", SwingConstants.CENTER);
+            else {
+                elementLabel = new JLabel("<html><h3>" + element + "</h3></html>", SwingConstants.CENTER);
+            }
+
+            elementLabel.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+            box.add(Box.createRigidArea(new Dimension(0, 5)));
+            box.add(elementLabel);
         }
-        leaderboardPanel.setLayout(new BoxLayout(leaderboardPanel, BoxLayout.Y_AXIS));
+        box.add(Box.createVerticalGlue());
 
         JFrame leaderboardInternalFrame = new JFrame("Leaderboard");
-        
-        leaderboardInternalFrame.getContentPane().add(leaderboardPanel);
+        leaderboardInternalFrame.getContentPane().add(box);
         leaderboardInternalFrame.addWindowListener(this);
         leaderboardInternalFrame.setPreferredSize(new Dimension(680, 480));
         leaderboardInternalFrame.pack();
