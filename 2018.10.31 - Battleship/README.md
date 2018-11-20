@@ -16,10 +16,10 @@
   - [x] Check which ship has been sunk
   - [x] Update 'Ships Sunk' counter
 - [x] Have a system to calculate user score
-- [ ] Make a leaderboard w/ scores
+- [x] Make a leaderboard w/ scores
   - [x] Leaderboard file
   - [x] System to read the file
-  - [ ] Display the leaderboard
+  - [x] Display the leaderboard
   - [x] Update accordingly
 
-*Last update 16/11/2018*
+*Last update 19/11/2018*
