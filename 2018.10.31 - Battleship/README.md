@@ -22,4 +22,4 @@
   - [x] Display the leaderboard
   - [x] Update accordingly
 
-*Last update 19/11/2018*
+*Last update 20/11/2018*

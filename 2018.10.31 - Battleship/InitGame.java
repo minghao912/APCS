@@ -126,7 +126,7 @@ public class InitGame implements WindowListener {
             pleaseheckingwork.changeButtonColour(coordinates, Color.RED);
 
             System.out.println("> Hit!");
-            new PlaySound().play("hit.wav", -10.0f);
+            new PlaySound().play("hit.kylebigdumb", -10.0f);
 
             String removedShipname = ai.removeShip(coordinates);
             int indexOfShip = -1;
@@ -154,7 +154,7 @@ public class InitGame implements WindowListener {
                     shipsSunkCnt.setText("<html><div style='text-align: center;'>Ships Sunk<br>" + shipsSunk + "</div></html>");
                     shipsLeftCnt.setText("<html><div style='text-align: center;'>Ships Left<br>" + (5 - shipsSunk) + "</div></html>");
                     
-                    new PlaySound().play("shipsunk.wav", -10.0f);
+                    new PlaySound().play("shipsunk.kylebigdumb", -10.0f);
                     
                     System.out.println("> Ship Sunk");
 
@@ -164,7 +164,7 @@ public class InitGame implements WindowListener {
                 }
             }
         } else if (!hit) {
-            new PlaySound().play("miss.wav", -10.0f);
+            new PlaySound().play("miss.kylebigdumb", -10.0f);
             pleaseheckingwork.changeButtonColour(coordinates, Color.BLUE);
             System.out.println("> Miss!");
         } else {
@@ -274,4 +274,4 @@ public class InitGame implements WindowListener {
     public void windowDeactivated(WindowEvent e) {}
 }
 
-//16/11/2018 20:49
+//20/11/2018 13:03
