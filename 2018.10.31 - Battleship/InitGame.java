@@ -188,7 +188,7 @@ public class InitGame implements WindowListener {
                 JOptionPane.INFORMATION_MESSAGE, new ImageIcon(this.getClass().getResource("Files/trophy3.kylebigdumb")));
         String username = JOptionPane.showInputDialog(anAbsoluteUnit, "Please enter your name:");
 
-        List<String> leaderboard = FileReadWrite.read("Files/leaderboard.kylebigdumb");
+        List<String> leaderboard = new FileReadWrite().read("Files/leaderboard.kylebigdumb");
 
         if (leaderboard == null) {
             Error.displayError("Fatal Error", "An unknown error has occured: null returned by FileReadWrite");
@@ -200,7 +200,7 @@ public class InitGame implements WindowListener {
         String[] sortedLeaderboard = leaderboard.toArray(new String[0]);
         Arrays.sort(sortedLeaderboard);
 
-        FileReadWrite.write("Files/leaderboard.kylebigdumb", sortedLeaderboard);
+        new FileReadWrite().write("./Files/leaderboard.kylebigdumb", sortedLeaderboard);
 
         new InitGame().showLeaderboard(sortedLeaderboard);
 
