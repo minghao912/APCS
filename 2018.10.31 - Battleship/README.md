@@ -22,4 +22,15 @@
   - [x] Display the leaderboard
   - [x] Update accordingly
 
+# Optional Stuff
+
+- [x] Use '.kylebigdumb' files
+- [x] Use different formats to display the different scorees in the leaderboard
+- [ ] Use a kool font
+- [ ] Title page
+  - [ ] Start game
+  - [ ] View leaderboard
+- [ ] 'Play Again?' option
+- [ ] Soundtrack
+
 *Last update 20/11/2018*
