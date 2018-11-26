@@ -200,7 +200,7 @@ public class InitGame implements WindowListener {
         String[] sortedLeaderboard = leaderboard.toArray(new String[0]);
         Arrays.sort(sortedLeaderboard);
 
-        new FileReadWrite().write("./Files/leaderboard.kylebigdumb", sortedLeaderboard);
+        new FileReadWrite().write("Files/leaderboard.kylebigdumb", sortedLeaderboard);
 
         new InitGame().showLeaderboard(sortedLeaderboard);
 
