@@ -16,7 +16,7 @@ public class FileReadWrite {
      */
     public List<String> read(String filepath) {
         try {
-            Scanner fileIn = new Scanner(filepath).useDelimiter(",\\s+"); //Split each section by "," followed by 1+ spaces
+            Scanner fileIn = new Scanner(new File(filepath)).useDelimiter(",\\s+"); //Split each section by "," followed by 1+ spaces
         
             List<String> members = new ArrayList<>();
             List<String> membersCopy = members;

@@ -6,7 +6,7 @@ public class StringSortActual {
         Arrays.sort(givenStr);
         for (String str : givenStr) System.out.println(str);
 
-        String[] strArr2 = new String[givenStr.length - 1];
+        String[] strArr2 = new String[givenStr.length];
         for (int i = 0; i < strArr2.length; i++) {
             strArr2[i] = givenStr[givenStr.length - 1 - i];
         }

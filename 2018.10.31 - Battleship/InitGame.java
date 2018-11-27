@@ -13,7 +13,6 @@ public class InitGame implements WindowListener {
     /**
      * <h3>Main</h3>
      * Sets the look and feel and initialises the game.
-     * @param args Unused
      */
     public static void main(String[] args) {
         //Set the look and feel to look like something not from the 90s
@@ -29,20 +28,41 @@ public class InitGame implements WindowListener {
             System.out.println(e);
         }
 
-        //Create new playfield and tell the computer to make the ship grid
-        JFrame playfield = new InitGame().createPlayfield();
-        createComputerGrid();
+        startGame();
     }
 
     //Battleship grid
     private static Grid2 pleaseheckingwork = new Grid2(10, 10);
     private static JFrame anAbsoluteUnit = new JFrame("Batttleship");
     
+    // Acquire user settings
+    public static int cheats = JOptionPane.showConfirmDialog(null, "Enable Cheats?", "Are you a wussy?", JOptionPane.YES_NO_OPTION);
+    private static int sounds = JOptionPane.showConfirmDialog(null, "Enable Sound?", "Want to blow your eardrums?", JOptionPane.YES_NO_OPTION);
+    
     //Stat counters
     private static JLabel movesCounter = new JLabel("<html><div style='text-align: center;'>Moves<br>0</div></html>", SwingConstants.LEFT);
     private static JLabel shipsSunkCnt = new JLabel("<html><div style='text-align: center;'>Ships Sunk<br>0</div></html>", SwingConstants.CENTER);
     private static JLabel shipsLeftCnt = new JLabel("<html><div style='text-align: center;'>Ships Left<br>5</div></html>", SwingConstants.RIGHT);
     
+    /**
+     * Starts Game
+     */
+    private static void startGame() {
+        // yeet
+        if (sounds == 0)
+            System.out.println("> Sound on.");
+        if (sounds == 1)
+            System.out.println("> Sound off.");
+        if (cheats == 0)
+            System.out.println("> We've got a chicken playing this game.");
+        if (cheats == 1)
+            System.out.println("> Big baller here.");
+
+        // Create new playfield and tell the computer to make the ship grid
+        JFrame playfield = new InitGame().createPlayfield();
+        createComputerGrid();
+    }
+
     /**
      * <h3>Creates the User's Playfield</h3>
      * This sets up a {@code JSplitFrame} to deal with the grid and
@@ -106,10 +126,11 @@ public class InitGame implements WindowListener {
         }
 
         //"Debug"
-        for (int i = 0; i < 10; i++) {
-            System.out.println(Arrays.toString(ai.getGrid()[i]));
+        if (cheats == 0) {
+            for (int i = 0; i < 10; i++) {
+                System.out.println(Arrays.toString(ai.getGrid()[i]));
+            }
         }
-        
     }
 
     /** 
@@ -120,13 +141,14 @@ public class InitGame implements WindowListener {
     public static void userGuess(int[] coordinates) {   //Check user's guess and act accordingly
         boolean hit = ai.checkGuess(coordinates);
         movesCounter.setText("<html><div style='text-align: center;'>Moves<br>" + Computer.moveCounter + "</div></html>"); //Update moves counter
-        new PlaySound().play("Explosion2.kylebigdumb", -40.0f);
+        
+        if (sounds == 0) new PlaySound().play("Explosion2.kylebigdumb", -40.0f);
         
         if (hit) {
             pleaseheckingwork.changeButtonColour(coordinates, Color.RED);
 
             System.out.println("> Hit!");
-            new PlaySound().play("hit.kylebigdumb", -10.0f);
+            if (sounds == 0) new PlaySound().play("hit.kylebigdumb", -10.0f);
 
             String removedShipname = ai.removeShip(coordinates);
             int indexOfShip = -1;
@@ -142,11 +164,13 @@ public class InitGame implements WindowListener {
             } else {
                 ArrayList<Integer[]> shipCoord = ships[indexOfShip].getCoordinate();
 
-                System.out.println();   //Debug stuff
-                for (int i = 0; i < shipCoord.size(); i++)
-                    System.out.println(Arrays.toString(shipCoord.get(i)));
-                System.out.println();
-                System.out.println("> Hit: " + Arrays.toString(coordinates));
+                if (cheats == 0) {  //Cheats Enabled
+                    System.out.println();   //Debug stuff
+                    for (int i = 0; i < shipCoord.size(); i++)
+                        System.out.println(Arrays.toString(shipCoord.get(i)));
+                    System.out.println();
+                    System.out.println("> Hit: " + Arrays.toString(coordinates));
+                }
                 
                 ships[indexOfShip].removeCoordinate(new Integer[] {coordinates[0], coordinates[1]});
                 if (ai.checkSunk(ships[indexOfShip])) { //This changes the stats at the top if a ship is sunk
@@ -154,7 +178,7 @@ public class InitGame implements WindowListener {
                     shipsSunkCnt.setText("<html><div style='text-align: center;'>Ships Sunk<br>" + shipsSunk + "</div></html>");
                     shipsLeftCnt.setText("<html><div style='text-align: center;'>Ships Left<br>" + (5 - shipsSunk) + "</div></html>");
                     
-                    new PlaySound().play("shipsunk.kylebigdumb", -10.0f);
+                    if (sounds == 0) new PlaySound().play("shipsunk.kylebigdumb", -10.0f);
                     
                     System.out.println("> Ship Sunk");
 
@@ -164,7 +188,8 @@ public class InitGame implements WindowListener {
                 }
             }
         } else if (!hit) {
-            new PlaySound().play("miss.kylebigdumb", -10.0f);
+            if (sounds == 0) new PlaySound().play("miss.kylebigdumb", -10.0f);
+            
             pleaseheckingwork.changeButtonColour(coordinates, Color.BLUE);
             System.out.println("> Miss!");
         } else {
@@ -204,10 +229,9 @@ public class InitGame implements WindowListener {
 
         new InitGame().showLeaderboard(sortedLeaderboard);
 
-        //"Debug" the user info
+        //"Debug" the leaderboard info
         System.out.println("> New Leaderboard Info:");
         System.out.println("> " + Arrays.toString(sortedLeaderboard));
-
     }
 
     /**
@@ -251,11 +275,18 @@ public class InitGame implements WindowListener {
 
     @Override
     public void windowClosing(WindowEvent e) {
-        int close = JOptionPane.showConfirmDialog(null, "Are you sure you want to quit?", "Quit?", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
-        if (close == 0) {
-            anAbsoluteUnit.dispose();
-            System.exit(0);
-        } else return;
+        String[] options = {"Quit", "Restart", "Cancel"};
+        int close = JOptionPane.showOptionDialog(null, "Are you sure you want to quit?", "Quit Options", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[2]);
+        switch (close) {
+            case (0): 
+                System.out.println("> Quit via user termination.");
+                System.exit(0);
+                break;
+            case (1):
+                JOptionPane.showMessageDialog(null, "Just quit and restart lmao");
+                break;
+            case (2): break;
+        }
     }
 
     @Override

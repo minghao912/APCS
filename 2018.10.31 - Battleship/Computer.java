@@ -137,10 +137,12 @@ public class Computer {
             gridOfShips[coordinates[0]][coordinates[1]] = null;
         } else return null;
 
-        System.out.println();
-        for (int i = 0; i < 10; i++) 
-            System.out.println(Arrays.toString(gridOfShips[i]));
-        System.out.println();
+        if (InitGame.cheats == 0) {
+            System.out.println();
+            for (int i = 0; i < 10; i++) 
+                System.out.println(Arrays.toString(gridOfShips[i]));
+            System.out.println();
+        }
 
         return shipname;
     }
