@@ -7,13 +7,13 @@ public class Terst {
         NormalDude dude = new NormalDude("John", "Doe", "Howdy there pardner!");
         */
         
-        Object[] dudesAndDudettes = new Object[4];
+        FamousPerson[] dudesAndDudettes = new FamousPerson[4];
         dudesAndDudettes[0] = new NicholasChan("Sweatie", "Bot", "Isn't it Sunday in Amsterdam?");
         dudesAndDudettes[1] = new Yoda("Yoda", "Yoda", "The dark side I sense in you.", "Powerful you have become");
         dudesAndDudettes[2] = new Elizabethan("Will", "Shakespeare", "To be or not to be?");
         dudesAndDudettes[3] = new NormalDude("John", "Doe", "Howdy there pardner!");
 
-        for (Object person : dudesAndDudettes)
-            ((FamousPerson) person).speak();
+        for (FamousPerson person : dudesAndDudettes)
+           person.speak();
     }
 }
