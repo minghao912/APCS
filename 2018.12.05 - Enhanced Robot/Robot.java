@@ -14,7 +14,7 @@ public class Robot {
     }
 
     public void setNewHallElem(int newHallElem, int index) {
-        getHall()[index] = newHallElem;
+        hall[index] = newHallElem;
     }
 
     public int getPos() {

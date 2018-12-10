@@ -6,7 +6,6 @@ public class Terster {
         
         while(true) {
             System.out.print("Type in a sentence and press ENTER: ");
-
             String input = query.nextLine().toUpperCase();      //Criteria 3: Uppercase
 
             if (input.contains("EXIT")) break;
