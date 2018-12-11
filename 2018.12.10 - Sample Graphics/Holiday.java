@@ -1,11 +1,13 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 public class Holiday {
     private static JFrame win;
     private static Container contentPane;
     private static Graphics g;
-
     public static void main(String[] args) {
         Holiday holiday = new Holiday();
         holiday.makeFrame();
