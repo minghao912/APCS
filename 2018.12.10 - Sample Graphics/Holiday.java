@@ -1,7 +1,9 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
-public class Holiday {
+public class Holiday implements ActionListener{
     private static JFrame win;
     private static Container contentPane;
     private static Graphics g;
@@ -9,14 +11,25 @@ public class Holiday {
     public static void main(String[] args) {
         Holiday holiday = new Holiday();
         holiday.makeFrame();
+        
+        ActionListener kylehasuglygraphics = new ActionListener() {
+            public void actionPerformed(ActionEvent kenneedsglasses) {
+                holiday.drawBackground();
+            }
+        };
 
+        sleep(100);
+        holiday.drawThings();
+
+        new Timer(500, kylehasuglygraphics);
+    }
+
+    public static void sleep(int t) {
         try {
-            Thread.sleep(400);
+            Thread.sleep(t);
         } catch (Exception e) {
             System.out.println("Uh-oh!");
         }
-
-        holiday.drawThings();
     }
 
     public void makeFrame() {
@@ -27,12 +40,12 @@ public class Holiday {
         win.pack();
         win.setLocationRelativeTo(null);
         win.setVisible(true);
+
+        contentPane = win.getContentPane();
+        g = contentPane.getGraphics();
     }
 
     public void drawThings() {
-        contentPane = win.getContentPane();
-        g = contentPane.getGraphics();
-
         g.setColor(new Color(110, 65, 5));
         g.fillRect(350, 300, 100, 150);
 
@@ -61,5 +74,31 @@ public class Holiday {
         g.fillOval(425, 215, 22, 22);
         g.fillOval(380, 245, 21, 21);
         g.fillOval(325, 270, 21, 21);
+        g.fillOval(440, 290, 21, 21);
+
+        g.setColor(new Color(0, 40, 10));
+        g.fillRect(0, 450, 800, 300);
+    }
+
+    public void drawBackground() {
+        contentPane.setBackground(new Color(25, 40, 60));
+        
+        for (int i = 0; i < 500; i++) {
+            int x = randNum(0, 800);
+            int y = randNum(0, 600);
+            int length = randNum(2, 5);
+
+            g.setColor(new Color(200, 250, 255));
+            g.drawLine(x, y, x, y + length);
+        }
+    }
+
+    public static int randNum(int min, int max) {
+        return (int) (Math.random() * (max - 1) + 1);
+    }
+
+
+    @Override
+    public void actionPerformed(ActionEvent ae) {
     }
 }
