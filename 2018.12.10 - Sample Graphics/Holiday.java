@@ -36,6 +36,10 @@ public class Holiday {
         TimerTask endCard = new TimerTask() {
             @Override
             public void run() {
+                yeet.cancel();
+                yeet.purge();
+                memes.cancel();
+                memes.purge();
                 holiday.end();
             }
         };
@@ -136,7 +140,6 @@ public class Holiday {
         JFrame end = new JFrame("Happy Holidays!");
         end.setPreferredSize(new Dimension(800, 600));
         end.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        end.setLocationRelativeTo(null);
 
         String[] stuff = { "Season's Greetings!", "Happy Holidays!", "-Ming" };
 
@@ -154,8 +157,10 @@ public class Holiday {
         box.add(box.createVerticalGlue());
         
         inner.add(box);
+        
         end.add(inner);
         end.pack();
+        end.setLocationRelativeTo(null);
         end.setVisible(true);
 
         win.dispose();
