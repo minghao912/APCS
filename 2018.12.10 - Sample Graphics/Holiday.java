@@ -7,6 +7,7 @@ public class Holiday {
     private static JFrame win;
     private static Container contentPane;
     private static Graphics g;
+    
     public static void main(String[] args) {
         Holiday holiday = new Holiday();
         holiday.makeFrame();
