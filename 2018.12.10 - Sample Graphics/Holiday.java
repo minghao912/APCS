@@ -11,7 +11,7 @@ public class Holiday {
         Holiday holiday = new Holiday();
         holiday.makeFrame();
 
-        new PlaySound().play("./LetItSnow2.wav", -10.0f);
+        new PlaySound().play("LetItSnow2.wav", -10.0f);
 
         Timer yeet = new Timer();
         TimerTask activateWiper = new TimerTask() {
