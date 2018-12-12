@@ -157,7 +157,7 @@ public class Holiday {
         box.add(box.createVerticalGlue());
         
         inner.add(box);
-        
+
         end.add(inner);
         end.pack();
         end.setLocationRelativeTo(null);
@@ -170,3 +170,5 @@ public class Holiday {
         return (int) (Math.random() * (max - 1) + 1);
     }
 }
+
+//12/12/2018 12:32
