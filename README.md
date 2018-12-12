@@ -6,4 +6,7 @@ These are projects and/or assignments from: Mr. Joo, Blue Pelican Java, or Head 
 # Information
 All projects and work are done in Java unless otherwise specified.
 
+# Code
+See the code on [GitHub](https://github.com/minghao912/APCS).
+
 *Last update 10/12/2018*
