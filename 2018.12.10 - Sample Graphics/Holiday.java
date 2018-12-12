@@ -7,6 +7,8 @@ public class Holiday {
     private static JFrame win;
     private static Container contentPane;
     private static Graphics g;
+    private static JFrame endFrame;
+    private static JPanel treePanel;
     
     public static void main(String[] args) {
         Holiday holiday = new Holiday();
@@ -68,53 +70,15 @@ public class Holiday {
         g = contentPane.getGraphics();
     }
 
-    /*
-    Tree
-    public void drawThings() {
-        g.setColor(new Color(110, 65, 5));
-        g.fillRect(350, 300, 100, 150);
-
-        g.setColor(new Color(0, 91, 26));
-
-        Polygon tri1 = new Polygon();
-        tri1.addPoint(400, 100);
-        tri1.addPoint(300, 200);
-        tri1.addPoint(500, 200);
-        g.fillPolygon(tri1); // drawPolygon() would create outline only
-
-        Polygon tri2 = new Polygon();
-        tri2.addPoint(400, 125);
-        tri2.addPoint(250, 275);
-        tri2.addPoint(550, 275);
-        g.fillPolygon(tri2);
-
-        Polygon tri3 = new Polygon();
-        tri3.addPoint(400, 175);
-        tri3.addPoint(200, 350);
-        tri3.addPoint(600, 350);
-        g.fillPolygon(tri3);
-
-        g.setColor(new Color(255, 230, 70));
-        g.fillOval(350, 200, 20, 20);
-        g.fillOval(425, 215, 22, 22);
-        g.fillOval(380, 245, 21, 21);
-        g.fillOval(325, 270, 21, 21);
-        g.fillOval(440, 290, 21, 21);
-
-        g.setColor(new Color(0, 40, 10));
-        g.fillRect(0, 450, 800, 300);
-    }
-    */
-
     public void drawBackground() {
         System.out.println("Drawing bakgoround");
         contentPane.setBackground(new Color(25, 40, 60));
-        
+
         for (int i = 0; i < 100; i++) {
             int x = randNum(0, 800);
             int y = randNum(0, 600);
             int length = randNum(2, 5);
-            int thickness = randNum(1, 3);
+            int thickness = randNum(1, 4);
 
             g.setColor(new Color(200, 250, 255));
             g.fillOval(x, y, thickness, length);
@@ -127,16 +91,29 @@ public class Holiday {
         */
     }
 
+    public void drawRoad() {
+        Polygon road = new Polygon();
+        g.setColor(Color.BLACK);
+        road.addPoint(50, 600);
+        road.addPoint(350, 200);
+        road.addPoint(450, 200);
+        road.addPoint(750, 600);
+        g.fillPolygon(road);
+    }
+
     public void wiper() {
         for (int deg = 0; deg <= 90; deg++) {
             g.setColor(new Color(25, 40, 60));
 
             g.fillArc(-800, 25, 1600, 1600, 0, deg);
             System.out.println("squeak");
-            sleep(50);
+            
+            drawRoad();
+            sleep(40);
         }
     }
 
+    //Ending message
     public void end() {
         JFrame end = new JFrame("Happy Holidays!");
         end.setPreferredSize(new Dimension(800, 600));
