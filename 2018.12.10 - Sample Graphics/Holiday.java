@@ -99,6 +99,14 @@ public class Holiday {
         road.addPoint(450, 200);
         road.addPoint(750, 600);
         g.fillPolygon(road);
+
+        Polygon line = new Polygon();
+        g.setColor(new Color(220, 210, 0));
+        line.addPoint(395, 200);
+        line.addPoint(405, 200);
+        line.addPoint(415, 600);
+        line.addPoint(385, 600);
+        g.fillPolygon(line);
     }
 
     public void wiper() {
