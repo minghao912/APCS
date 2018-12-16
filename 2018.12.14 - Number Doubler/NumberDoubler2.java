@@ -16,28 +16,27 @@ public class NumberDoubler2 {
             String response = dub(userInput);
             System.out.println(response);
         }
+
+        yeet.close();
     }
 
     public static String dub(String in) {
-        String[] words = in.split("\\s+");
+        String[] words = in.split("(?<=[\\D+])|(?=[\\D+])");    //Split the input when it encounters non-numbers (but also include the numbers in the result array)
+        //System.out.println(Arrays.toString(words));
 
         for (int i = 0; i < words.length; i++) {
-            int num;
-
-            try {
-                num = Integer.parseInt(words[i]);
+            try {   //Try to multiply each element by 2, and if it's not a number, skip
+                words[i] = Integer.parseInt(words[i]) * 2 + "";
             } catch (NumberFormatException e) {
                 continue;
             }
-            
-            words[i] = num * 2 + "";
         }
 
-        String result = "";
-        for (String part : words) {
-            result += part + " ";
-        }
+        String result = ""; //Concatenate final string
+        for (String part : words) result += part;
 
         return result;
     }
 }
+
+//15/12/2018 19:25
