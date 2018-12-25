@@ -9,7 +9,7 @@ public class NumberDoubler2 {
         Scanner yeet;
 
         try {
-            yeet = new Scanner(new File(ken.getDir()));
+            yeet = new Scanner(new File(ken.getFilePath()));
         } catch (Throwable e) {
             e.printStackTrace();
             return;
