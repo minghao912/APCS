@@ -1,16 +1,22 @@
 import java.util.Scanner;
-import java.io.FileNotFoundException;
 import java.util.Arrays;
-import java.io.File;
+import java.io.*;
 
 public class NumberDoubler2 {
     public static void main(String[] args) {
-        FileChooser ken = new FileChooser("Select File");
         Scanner yeet;
-
+    
         try {
-            yeet = new Scanner(new File(ken.getDir()));
+            yeet = new Scanner(new File(args[0]));
         } catch (Throwable e) {
+            e.printStackTrace();
+            return;
+        }
+
+        PrintWriter p;
+        try {
+            p = new PrintWriter(new FileWriter("./" + args[0].substring(0, args[0].lastIndexOf(".")) + "x2.txt"));
+        } catch (IOException e) {
             e.printStackTrace();
             return;
         }
@@ -21,9 +27,10 @@ public class NumberDoubler2 {
             if(userInput.toLowerCase().contains("exit")) break;
             
             String response = dub(userInput);
-            System.out.println(response);
+            p.println(response);
         }
 
+        p.close();
         yeet.close();
         System.exit(0);
     }
@@ -47,4 +54,4 @@ public class NumberDoubler2 {
     }
 }
 
-//17/12/2018 10:32
+//07/01/2019 22:13

@@ -14,12 +14,12 @@ public class FileChooser extends JPanel {
         choosertitle = title;
     }
 
-    public String getDir() {
+    public String getFilePath() {
         chooser = new JFileChooser();
         chooser.setCurrentDirectory(new java.io.File("."));
         chooser.setDialogTitle(choosertitle);
 
-        chooser.setAcceptAllFileFilterUsed(false);
+        chooser.setAcceptAllFileFilterUsed(true);
 
         if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             File file = chooser.getSelectedFile();
