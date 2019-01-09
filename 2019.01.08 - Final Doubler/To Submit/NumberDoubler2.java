@@ -1,5 +1,6 @@
 import java.util.Scanner;
 import java.util.Arrays;
+import java.util.ArrayList;
 import java.io.*;
 
 public class NumberDoubler2 {
@@ -31,12 +32,11 @@ public class NumberDoubler2 {
         }
         
         while(yeet.hasNext()) {
-            String userInput = yeet.nextLine();
-            
-            if(userInput.toLowerCase().contains("exit")) break;
-            
-            String response = dub(userInput, scale);
-            p.println(response);
+            String inputLine = yeet.nextLine();
+
+            if (containsWhitelistedWord(filename, inputLine)) {
+                    p.println(dub(inputLine, scale));
+            } else p.println(inputLine);
         }
 
         p.close();
@@ -60,6 +60,35 @@ public class NumberDoubler2 {
         for (String part : words) result += part;
 
         return result;
+    }
+
+    public static String[] getWhitelist(String filename) throws FileNotFoundException{
+        ArrayList<String> whitelistWords = new ArrayList<String>();
+
+        Scanner getWordsFromFile = new Scanner(new File(filename + ".whitelist"));
+        while(getWordsFromFile.hasNext()) 
+            whitelistWords.add(getWordsFromFile.nextLine());
+
+        getWordsFromFile.close();
+        return whitelistWords.toArray(new String[0]);
+    }
+
+    public static boolean containsWhitelistedWord(String filename, String lineToCheck) {
+        // Get whitelist
+        String[] whitelist = null; 
+        try {
+            whitelist = getWhitelist(filename);
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found. Please ensure whitelist is in the directory as follows:\n<filename>.whitelist\n");
+            e.printStackTrace();
+            System.exit(1);
+        }
+
+        for (String word : whitelist)
+            if (lineToCheck.contains(word))
+                return true;
+
+        return false;
     }
 }
 

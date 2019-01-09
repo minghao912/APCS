@@ -1,0 +1,7 @@
+setSize
+setLocation
+fillRect
+addPoint
+drawOval
+fillOval
+tri
