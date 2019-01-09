@@ -5,7 +5,7 @@ import java.io.*;
 public class NumberDoubler2 {
     public static void main(String[] args) {
         String filename = args[0];
-        int scale;
+        double scale;
         try {
             scale = Integer.parseInt(args[1]);
         } catch (NumberFormatException e) {
@@ -44,13 +44,13 @@ public class NumberDoubler2 {
         System.exit(0);
     }
 
-    public static String dub(String in, int scale) {
+    public static String dub(String in, double scale) {
         String[] words = in.split("(?<=[\\D+])|(?=[\\D+])");    //Split the input when it encounters non-numbers (but also include the numbers in the result array)
         //System.out.println(Arrays.toString(words));
 
         for (int i = 0; i < words.length; i++) {
             try {   //Try to multiply each element by the scaling factor, and if it's not a number, skip
-                words[i] = Integer.parseInt(words[i]) * (scale / 100) + "";
+                words[i] = (int) (Integer.parseInt(words[i]) * (double) (scale / 100)) + "";    //This program outputs truncated decimals
             } catch (NumberFormatException e) {
                 continue;
             }
@@ -63,4 +63,4 @@ public class NumberDoubler2 {
     }
 }
 
-//08/01/2019 17:34
+//08/01/2019 17:38
