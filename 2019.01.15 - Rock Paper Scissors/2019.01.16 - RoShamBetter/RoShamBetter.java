@@ -22,7 +22,49 @@ public class RoShamBetter {
 		}
 	}
 
-	public String determineWinner() {
+	public String oldDetermineWinner() {	//max 5
+		boolean computerWon = false;
+		int thing = -1;
+		String[] stupidPlayerVerbs = { "Breaks", "Covers", "Cuts" };
+		String[] stupidComputerVerbs = { "Covers", "Cuts", "Breaks" };
+
+		if (playChoice.equals(compChoice)) {
+			return "> Draw";
+		}
+
+		// Logic
+		if (playChoice.equals("Rock")) {
+			thing = 0;
+			if (compChoice.equals("Scissors"))
+				computerWon = false;
+			else
+				computerWon = true;
+		} else if (playChoice.equals("Paper")) {
+			thing = 1;
+			if (compChoice.equals("Rock"))
+				computerWon = false;
+			else
+				computerWon = true;
+		} else if (playChoice.equals("Scissors")) {
+			thing = 2;
+			if (compChoice.equals("Paper"))
+				computerWon = false;
+			else
+				computerWon = true;
+		}
+
+		// Form output
+		String winner;
+		if (computerWon) {
+			winner = "Computer Wins! <<" + compChoice + " " + stupidComputerVerbs[thing] + " " + playChoice + ">>";
+		} else {
+			winner = "Player Wins! <<" + playChoice + " " + stupidPlayerVerbs[thing] + " " + compChoice + ">>";
+		}
+
+		return winner;
+	}
+
+	public String determineWinner() {		//max 4
 		boolean computerWon = false;
 		int thingForDumbVerbs = -1;
 		String[] stupidPlayerVerbs = {"Breaks", "Covers", "Cuts"};		//Verbs for when the player wins
