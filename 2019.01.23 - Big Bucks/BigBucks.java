@@ -9,11 +9,11 @@ public class BigBucks {
         formatter.setMaximumFractionDigits(2);
 
         String name;
-
+        Scanner kb;
         ArrayList<BankAccount> aryList = new ArrayList<BankAccount>();
 
         do {
-            Scanner kb = new Scanner(System.in);
+            kb = new Scanner(System.in);
             System.out.print("Please enter the name to whom the account belongs. (\"Exit\" to abort) ");
 
             name = kb.nextLine();
@@ -25,8 +25,8 @@ public class BigBucks {
 
                 BankAccount account = new BankAccount(name, amount);
                 aryList.add(account);
-            } 
-        } while (!name.equalsIgnoreCase("EXIT"));
+            }
+        } while(!name.equalsIgnoreCase("EXIT"));
 
         //Search aryList and print out the name and amount of the largest bank account
         BankAccount bigBaller = aryList.get(0);
@@ -40,7 +40,9 @@ public class BigBucks {
             }
         }
 
-        System.out.println("The account with the largest balance belongs to " + maxName + ".");
+        System.out.println("\nThe account with the largest balance belongs to " + maxName + ".");
         System.out.println("The amount is $" + maxBalance + ".");
+
+        kb.close();
     }
 }
