@@ -16,11 +16,18 @@ public class Kangaroo {
 
         /* ArrayList<Integer> nums = new ArrayList<Integer>();
         for (int i = 0; i < ebic.size(); i++) 
-            if (ebic.get(i) % 2 != 0) nums.add(ebic.get(i));
+            if (ebic.get(i) % 2 != 0) 
+                nums.add(ebic.get(i));
 
         nums.forEach(a -> {
             ebic.remove(a);
         }); */
+
+        /* for (int i = 0; i < ebic.size(); i++)
+            if (ebic.get(i) % 2 != 0)
+                ebic.set(i, null);
+        
+        while (ebic.contains(null)) ebic.remove(null); */
 
         ebic.removeIf(a -> a % 2 != 0);
 
