@@ -9,3 +9,7 @@ javac -cp .;"D:\APCS\2019.01.29 - GridWorld\GridWorldCode\gridworld.jar" BugRunn
 **Or**
 
 java -cp .;.../gridworld.jar BugRunner
+
+**Note**
+
+`...` means 3 directories up
