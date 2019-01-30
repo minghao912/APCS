@@ -5,3 +5,7 @@ java -cp .;"D:\APCS\2019.01.29 - GridWorld\GridWorldCode\gridworld.jar" BugRunne
 **Compile**
     
 javac -cp .;"D:\APCS\2019.01.29 - GridWorld\GridWorldCode\gridworld.jar" BugRunner.java
+
+**Or**
+
+java -cp .;.../gridworld.jar BugRunner
