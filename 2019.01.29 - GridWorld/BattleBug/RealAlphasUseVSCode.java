@@ -14,6 +14,7 @@ public class RealAlphasUseVSCode extends Actor{
         if (getGrid() == null) throw new IllegalStateException("This actor is not in a grid.");
         if (getGrid().get(getLocation()) != this) throw new IllegalStateException("The grid contains a different actor at location " + getLocation() + ".");
 
+        System.out.println("> You can't kill me!");
         return;
     }
 
@@ -32,6 +33,7 @@ public class RealAlphasUseVSCode extends Actor{
         makeMove(loc);
 
         commander.command();
+        System.out.println("> Passed control to UnderlingCommander");
     }
 
     /**

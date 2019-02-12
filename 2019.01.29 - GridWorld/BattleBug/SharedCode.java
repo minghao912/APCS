@@ -19,7 +19,7 @@ public class SharedCode {
      */
     public static void processActors(ArrayList<Actor> actors, UnderlingCommander commander, Grid grid) {
         for (Actor actor : actors) {
-            if (actor instanceof RealAlphasUseVSCode || actor instanceof Underling) return;
+            if (actor instanceof RealAlphasUseVSCode || actor instanceof Underling) return; //Don't kill your own teammates
 
             //Store actor's location
             Location actorLocation = actor.getLocation();
