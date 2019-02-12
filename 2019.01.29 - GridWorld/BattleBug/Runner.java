@@ -6,9 +6,15 @@ public class Runner {
     public static void main(String[] args) {
         ActorWorld world = new ActorWorld();
 
-        Actor yeetBug = new RealAlphasUseVSCode();
+        Actor master = new RealAlphasUseVSCode();
 
-        world.add(new Location(7, 8), yeetBug);
+        Actor bug = new Bug();
+        Actor critter = new Critter();
+
+        world.add(new Location(7, 8), master);
+        world.add(new Location(7, 7), bug);
+        world.add(new Location(5, 8), critter);
+
         world.show();
     }
 }
