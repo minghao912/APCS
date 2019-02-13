@@ -11,9 +11,11 @@ import java.awt.Color;
  * <code>Underling</code> only serves as a zombie-like infection mechanism, and 
  * in all other purposes acts like a <code>Critter</code>.
  */
-public class BasicUnderling extends Critter, implements Underling {
+public class BasicUnderling extends Critter {
     private UnderlingCommander commander;
     private Grid grid;
+    
+    public static int numberOfUnderlings;
 
     /**
      * Constructs an Underling. Requires a <code>Grid</code>,
@@ -23,11 +25,27 @@ public class BasicUnderling extends Critter, implements Underling {
      * @param location
      * @param passedCommander
      */
-    public Underling(Grid passedGrid, Location location, UnderlingCommander passedCommander) {
-        putSelfInGrid(passedGrid, location);
+    public BasicUnderling(Grid passedGrid, Location location, UnderlingCommander passedCommander) {
+        try {
+            putSelfInGrid(passedGrid, location);
+        } catch (Throwable e) {
+            throw new IllegalStateException("The given grid was not of parameter `Actor`");
+        }
+        
         setColor(new Color(255, 175, 50));
+
         grid = passedGrid;
         commander = passedCommander;
+        numberOfUnderlings++;
+    }
+
+    /**
+     * The <code>Underling</code> will stop acting if the game
+     * is in the win state.
+     */
+    public void act() {
+        if (RealAlphasUseVSCode.winState) return;
+        else super.act();
     }
 
     /**
@@ -45,6 +63,8 @@ public class BasicUnderling extends Critter, implements Underling {
      */
     public void removeSelfFromGrid() {
         super.removeSelfFromGrid();
+        numberOfUnderlings--;
+
         System.out.println("> Underling killed at location " + getLocation());
     }
 }

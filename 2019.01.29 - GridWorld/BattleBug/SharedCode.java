@@ -19,7 +19,7 @@ public class SharedCode {
      */
     public static void processActors(ArrayList<Actor> actors, UnderlingCommander commander, Grid grid) {
         for (Actor actor : actors) {
-            if (actor instanceof RealAlphasUseVSCode || actor instanceof Underling) return; //Don't kill your own teammates
+            if (actor instanceof RealAlphasUseVSCode || actor instanceof BasicUnderling) return; //Don't kill your own teammates
 
             //Store actor's location
             Location actorLocation = actor.getLocation();
@@ -49,9 +49,10 @@ public class SharedCode {
                 bug.move();
             } catch (IllegalStateException e) {}
 
-            Underling underling = new Underling(grid, actorLocation, commander);
+            BasicUnderling underling = new BasicUnderling(grid, actorLocation, commander);
             commander.add(underling);
-            System.out.println("> Adding Underling to location " + actorLocation);
+            UnderlingCommander.infected++;
+            System.out.println("> Adding Underling " + BasicUnderling.numberOfUnderlings + " to location " + actorLocation);
         }
     }
 }

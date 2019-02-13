@@ -5,9 +5,10 @@ import java.util.ArrayList;
 
 public class RealAlphasUseVSCode extends Actor{
     private UnderlingCommander commander;
+    public static boolean winState = false;
 
     public RealAlphasUseVSCode() {
-        commander = new UnderlingCommander<Underling>();
+        commander = new UnderlingCommander<BasicUnderling>();
     }
 
     public void removeSelfFromGrid() {
@@ -24,8 +25,11 @@ public class RealAlphasUseVSCode extends Actor{
      * selected location.
      */
     public void act() {
+        if (winState) 
+            return;
         if (getGrid() == null)
             return;
+
         ArrayList<Actor> actors = getActors();
         processActors(actors);
         ArrayList<Location> moveLocs = getMoveLocations();
@@ -34,6 +38,12 @@ public class RealAlphasUseVSCode extends Actor{
 
         commander.command();
         System.out.println("> Passed control to Commander");
+
+        //Check if it has won by seeing if all occupied locations are Underlings and itself
+        if (getGrid().getOccupiedLocations().size() == BasicUnderling.numberOfUnderlings + 1) {
+            winState = true;
+            System.out.println("> Game won");
+        }
     }
 
     /**

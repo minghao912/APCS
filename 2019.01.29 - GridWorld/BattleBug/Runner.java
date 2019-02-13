@@ -20,10 +20,17 @@ public class Runner {
         */
 
         ArrayList<Actor> enemies = new ArrayList<Actor>();
-        for (int i = 0; i < 5; i++) {
-            enemies.add(new Actor());
-            enemies.add(new Bug());
-            enemies.add(new Critter());
+        for (int i = 0; i < 10; i++) {
+            Actor actor = new Actor();
+            Bug bug = new Bug();
+            Critter critter = new Critter();
+            actor.setColor(new Color(getRandomNum(255), getRandomNum(255), getRandomNum(255)));
+            bug.setColor(new Color(getRandomNum(255), getRandomNum(255), getRandomNum(255)));
+            critter.setColor(new Color(getRandomNum(255), getRandomNum(255), getRandomNum(255)));
+
+            enemies.add(actor);
+            enemies.add(bug);
+            enemies.add(critter);
         }
 
         enemies.forEach(e -> {
@@ -36,7 +43,7 @@ public class Runner {
         world.show();
     }
 
-    public static int getRandomNum() {
-        return (int)(Math.random() * 9 + 1);
+    public static int getRandomNum(int max) {
+        return (int)(Math.random() * (max - 1) + 1);
     }
 }
