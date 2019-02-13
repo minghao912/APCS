@@ -33,7 +33,7 @@ public class RealAlphasUseVSCode extends Actor{
         makeMove(loc);
 
         commander.command();
-        System.out.println("> Passed control to UnderlingCommander");
+        System.out.println("> Passed control to Commander");
     }
 
     /**
