@@ -9,7 +9,6 @@ import java.util.ArrayList;
  */
 public class UnderlingCommander<T extends Actor> {
     private ArrayList<T> list;
-    public static int infected;
 
     public UnderlingCommander() {
         list = new ArrayList<T>();
@@ -31,7 +30,7 @@ public class UnderlingCommander<T extends Actor> {
     public void command() {
         if (RealAlphasUseVSCode.winState) return;   //Don't do anything if the game has already been won
 
-        int oldInfected = infected;
+        int oldInfected = SharedCode.infectedCounter;
 
         ArrayList<T> oldList = new ArrayList<T>(list);
         oldList.forEach(actor -> {
@@ -39,7 +38,9 @@ public class UnderlingCommander<T extends Actor> {
         });
         oldList = null;
 
-        System.out.println("> " + infected + " objects have been infected this round, an increase of " + (infected - oldInfected));
-        oldInfected = Integer.MIN_VALUE;
+        int newInfected = SharedCode.infectedCounter;
+        
+        System.out.println("> " + newInfected + " objects have been infected this round, an increase of " + (newInfected - oldInfected));
+        newInfected = oldInfected = Integer.MIN_VALUE;
     }
 }

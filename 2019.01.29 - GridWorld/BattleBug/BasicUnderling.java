@@ -14,8 +14,6 @@ import java.awt.Color;
 public class BasicUnderling extends Critter {
     private UnderlingCommander commander;
     private Grid grid;
-    
-    public static int numberOfUnderlings;
 
     /**
      * Constructs an Underling. Requires a <code>Grid</code>,
@@ -36,7 +34,7 @@ public class BasicUnderling extends Critter {
 
         grid = passedGrid;
         commander = passedCommander;
-        numberOfUnderlings++;
+        SharedCode.underlingCounter++;
     }
 
     /**
@@ -63,7 +61,7 @@ public class BasicUnderling extends Critter {
      */
     public void removeSelfFromGrid() {
         super.removeSelfFromGrid();
-        numberOfUnderlings--;
+        SharedCode.underlingCounter--;
 
         System.out.println("> Underling killed at location " + getLocation());
     }

@@ -36,13 +36,17 @@ public class RealAlphasUseVSCode extends Actor{
         Location loc = selectMoveLocation(moveLocs);
         makeMove(loc);
 
+        SharedCode.turnCounter++;   //Increment turn counter
+        
+        //Command Underlings
         commander.command();
         System.out.println("> Passed control to Commander");
 
         //Check if it has won by seeing if all occupied locations are Underlings and itself
-        if (getGrid().getOccupiedLocations().size() == BasicUnderling.numberOfUnderlings + 1) {
+        if (getGrid().getOccupiedLocations().size() == SharedCode.underlingCounter + 1) {
             winState = true;
-            System.out.println("> Game won");
+            System.out.println("> Game won in " + SharedCode.turnCounter + " turns");
+            System.out.println("> A total of " + SharedCode.infectedCounter + " objects were infected");
         }
     }
 

@@ -8,6 +8,11 @@ import info.gridworld.grid.*;
  * Both share the same <code>processActors()</code> method.
  */
 public class SharedCode {
+    //Counters
+    public static int infectedCounter;
+    public static int turnCounter;
+    public static int underlingCounter;
+    
     /**
      * Processes the <code>Actors</code> on command. Requires a list
      * of <code>Actors</code>, an <code>UnderlingCommander</code>, and
@@ -51,8 +56,8 @@ public class SharedCode {
 
             BasicUnderling underling = new BasicUnderling(grid, actorLocation, commander);
             commander.add(underling);
-            UnderlingCommander.infected++;
-            System.out.println("> Adding Underling " + BasicUnderling.numberOfUnderlings + " to location " + actorLocation);
+            infectedCounter++;
+            System.out.println("> Adding Underling " + underlingCounter + " to location " + actorLocation);
         }
     }
 }
