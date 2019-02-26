@@ -6,12 +6,12 @@ import java.util.ArrayList;
 
 public class Runner {
     public static void main(String[] args) {
-        ActorWorld world = new ActorWorld(new BoundedGrid<Actor>(50, 50));
+        ActorWorld world = new ActorWorld(new BoundedGrid<Actor>(35, 75));
         
-        RockDropper one = new RockDropper(new Color(getRandomNum(255), getRandomNum(255), getRandomNum(255)));
-        RockDropper two = new RockDropper(new Color(getRandomNum(255), getRandomNum(255), getRandomNum(255)));
-        RockDropper three = new RockDropper(new Color(getRandomNum(255), getRandomNum(255), getRandomNum(255)));
-        RockDropper four = new RockDropper(new Color(getRandomNum(255), getRandomNum(255), getRandomNum(255)));
+        RockDropper one = new RockDropper(new Color(getRandomNum(255), getRandomNum(255), getRandomNum(255)), "1");
+        RockDropper two = new RockDropper(new Color(getRandomNum(255), getRandomNum(255), getRandomNum(255)), "2");
+        RockDropper three = new RockDropper(new Color(getRandomNum(255), getRandomNum(255), getRandomNum(255)), "3");
+        RockDropper four = new RockDropper(new Color(getRandomNum(255), getRandomNum(255), getRandomNum(255)), "4");
         RockEater five = new RockEater();
         
         world.add(one);
