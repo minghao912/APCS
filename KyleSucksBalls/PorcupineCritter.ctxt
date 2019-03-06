@@ -1,0 +1,12 @@
+#BlueJ class context
+comment0.params=
+comment0.target=PorcupineCritter()
+comment1.params=
+comment1.target=void\ act()
+comment2.params=actors
+comment2.target=void\ processActors(java.util.ArrayList)
+comment3.params=
+comment3.target=info.gridworld.grid.Location\ getGrenadeLocation()
+comment4.params=
+comment4.target=void\ removeSelfFromGrid()
+numComments=5
