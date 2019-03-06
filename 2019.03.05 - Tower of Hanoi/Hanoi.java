@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 public class Hanoi {
     public static int moveCounter;
     public static int theoretical;
@@ -10,8 +8,13 @@ public class Hanoi {
         moveCounter = 0;
         theoretical = (int)Math.pow(2, n) - 1;
         
+        long startTime = System.currentTimeMillis();
         hanoi(n, 1, 2, 3);
+        long durationMS = System.currentTimeMillis() - startTime;  //duration in ms
+        long durationS = durationMS / 1000L; //duration in s
+
         System.out.println("> Tower of Hanoi solved in " + moveCounter + " moves, theoretical minimum " + theoretical + " moves");
+        System.out.println("> Tower of Hanoi solved in " + durationMS + "ms, " + durationS + "s");
     }
     
     public static void hanoi(int disks, int source, int spare, int target) {
@@ -19,9 +22,10 @@ public class Hanoi {
         else {
             moveCounter++;
             
-            hanoi(disks - 1, source, target, spare);    //move m - 1 from source to spare
+            int newDisk = disks - 1;
+            hanoi(newDisk, source, target, spare);    //move m - 1 from source to spare
             System.out.println("> Moved Disk " + disks + " from Peg " + source + " to Peg " + target);  //move m from source to target
-            hanoi(disks - 1, spare, source, target);    //move the m - 1 from spare to target
+            hanoi(newDisk, spare, source, target);    //move the m - 1 from spare to target
         }
     }
     
