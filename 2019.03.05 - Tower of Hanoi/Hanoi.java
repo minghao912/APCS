@@ -1,9 +1,14 @@
+import java.util.Scanner;
+
 public class Hanoi {
     public static int moveCounter;
     public static int theoretical;
 
     public static void main(String[] args) {
-        int n = Integer.parseInt(args[0]);
+        Scanner kylesucksballs = new Scanner(System.in);
+        System.out.print("> Please enter the number of disks: ");
+        int n = kylesucksballs.nextInt();
+        kylesucksballs.close();
         
         moveCounter = 0;
         theoretical = (int)Math.pow(2, n) - 1;
