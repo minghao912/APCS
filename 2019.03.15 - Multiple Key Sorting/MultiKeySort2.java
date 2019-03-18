@@ -8,9 +8,7 @@ public class MultiKeySort2 {
 
         try {
             Scanner s = new Scanner(new File("./Names_ages.kylebigdumb"));
-            while(s.hasNextLine()) {
-                qwerty.add(s.nextLine());
-            }
+            while(s.hasNextLine()) qwerty.add(s.nextLine());
             s.close();
         } catch (Exception e) {e.printStackTrace();}
 
