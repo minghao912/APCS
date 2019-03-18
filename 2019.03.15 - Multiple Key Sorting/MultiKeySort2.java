@@ -12,24 +12,24 @@ public class MultiKeySort2 {
             s.close();
         } catch (Exception e) {e.printStackTrace();}
 
-        System.out.println(qwerty); //Before
+        System.out.println("> Source: " + qwerty); //Before
         sort(qwerty);
-        System.out.println(qwerty); //After
+        System.out.println("> Result: " + qwerty); //After
     }
 
     public static void sort(ArrayList<String> asdf) {
         for(int i = 0; i < asdf.size(); i++) {
             int minIndex = i;
             for(int j = i + 1; j < asdf.size(); j++) {
-                String jString = asdf.get(j);
-                String minString = asdf.get(minIndex);
+                String curString = asdf.get(j);         //Current string j
+                String minString = asdf.get(minIndex);  //String to compare against
 
                 //Compares the names
-                int nameComparison = jString.substring(0, jString.lastIndexOf(" ")).compareTo(minString.substring(0, minString.lastIndexOf(" ")));
+                int nameComparison = curString.substring(0, curString.lastIndexOf(" ")).compareTo(minString.substring(0, minString.lastIndexOf(" ")));
                 if (nameComparison < 0) minIndex = j;
                 else if (nameComparison == 0) { //Only compare the ages if the names are the same
                     //Will be 'true' if the age1 is less than age2
-                    boolean ageComparison = Integer.parseInt(jString.substring(jString.lastIndexOf(" ") + 1)) < Integer.parseInt(minString.substring(minString.lastIndexOf(" ") + 1));
+                    boolean ageComparison = Integer.parseInt(curString.substring(curString.lastIndexOf(" ") + 1)) < Integer.parseInt(minString.substring(minString.lastIndexOf(" ") + 1));
                     if (ageComparison) minIndex = j;
                 }
             }
@@ -38,6 +38,8 @@ public class MultiKeySort2 {
             String temp = asdf.get(i);
             asdf.set(i, asdf.get(minIndex));
             asdf.set(minIndex, temp);
+
+            //System.out.println(asdf);
         }
     }
 }
