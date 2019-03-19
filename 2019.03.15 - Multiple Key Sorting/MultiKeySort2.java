@@ -12,9 +12,11 @@ public class MultiKeySort2 {
             s.close();
         } catch (Exception e) {e.printStackTrace();}
 
-        System.out.println("> Source: " + qwerty); //Before
+        //System.out.println("> Source: " + qwerty); //Before
         sort(qwerty);
-        System.out.println("> Result: " + qwerty); //After
+        qwerty.forEach(str -> {
+            System.out.println(str.substring(0, str.lastIndexOf(" ")) + ", " + str.substring(str.lastIndexOf(" ") + 1));
+        });
     }
 
     public static void sort(ArrayList<String> asdf) {
