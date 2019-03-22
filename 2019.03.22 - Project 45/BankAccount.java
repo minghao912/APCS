@@ -12,9 +12,8 @@ public class BankAccount implements Comparable{
         balance = balance - wd;
     }
 
-    public int compareTo(Object otherObject) {
-        //otherObject is passed in as an Object type so let's convert it into a BankAccount type object
-        BankAccount otherAccount = (BankAccount) otherObject;
+    public int compareTo(Object anotherObject) {
+        BankAccount otherAccount = (BankAccount) anotherObject;
 
         if (balance < otherAccount.balance) return -1;
         else if (balance > otherAccount.balance) return 1;
