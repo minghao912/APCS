@@ -22,7 +22,8 @@ public class Tester
             new Customer("Horton", 9221),
             new Customer("Jones", 5554),
             new Customer("Miller", 9360),
-            new Customer("Nguyen", 4339) };
+            new Customer("Nguyen", 4339) 
+        };
         Customer[] list2 = {
             new Customer("Aaron", 1729),
             new Customer("Baker", 2921),
@@ -30,7 +31,8 @@ public class Tester
             new Customer("Dillard", 6552),
             new Customer("Jones", 5554),
             new Customer("Miller", 9360),
-            new Customer("Noble", 3335) };
+            new Customer("Noble", 3335) 
+        };
         Customer[] result = new Customer[6];
         prefixMerge(list1, list2, result);
         System.out.println("Part B");
