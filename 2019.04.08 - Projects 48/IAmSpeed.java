@@ -94,5 +94,6 @@ public class IAmSpeed {
  * Level 2: 24893103088ns, 24893ms
  * Level 3: 00002014016ns, 02.01ms
  * 
- * Intel i7-6700K 4.00GHz, Max Turbo 4.20 GHz Released Q3 2015
+ * i7-6700K 4.00GHz => Turbo 4.20 GHz
+ * 3.5 years old
  */
