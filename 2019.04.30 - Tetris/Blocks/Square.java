@@ -17,6 +17,13 @@ public class Square {
         this.colour = color;
     }
 
+    /**
+     * @return the color of the {@code Square}
+     */
+    public Color getColor() {
+        return colour;
+    }
+
     @Override
     public String toString() {
         return "[x]";

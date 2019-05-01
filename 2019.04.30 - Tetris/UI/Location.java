@@ -15,11 +15,11 @@ public class Location {
      * @param x
      * @param y
      */
-    public Location(Integer x, Integer y) {
+    public Location(Integer r, Integer c) {
         map = new HashMap<String, Integer>();
 
-        map.put("x", x);
-        map.put("y", y);
+        map.put("r", r);
+        map.put("c", c);
     }
 
     /**
@@ -31,18 +31,18 @@ public class Location {
     }
 
     /**
-     * Retreives the x-value of the {@code Location}.
-     * @return the x-value
+     * Retreives the row-value of the {@code Location}.
+     * @return the row-value
      */
-    public Integer getX() {
-        return map.get("x");
+    public Integer getR() {
+        return map.get("r");
     }
 
     /**
-     * Retreives the y-value of the {@code Location}.
-     * @return the y-value
+     * Retreives the column-value of the {@code Location}.
+     * @return the column-value
      */
-    public Integer getY() {
-        return map.get("y");
+    public Integer getC() {
+        return map.get("c");
     }
 }

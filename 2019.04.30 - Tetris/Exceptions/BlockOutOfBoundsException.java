@@ -7,6 +7,6 @@ import UI.Location;
  */
 public class BlockOutOfBoundsException extends RuntimeException {
     public BlockOutOfBoundsException(Location location) {
-        super("Block out of bounds at: (" + location.getMap().get("x") + ", " + location.getMap().get("y") + ")");
+        super("Block out of bounds at: (" + location.getR() + ", " + location.getC() + ")");
     }
 }
