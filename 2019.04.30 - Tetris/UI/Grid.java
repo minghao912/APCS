@@ -29,7 +29,7 @@ public class Grid {
     private boolean blockPlaceable(Block block, Location location) {
         Square[][] tile = block.getShape();
 
-        if (location.getMap().get("x") + tile[0].length > grid[0].length - 1)
+        if (location.getX() + tile[0].length > grid[0].length - 1)
             return false;
 
         return true;
