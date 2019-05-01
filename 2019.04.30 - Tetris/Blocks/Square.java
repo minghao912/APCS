@@ -2,11 +2,19 @@ package Blocks;
 
 import java.awt.Color;
 
+/**
+ * A <code>Square</code> represents a single
+ * square of a <code>Block</code>
+ */
 public class Square {
     private Color colour;
 
-    public Square(Color colour) {
-        this.colour = colour;
+    /**
+     * Creates a <code>Square</code> of color <code>color</code>
+     * @param color
+     */
+    public Square(Color color) {
+        this.colour = color;
     }
 
     @Override

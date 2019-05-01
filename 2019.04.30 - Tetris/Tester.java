@@ -1,5 +1,6 @@
-import Blocks.*;
 import java.awt.Color;
+import Blocks.*;
+import UI.*;
 
 public class Tester {
     public static void main(String[] args) {
@@ -10,5 +11,8 @@ public class Tester {
 
         Block sample = new Block(sampleBlock);
         System.out.println(sample);
+
+        Grid game = new Grid(20, 10);
+        game.addBlock(sample, new Location(7, 5));
     }
 }
