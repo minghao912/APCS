@@ -1,8 +1,9 @@
 import java.awt.Color;
 import Blocks.*;
 import UI.*;
+import Exceptions.*;
 
-public class Tester {
+public class Main {
     public static void main(String[] args) {
         Square[][] sampleBlock = {
             {new Square(Color.RED), new Square(Color.RED), new Square(Color.RED)},

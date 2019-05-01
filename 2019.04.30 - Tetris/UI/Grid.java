@@ -44,5 +44,6 @@ public class Grid {
     public void addBlock(Block block, Location location) {
         //Error if the block will be placed outside of the area
         if (!blockPlaceable(block, location)) throw new BlockOutOfBoundsException(location);
+        else System.out.println("Block placed successfully!");  //Placeholder
     }
 }
