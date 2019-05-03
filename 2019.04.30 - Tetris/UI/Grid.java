@@ -75,6 +75,19 @@ public class Grid {
         return new int[] {grid.length, grid[0].length};
     }
 
+    //Still needs work
+    public void regularStep() {
+        for (int r = grid.length - 2; r >= 0; r--) {    //Start up from bottom
+            for (int c = 0; c < grid[0].length; c++) {
+                //If the square is supposed to be moving
+                if (grid[r][c] != null && !grid[r][c].isSettled()) {
+                    grid[r + 1][c] = grid[r][c];
+                    grid[r][c] = null;
+                }
+            }
+        }
+    }
+
     @Override
     public String toString() {
         String result = "";

@@ -36,7 +36,7 @@ public class GridPanel extends JPanel {
                 if (gridArray[r][c] == null) continue;
 
                 g.setColor(gridArray[r][c].getColor());
-                g.drawRect(c * SQUARESIZE, r * SQUARESIZE, SQUARESIZE, SQUARESIZE);
+                g.fillRect(c * SQUARESIZE, r * SQUARESIZE, SQUARESIZE, SQUARESIZE);
             }
         }
     }

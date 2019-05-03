@@ -8,6 +8,7 @@ import java.awt.Color;
  */
 public class Square {
     private Color colour;
+    private boolean settled;    //true 
 
     /**
      * Creates a <code>Square</code> of color <code>color</code>
@@ -15,6 +16,7 @@ public class Square {
      */
     public Square(Color color) {
         this.colour = color;
+        this.settled = false;
     }
 
     /**
@@ -22,6 +24,13 @@ public class Square {
      */
     public Color getColor() {
         return colour;
+    }
+
+    /**
+     * @return if the {@code Square} is settled
+     */
+    public boolean isSettled() {
+        return settled;
     }
 
     @Override
