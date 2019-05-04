@@ -1,18 +1,28 @@
-package UI;
+package UI.Graphics;
 
 import java.awt.*;
 import javax.swing.*;
 import Blocks.*;
-import UI.*;
+import UI.Graphics.*;
+import UI.Game.*;
 
+/**
+ * A {@code GridPanel} is the graphical representation of a {@code Grid}.
+ * Uses {@code JPanel} as a dependency.
+ */
 public class GridPanel extends JPanel {
     private Grid grid;
     private Graphics g;
     private static final int SQUARESIZE = 20;
 
+    /**
+     * Creates a {@code GridPanel} to represent the passed 
+     * {@code Grid} parameter.
+     * @param passedGrid
+     */
     public GridPanel(Grid passedGrid) {
         grid = passedGrid;
-        this.setBorder(BorderFactory.createLineBorder(Color.black));
+        //this.setBorder(BorderFactory.createLineBorder(Color.black));
     }
 
     /**
@@ -20,8 +30,6 @@ public class GridPanel extends JPanel {
      * @param g the {@code Graphics} component to be drawn on
      */
     private void drawGrid(Graphics g) {
-        g.drawString("yeet", 10, 20);
-
         //Fill in gridArray
         Square[][] gridArray = new Square[grid.getSize()[0]][grid.getSize()[1]];
         for (int r = 0; r < gridArray.length; r++) {
@@ -50,6 +58,6 @@ public class GridPanel extends JPanel {
 
     @Override
     public Dimension getPreferredSize() {
-        return new Dimension(grid.getSize()[0] * 20, grid.getSize()[1] * 20);
+        return new Dimension((grid.getSize()[1] * SQUARESIZE), (grid.getSize()[0] * SQUARESIZE) + 30);
     }
 }

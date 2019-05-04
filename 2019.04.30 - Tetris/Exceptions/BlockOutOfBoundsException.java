@@ -1,6 +1,6 @@
 package Exceptions;
 
-import UI.Location;
+import UI.Game.Location;
 
 /**
  * Exception for a {@code Block} placed out of the bounds of a {@code Grid}.

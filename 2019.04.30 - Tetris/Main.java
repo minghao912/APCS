@@ -2,7 +2,8 @@ import java.awt.*;
 import javax.swing.*;
 
 import Blocks.*;
-import UI.*;
+import UI.Game.*;
+import UI.Graphics.*;
 import Exceptions.*;
 
 public class Main {
@@ -44,8 +45,8 @@ public class Main {
         
         Grid game = new Grid(20, 10);
 
-        game.addBlock(sample1, new Location(2, 5));
-        game.addBlock(sample2, new Location(7, 7));
+        game.addBlock(sample1, new Location(0, 7));
+        game.addBlock(sample2, new Location(3, 0));
         //game.addBlock(sample3, new Location(7, 5));   test errors
 
         System.out.println(game);
@@ -58,7 +59,7 @@ public class Main {
             field.repaint();
             
             try {
-                Thread.sleep(500);
+                Thread.sleep(250);
             } catch (Throwable e) {
                 e.printStackTrace();
             }
@@ -67,12 +68,12 @@ public class Main {
     }
 
     public static void createAndShowGame(Grid gameGrid) {
+        field = new GridPanel(gameGrid);
+
         win = new JFrame("Tetrisk");    //window setup
         win.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        win.setPreferredSize(new Dimension(800, 600));
+        win.setPreferredSize(field.getPreferredSize());
         win.setResizable(false);
-
-        field = new GridPanel(gameGrid);
         win.add(field);
         win.pack();
         win.setLocationRelativeTo(null);

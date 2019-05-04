@@ -1,4 +1,4 @@
-package UI;
+package UI.Game;
 
 import Exceptions.BlockOutOfBoundsException;
 import Blocks.*;
@@ -76,6 +76,9 @@ public class Grid {
     }
 
     //Still needs work
+    /**
+     * Standard update to the {@code Grid}; each block is moved one unit down.
+     */
     public void regularStep() {
         for (int r = grid.length - 2; r >= 0; r--) {    //Start up from bottom
             for (int c = 0; c < grid[0].length; c++) {
@@ -86,6 +89,7 @@ public class Grid {
                 }
             }
         }
+        System.out.println(this);   //Display grid to console
     }
 
     @Override
