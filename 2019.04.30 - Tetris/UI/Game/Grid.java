@@ -3,11 +3,14 @@ package UI.Game;
 import Exceptions.BlockOutOfBoundsException;
 import Blocks.*;
 
+import java.util.ArrayList;
+
 /**
  * A {@code Grid} represents the game field of Tetris.
  */
 public class Grid {
     private Square[][] grid;
+    private ArrayList<Block> blocks;
 
     /**
      * Creates a new {@code Grid} with the given height and width.
@@ -16,6 +19,7 @@ public class Grid {
      */
     public Grid(int height, int width) {
         grid = new Square[height][width];
+        blocks = new ArrayList<Block>();
     }
 
     /**
@@ -29,7 +33,11 @@ public class Grid {
     private boolean blockPlaceable(Block block, Location location) {
         Square[][] tile = block.getShape();
 
-        if (location.getR() + tile[0].length > grid[0].length - 1)
+        if (location.getR() < 0 || location.getR() >= grid.length || location.getC() < 0 || location.getC() >= grid[0].length)  //If the location doesn't exist
+            return false;
+        if (location.getR() + tile[0].length > grid[0].length - 1)  //If it goes out on the right
+            return false;
+        if (location.getC() + tile.length > grid.length - 1)    //If it goes out on the bottom
             return false;
 
         return true;
@@ -53,6 +61,9 @@ public class Grid {
                         grid[location.getR() + r][location.getC() + c] = blockShape[r][c];
                 }
             }
+
+            block.setLocation(location);
+            blocks.add(block);
         }
 
         //else System.out.println("Block placed successfully!");  //Placeholder
@@ -89,7 +100,52 @@ public class Grid {
                 }
             }
         }
+        checkIfSettled();   //Settle all blocks that have settled
+        updateBlockLocations();
         System.out.println(this);   //Display grid to console
+    }
+
+    /**
+     * Update the {@code location} instance variables
+     * of each {@code Block} in the {@code Grid}.
+     */
+    private void updateBlockLocations() {
+
+    }
+
+    /**
+     * Check if each {@code Block} in the {@code Grid}
+     * is settled, i.e. can no longer move. If the {@code Block}
+     * is settled, the instance variable {@code settled} of the 
+     * {@code Block} will be changed to reflect this. 
+     */
+    private void checkIfSettled() {
+        blocks.forEach(b -> {
+            Location loc = b.getLocation();
+            Square[][] shape = b.getShape();
+            System.out.println(loc);
+
+            //Automatically settled if it's at the bottom
+            if (loc.getR() + shape.length - 1 >= grid.length - 1) b.settle();
+
+            //Get locations of the squares in the bottom row
+            ArrayList<Location> locationOfBottomRowSquares = new ArrayList<Location>();
+            for (int c = 0; c < shape[0].length; c++) {
+                if (shape[shape.length - 1][c] != null) {
+                    System.out.println(new Location(loc.getR() + shape.length - 1, c));
+                    locationOfBottomRowSquares.add(new Location(loc.getR() + shape.length - 1, loc.getC() + c));
+                }
+            }
+
+            System.out.println(b);
+            locationOfBottomRowSquares.forEach(System.out::println);
+            System.out.println();
+
+            //Check if the block's bottom row has reached the ground or touched another block
+            locationOfBottomRowSquares.forEach(l -> {
+                if (grid[l.getR() + 1] != null) b.settle();
+            });
+        });
     }
 
     @Override

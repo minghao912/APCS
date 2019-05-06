@@ -33,6 +33,13 @@ public class Square {
         return settled;
     }
 
+    /**
+     * Change the status of the {@code Square} to settled.
+     */
+    public void settle() {
+        this.settled = true;
+    }
+
     @Override
     public String toString() {
         return "[x]";

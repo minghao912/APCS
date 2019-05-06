@@ -45,4 +45,9 @@ public class Location {
     public Integer getC() {
         return map.get("c");
     }
+
+    @Override
+    public String toString() {
+        return "(" + this.getR() + ", " + this.getC() + ")";
+    }
 }

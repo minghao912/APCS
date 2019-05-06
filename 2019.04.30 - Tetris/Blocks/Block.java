@@ -1,6 +1,7 @@
 package Blocks;
 
 import Exceptions.IncorrectBlockDefinitionException;
+import UI.Game.Location;
 
 /**
  * A {@code Block} is a collection of {@code Square} objects
@@ -10,6 +11,7 @@ public class Block {
     private Square[][] shape;
     private double speed;
     private int currentRotation;
+    private Location location;
 
     /**
      * Creates a {@code Block} with the given {@code Square[][]}.
@@ -42,6 +44,17 @@ public class Block {
     }
 
     /**
+     * Set the {@code Block} status to be in the
+     * 'settled' mode.
+     */
+    public void settle() {
+        for (int r = 0; r < shape.length; r++) 
+            for (int c = 0; c < shape[0].length; c++)
+                if (shape[r][c] != null)
+                    shape[r][c].settle();
+    }
+
+    /**
      * @return  the set speed of the {@code Block}
      */
     public double getSpeed() {
@@ -60,6 +73,21 @@ public class Block {
      */
     public int getCurrentRotation() {
         return currentRotation;
+    }
+
+    /**
+     * Set the {@code Location} of the {@code Block}.
+     * @param location0
+     */
+    public void setLocation(Location location0) {
+        this.location = location0;
+    }
+
+    /**
+     * @return the {@code Location} of the {@code Block}
+     */
+    public Location getLocation() {
+        return location;
     }
 
     @Override
