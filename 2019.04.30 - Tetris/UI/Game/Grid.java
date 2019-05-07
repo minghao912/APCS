@@ -100,8 +100,9 @@ public class Grid {
                 }
             }
         }
-        checkIfSettled();   //Settle all blocks that have settled
-        updateBlockLocations();
+        
+        updateBlockLocations();        
+        checkIfSettled();   //Settle all blocks that have settled      
         System.out.println(this);   //Display grid to console
     }
 
@@ -110,7 +111,14 @@ public class Grid {
      * of each {@code Block} in the {@code Grid}.
      */
     private void updateBlockLocations() {
-
+        blocks.forEach(b -> {
+            System.out.println("> Updater checking a block");
+            System.out.println("> Block is settled: " + b.isSettled());
+            if (!b.isSettled()) {
+                b.setLocation(new Location(b.getLocation().getR() + 1, b.getLocation().getC()));
+                System.out.println("> Updated location" + b.getLocation());
+            }
+        });
     }
 
     /**
@@ -123,28 +131,20 @@ public class Grid {
         blocks.forEach(b -> {
             Location loc = b.getLocation();
             Square[][] shape = b.getShape();
-            System.out.println(loc);
+            System.out.println("> Now determining whether to settle " + loc);
 
             //Automatically settled if it's at the bottom
-            if (loc.getR() + shape.length - 1 >= grid.length - 1) b.settle();
-
-            //Get locations of the squares in the bottom row
-            ArrayList<Location> locationOfBottomRowSquares = new ArrayList<Location>();
-            for (int c = 0; c < shape[0].length; c++) {
-                if (shape[shape.length - 1][c] != null) {
-                    System.out.println(new Location(loc.getR() + shape.length - 1, c));
-                    locationOfBottomRowSquares.add(new Location(loc.getR() + shape.length - 1, loc.getC() + c));
-                }
+            if (loc.getR() + shape.length - 1 >= grid.length - 1) {
+                b.settle();
+                System.out.println("> Settling block");
+            } else {
+                //Get bottom blocks
+                ArrayList<Square> bottomSquares = b.getBottomSquares();
+                bottomSquares.forEach(square -> {
+                    if (grid[square.getLocation().getR() + 1][square.getLocation().getC()] != null)
+                        b.settle();
+                });
             }
-
-            System.out.println(b);
-            locationOfBottomRowSquares.forEach(System.out::println);
-            System.out.println();
-
-            //Check if the block's bottom row has reached the ground or touched another block
-            locationOfBottomRowSquares.forEach(l -> {
-                if (grid[l.getR() + 1] != null) b.settle();
-            });
         });
     }
 

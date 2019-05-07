@@ -1,6 +1,7 @@
 package Blocks;
 
 import java.awt.Color;
+import UI.Game.Location;
 
 /**
  * A <code>Square</code> represents a single
@@ -9,6 +10,7 @@ import java.awt.Color;
 public class Square {
     private Color colour;
     private boolean settled;    //true 
+    private Location location;
 
     /**
      * Creates a <code>Square</code> of color <code>color</code>
@@ -17,6 +19,22 @@ public class Square {
     public Square(Color color) {
         this.colour = color;
         this.settled = false;
+    }
+
+    /**
+     * Set the {@code Location} of the {@code Square}
+     * within the {@code Grid}.
+     * @param location0
+     */
+    public void setLocation(Location location0) {
+        this.location = location0;
+    }
+
+    /**
+     * @return the {@code Location} of the {@code Square}
+     */
+    public Location getLocation() {
+        return location;
     }
 
     /**

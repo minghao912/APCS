@@ -2,6 +2,7 @@ package Blocks;
 
 import Exceptions.IncorrectBlockDefinitionException;
 import UI.Game.Location;
+import java.util.ArrayList;
 
 /**
  * A {@code Block} is a collection of {@code Square} objects
@@ -55,6 +56,30 @@ public class Block {
     }
 
     /**
+     * @return whether the {@code Block} is settled.
+     */
+    public boolean isSettled() {
+        for (int r = 0; r < shape.length; r++)
+            for (int c = 0; c < shape[0].length; c++)
+                if (shape[r][c] != null)
+                    if (shape[r][c].isSettled())
+                        return true;
+        return false;
+    }
+
+    /**
+     * Gets the {@code Square} objects located in the bottom row.
+     * @return {@code ArrayList<Square>} the {@code Square} objects
+     */
+    public ArrayList<Square> getBottomSquares() {
+        ArrayList<Square> list = new ArrayList<Square>();
+        for (int c = 0; c < shape[shape.length - 1].length; c++)
+            if (shape[shape.length - 1][c] != null)
+                list.add(shape[shape.length - 1][c]);
+        return list;
+    }
+
+    /**
      * @return  the set speed of the {@code Block}
      */
     public double getSpeed() {
@@ -81,6 +106,11 @@ public class Block {
      */
     public void setLocation(Location location0) {
         this.location = location0;
+
+        for (int r = 0; r < shape.length; r++)
+            for (int c = 0; c < shape[0].length; c++)
+                if (shape[r][c] != null)
+                    shape[r][c].setLocation(new Location(location0.getR() + r, location0.getC() + c));
     }
 
     /**

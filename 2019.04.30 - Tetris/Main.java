@@ -26,7 +26,7 @@ public class Main {
         };
 
         Block sample1 = new Block(sample1Block);
-        System.out.println(sample1);
+        //System.out.println(sample1);
 
         Square[][] sample2Block = {
             {new Square(Color.BLUE), new Square(Color.BLUE)},
@@ -34,11 +34,11 @@ public class Main {
         };
 
         Block sample2 = new Block(sample2Block);
-        System.out.println(sample2);
+        //System.out.println(sample2);
 
         Square[][] sample3Block = {
-            {new Square(Color.RED), new Square(Color.RED), new Square(Color.RED)},
-            {new Square(Color.RED), null,                  null}
+            {new Square(Color.PINK), new Square(Color.PINK), new Square(Color.PINK)},
+            {new Square(Color.PINK), null,                   null}
         };
 
         Block sample3 = new Block(sample3Block);
@@ -47,7 +47,7 @@ public class Main {
 
         game.addBlock(sample1, new Location(0, 7));
         game.addBlock(sample2, new Location(3, 0));
-        //game.addBlock(sample3, new Location(7, 5));   test errors
+        game.addBlock(sample3, new Location(0, 0));
 
         System.out.println(game);
 
