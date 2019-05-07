@@ -37,8 +37,9 @@ public class Main {
         //System.out.println(sample2);
 
         Square[][] sample3Block = {
-            {new Square(Color.PINK), new Square(Color.PINK), new Square(Color.PINK)},
-            {new Square(Color.PINK), null,                   null}
+            {new Square(Color.PINK), new Square(Color.PINK)},
+            {null,                   new Square(Color.PINK)},
+            {null,                   new Square(Color.PINK)}
         };
 
         Block sample3 = new Block(sample3Block);
@@ -47,7 +48,7 @@ public class Main {
 
         game.addBlock(sample1, new Location(0, 7));
         game.addBlock(sample2, new Location(3, 0));
-        game.addBlock(sample3, new Location(0, 0));
+        game.addBlock(sample3, new Location(0, 1));
 
         System.out.println(game);
 
