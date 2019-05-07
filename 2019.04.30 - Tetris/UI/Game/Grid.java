@@ -1,7 +1,8 @@
 package UI.Game;
 
 import Exceptions.BlockOutOfBoundsException;
-import Blocks.*;
+import Blocks.Block;
+import Blocks.Square;
 
 import java.util.ArrayList;
 

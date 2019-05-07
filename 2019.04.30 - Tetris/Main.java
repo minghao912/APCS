@@ -1,10 +1,15 @@
-import java.awt.*;
-import javax.swing.*;
+import Blocks.Block;
+import Blocks.Square;
+import UI.Game.Grid;
+import UI.Game.Location;
+import UI.Graphics.GridPanel;
+import Exceptions.BlockOutOfBoundsException;
+import Exceptions.IncorrectBlockDefinitionException;
 
-import Blocks.*;
-import UI.Game.*;
-import UI.Graphics.*;
-import Exceptions.*;
+import java.awt.Color;
+import javax.swing.JPanel;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 public class Main {
     private static JFrame win;

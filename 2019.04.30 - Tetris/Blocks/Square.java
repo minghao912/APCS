@@ -1,7 +1,7 @@
 package Blocks;
+import UI.Game.Location;
 
 import java.awt.Color;
-import UI.Game.Location;
 
 /**
  * A <code>Square</code> represents a single

@@ -10,14 +10,15 @@ import java.awt.event.MouseEvent;
 import javax.swing.JPanel;
 import javax.swing.JOptionPane;
 
-import Blocks.*;
-import UI.Graphics.*;
-import UI.Game.*;
+import Blocks.Block;
+import Blocks.Square;
+import UI.Game.Grid;
+import UI.Game.Location;
 
 /**
  * A {@code GridPanel} is the graphical representation of a {@code Grid}.
  */
-public class GridPanel extends JPanel implements MouseListener, KeyListener {
+public class GridPanel extends JPanel implements KeyListener {
     private Grid grid;
     private Graphics g;
     private static final int SQUARESIZE = 20;
@@ -29,6 +30,7 @@ public class GridPanel extends JPanel implements MouseListener, KeyListener {
      */
     public GridPanel(Grid passedGrid) {
         grid = passedGrid;
+        addKeyListener(this);
         // this.setBorder(BorderFactory.createLineBorder(Color.black));
     }
 
@@ -58,41 +60,26 @@ public class GridPanel extends JPanel implements MouseListener, KeyListener {
         }
     }
 
+    //Requests focus to the JPanel so the KeyListener can detect keystrokes
     @Override
-    public void mouseClicked(MouseEvent e) {
-        requestFocusInWindow();
+    public void addNotify() {
+        super.addNotify();
+        requestFocus();
     }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {}
-
-    @Override
-    public void mouseReleased(MouseEvent e) {}
 
     @Override
     public void keyPressed(KeyEvent e) {
-        int keyCode = e.getKeyCode();
-        JOptionPane.showMessageDialog(null, keyCode + "pressed.", "Key Press Detected",
-                JOptionPane.INFORMATION_MESSAGE);
+        KeyEventHandler.printEventInfo("Key Pressed", e);
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
+        //KeyEventHandler.printEventInfo("Key Released", e);    //test only
     }
 
     @Override
     public void keyTyped(KeyEvent e) {
-        int keyCode = e.getKeyCode();
-        JOptionPane.showMessageDialog(null, keyCode + "typed.", "Key Press Detected",
-                JOptionPane.INFORMATION_MESSAGE);
+        //KeyEventHandler.printEventInfo("Key Typed", e);   //test only
     }
 
     @Override
