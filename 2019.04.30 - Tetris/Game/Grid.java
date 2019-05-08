@@ -1,8 +1,9 @@
-package UI.Game;
+package Game;
 
 import Exceptions.BlockOutOfBoundsException;
 import Blocks.Block;
 import Blocks.Square;
+import Blocks.SpawnBlock;
 
 import java.util.ArrayList;
 
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 public class Grid {
     private Square[][] grid;
     private ArrayList<Block> blocks;
+    private SpawnBlock spawnBlock;
 
     /**
      * Creates a new {@code Grid} with the given height and width.
@@ -139,6 +141,7 @@ public class Grid {
             if (loc.getR() + shape.length - 1 >= grid.length - 1) {
                 b.settle();
                 System.out.println("> Settling block");
+                spawnBlock.spawn(); //Spawn new block
             } else {
                 //Get bottom blocks
                 ArrayList<Square> bottomSquares = b.getBottomSquares();
@@ -146,8 +149,18 @@ public class Grid {
                     if (grid[square.getLocation().getR() + 1][square.getLocation().getC()] != null)
                         b.settle();
                 });
+                spawnBlock.spawn(); //Spawn new block
             }
         });
+    }
+
+    /**
+     * Sets the {@code SpawnBlock} of this
+     * {@code Grid} (the thing that spawns stuff).
+     * @param s the {@code SpawnBlock}
+     */
+    public void setSpawnBlock(SpawnBlock s) {
+        this.spawnBlock = s;
     }
 
     @Override
