@@ -15,8 +15,8 @@ public class Grid {
 
     /**
      * Creates a new {@code Grid} with the given height and width.
-     * @param height
-     * @param width
+     * @param height the height of the {@code Grid}
+     * @param width the width of the {@code Grid}
      */
     public Grid(int height, int width) {
         grid = new Square[height][width];
@@ -26,8 +26,9 @@ public class Grid {
     /**
      * Checks the passed {@code Block} to see if it can be placed
      * at the given {@code Location} without going out of bounds.
-     * @param block
-     * @param location
+     * @param block the {@code Block} to be placed
+     * @param location  the {@code Location} at which the {@code Block} is
+     *                  to be placed
      * @return  whether or not the block can be placed inside the {@code Grid}
      *          at the given {@code Location}
      */
@@ -72,7 +73,7 @@ public class Grid {
 
     /**
      * Retreives the {@code Square} at given {@code Location} coordinates.
-     * @param location
+     * @param location the {@code Location} to get the {@code Square} at
      * @return the {@code Square} at the passed {@code Location}
      */
     public Square getSquareAt(Location location) {

@@ -26,7 +26,7 @@ public class GridPanel extends JPanel implements KeyListener {
     /**
      * Creates a {@code GridPanel} to represent the passed {@code Grid} parameter.
      * 
-     * @param passedGrid
+     * @param passedGrid {@code Grid} for the {@code GridPanel} to represent
      */
     public GridPanel(Grid passedGrid) {
         grid = passedGrid;

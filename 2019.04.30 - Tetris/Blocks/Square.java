@@ -14,7 +14,7 @@ public class Square {
 
     /**
      * Creates a <code>Square</code> of color <code>color</code>
-     * @param color
+     * @param color the colour of the {@code Square}
      */
     public Square(Color color) {
         this.colour = color;
@@ -24,7 +24,7 @@ public class Square {
     /**
      * Set the {@code Location} of the {@code Square}
      * within the {@code Grid}.
-     * @param location0
+     * @param location0 the {@code Location} of the {@code Square}
      */
     public void setLocation(Location location0) {
         this.location = location0;

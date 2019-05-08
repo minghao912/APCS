@@ -12,8 +12,8 @@ public class Location {
     /**
      * Creates a {@code Location} object with x-value {@code x}
      * and y-value {@code y}.
-     * @param x
-     * @param y
+     * @param r the x-value
+     * @param c the y-value
      */
     public Location(Integer r, Integer c) {
         map = new HashMap<String, Integer>();
