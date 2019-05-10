@@ -2,6 +2,9 @@ package Blocks;
 
 import Game.BlockSpawner;
 import Game.Grid;
+
+import java.util.Timer;
+
 import Blocks.BlockManager;
 
 /**
@@ -17,7 +20,10 @@ public class SpawnBlock {
         this.manager = manager;
     }
 
-    public void spawn() {
-        new Thread(new BlockSpawner(grid, manager)).run();
+    public synchronized void spawn() {
+        //Timer timer = new Timer(true);
+        //timer.schedule(new BlockSpawner(grid, manager), 33L);
+
+        new BlockSpawner(grid, manager).run();
     }
 }

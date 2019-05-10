@@ -46,10 +46,16 @@ public class Main {
             {null,                   new Square(Color.PINK)}
         };
 
+        Square[][] sample4Shape = {
+            {null,                    new Square(Color.BLACK), null},
+            {new Square(Color.BLACK), new Square(Color.BLACK), new Square(Color.BLACK)}
+        };
+
         ArrayList<Block> blocksForBlockManager = new ArrayList<Block>();
         blocksForBlockManager.add(new Block(sample1Shape));
         blocksForBlockManager.add(new Block(sample2Shape));
         blocksForBlockManager.add(new Block(sample3Shape));
+        blocksForBlockManager.add(new Block(sample4Shape));
         BlockManager<Block> blockManager = new BlockManager<Block>(blocksForBlockManager);
         
         Grid game = new Grid(20, 10);
@@ -74,7 +80,8 @@ public class Main {
     }
 
     public static void startSpawning(Grid grid, BlockManager<Block> blockManager) {
-        new Thread(new BlockSpawner(grid, blockManager)).run();
+        //new Thread(new BlockSpawner(grid, blockManager)).run();
+        new BlockSpawner(grid, blockManager).run();
         grid.setSpawnBlock(new SpawnBlock(grid, blockManager));
     }
 

@@ -3,13 +3,15 @@ package Game;
 import Blocks.Block;
 import Blocks.BlockManager;
 
+import java.util.TimerTask;
+
 /**
  * The {@code SpawnBlock} class is a {@code Runnable}
  * {@code Thread} that spawns a {@code Block} at a 
  * {@code Location} at the top of the {@code Grid} at 
  * a specified interval.
  */
-public class BlockSpawner implements Runnable {
+public class BlockSpawner {
     Grid grid;
     BlockManager<Block> manager;
 
@@ -25,7 +27,7 @@ public class BlockSpawner implements Runnable {
         this.manager = manager;
     }
 
-    @Override
+    //@Override
     public void run() {
         manager.addToGrid(grid, new Location(0, getRandomIndex(0, grid.getSize()[1] - 1)));
     }
