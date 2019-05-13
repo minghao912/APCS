@@ -17,8 +17,9 @@ public class Block {
 
     /**
      * Creates a {@code Block} with the given {@code Square[][]}.
-     * @param shape
-     * @throws IncorrectBlockDefinitionException
+     * @param shape the {@code Square[][]} representing the shape of the {@code Block}
+     * @throws IncorrectBlockDefinitionException if the {@code Block} is not defined correctly,
+     *                                           i.e. it is not in a rectangular {@code Square[][]}
      */
     public Block(Square[][] shape) throws IncorrectBlockDefinitionException{
         //Check shape to be a rectangle (non-staggered)
@@ -103,7 +104,7 @@ public class Block {
 
     /**
      * Set the {@code Location} of the {@code Block}.
-     * @param location0
+     * @param location0 the {@code Location} of the top-left corner of the {@code Block}
      */
     public void setLocation(Location location0) {
         this.location = location0;
