@@ -1,10 +1,12 @@
-package UI.Game;
+package Game;
 
 import Exceptions.BlockOutOfBoundsException;
 import Blocks.Block;
 import Blocks.Square;
+import Blocks.SpawnBlock;
 
 import java.util.ArrayList;
+//import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * A {@code Grid} represents the game field of Tetris.
@@ -12,6 +14,7 @@ import java.util.ArrayList;
 public class Grid {
     private Square[][] grid;
     private ArrayList<Block> blocks;
+    private SpawnBlock spawnBlock;
 
     /**
      * Creates a new {@code Grid} with the given height and width.
@@ -105,7 +108,7 @@ public class Grid {
         
         updateBlockLocations();        
         checkIfSettled();   //Settle all blocks that have settled      
-        System.out.println(this);   //Display grid to console
+        //System.out.println(this);   //Display grid to console
     }
 
     /**
@@ -129,8 +132,11 @@ public class Grid {
      * is settled, the instance variable {@code settled} of the 
      * {@code Block} will be changed to reflect this. 
      */
-    private void checkIfSettled() {
-        blocks.forEach(b -> {
+    private synchronized void checkIfSettled() {
+        Block[] blockArray = blocks.toArray(new Block[0]);
+        boolean blockSettled = false;
+
+        for (Block b : blockArray) {
             Location loc = b.getLocation();
             Square[][] shape = b.getShape();
             System.out.println("> Now determining whether to settle " + loc);
@@ -138,16 +144,40 @@ public class Grid {
             //Automatically settled if it's at the bottom
             if (loc.getR() + shape.length - 1 >= grid.length - 1) {
                 b.settle();
-                System.out.println("> Settling block");
+                blockSettled = true;
             } else {
                 //Get bottom blocks
                 ArrayList<Square> bottomSquares = b.getBottomSquares();
-                bottomSquares.forEach(square -> {
-                    if (grid[square.getLocation().getR() + 1][square.getLocation().getC()] != null)
+                for (Square square : bottomSquares) {
+                    if (grid[square.getLocation().getR() + 1][square.getLocation().getC()] != null) {                        
                         b.settle();
-                });
+                        blockSettled = true;
+                    }
+                }
             }
-        });
+        }
+
+        if (blockSettled) {
+            spawnBlock.spawn(); //Spawn new block
+            System.out.println("> Calling spawn");
+        }
+    }
+
+    /**
+     * Sets the {@code SpawnBlock} of this
+     * {@code Grid} (the thing that spawns stuff).
+     * @param s the {@code SpawnBlock}
+     */
+    public void setSpawnBlock(SpawnBlock s) {
+        this.spawnBlock = s;
+    }
+
+    private void sleep(int ms) {
+        try {
+            Thread.sleep(ms);
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

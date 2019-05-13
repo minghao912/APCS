@@ -1,11 +1,16 @@
 import Blocks.Block;
 import Blocks.Square;
-import UI.Game.Grid;
-import UI.Game.Location;
-import UI.Graphics.GridPanel;
+import Blocks.BlockManager;
+import Blocks.SpawnBlock;
+import Game.Grid;
+import Game.Location;
+import Game.BlockSpawner;
+import UI.GridPanel;
 import Exceptions.BlockOutOfBoundsException;
 import Exceptions.IncorrectBlockDefinitionException;
 
+import java.util.ArrayList;
+import java.util.Timer;
 import java.awt.Color;
 import javax.swing.JPanel;
 import javax.swing.JFrame;
@@ -25,35 +30,36 @@ public class Main {
     }
 
     public static void doStuff() {
-        Square[][] sample1Block = {
+        Square[][] sample1Shape = {
             {new Square(Color.RED), new Square(Color.RED), new Square(Color.RED)},
             {new Square(Color.RED), null,                  null}
         };
 
-        Block sample1 = new Block(sample1Block);
-        //System.out.println(sample1);
-
-        Square[][] sample2Block = {
+        Square[][] sample2Shape = {
             {new Square(Color.BLUE), new Square(Color.BLUE)},
             {new Square(Color.BLUE), new Square(Color.BLUE)}
         };
 
-        Block sample2 = new Block(sample2Block);
-        //System.out.println(sample2);
-
-        Square[][] sample3Block = {
+        Square[][] sample3Shape = {
             {new Square(Color.PINK), new Square(Color.PINK)},
             {null,                   new Square(Color.PINK)},
             {null,                   new Square(Color.PINK)}
         };
 
-        Block sample3 = new Block(sample3Block);
+        Square[][] sample4Shape = {
+            {null,                    new Square(Color.BLACK), null},
+            {new Square(Color.BLACK), new Square(Color.BLACK), new Square(Color.BLACK)}
+        };
+
+        ArrayList<Block> blocksForBlockManager = new ArrayList<Block>();
+        blocksForBlockManager.add(new Block(sample1Shape));
+        blocksForBlockManager.add(new Block(sample2Shape));
+        blocksForBlockManager.add(new Block(sample3Shape));
+        blocksForBlockManager.add(new Block(sample4Shape));
+        BlockManager<Block> blockManager = new BlockManager<Block>(blocksForBlockManager);
         
         Grid game = new Grid(20, 10);
-
-        game.addBlock(sample1, new Location(0, 7));
-        game.addBlock(sample2, new Location(3, 0));
-        game.addBlock(sample3, new Location(0, 1));
+        startSpawning(game, blockManager);
 
         System.out.println(game);
 
@@ -71,6 +77,12 @@ public class Main {
             }
         }
 
+    }
+
+    public static void startSpawning(Grid grid, BlockManager<Block> blockManager) {
+        //new Thread(new BlockSpawner(grid, blockManager)).run();
+        new BlockSpawner(grid, blockManager).run();
+        grid.setSpawnBlock(new SpawnBlock(grid, blockManager));
     }
 
     public static void createAndShowGame(Grid gameGrid) {

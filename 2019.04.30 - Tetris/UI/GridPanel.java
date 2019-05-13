@@ -1,4 +1,4 @@
-package UI.Graphics;
+package UI;
 
 import java.awt.Graphics;
 import java.awt.Dimension;
@@ -12,8 +12,8 @@ import javax.swing.JOptionPane;
 
 import Blocks.Block;
 import Blocks.Square;
-import UI.Game.Grid;
-import UI.Game.Location;
+import Game.Grid;
+import Game.Location;
 
 /**
  * A {@code GridPanel} is the graphical representation of a {@code Grid}.
@@ -30,7 +30,7 @@ public class GridPanel extends JPanel implements KeyListener {
      */
     public GridPanel(Grid passedGrid) {
         grid = passedGrid;
-        addKeyListener(this);
+        addKeyListener(this);   //Add KeyListener to the JPanel
         // this.setBorder(BorderFactory.createLineBorder(Color.black));
     }
 

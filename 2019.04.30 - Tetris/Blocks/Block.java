@@ -1,7 +1,7 @@
 package Blocks;
 
 import Exceptions.IncorrectBlockDefinitionException;
-import UI.Game.Location;
+import Game.Location;
 
 import java.util.ArrayList;
 

@@ -1,5 +1,5 @@
 package Blocks;
-import UI.Game.Location;
+import Game.Location;
 
 import java.awt.Color;
 
