@@ -3,7 +3,6 @@ package Game;
 import Exceptions.BlockOutOfBoundsException;
 import Blocks.Block;
 import Blocks.Square;
-import Blocks.SpawnBlock;
 import Blocks.BlockManager;
 
 import java.util.ArrayList;
@@ -16,8 +15,8 @@ import java.util.Random;
 public class Grid {
     private Square[][] grid;
     private ArrayList<Block> blocks;
-    private SpawnBlock spawnBlock;
     private BlockManager<Block> manager;
+    private BlockSpawner spawner;
 
     /**
      * Creates a new {@code Grid} with the given height and width.
@@ -47,6 +46,16 @@ public class Grid {
             return false;
         if (location.getC() + tile.length > grid.length - 1)    //If it goes out on the bottom
             return false;
+
+        //Overlap detection
+        for (int r = 0; r < tile.length; r++) {
+            for (int c = 0; c < tile[0].length; c++) { 
+                System.out.println("> Checking if there's overlap at location (" + (location.getR() + r) + ", " + (location.getC() + c) + ")");
+                if (tile[r][c] != null && grid[location.getR() + r][location.getC() + c] != null) {
+                    return false;
+                }
+            }
+        }
 
         return true;
     }
@@ -135,7 +144,7 @@ public class Grid {
      * is settled, the instance variable {@code settled} of the 
      * {@code Block} will be changed to reflect this. 
      */
-    private synchronized void checkIfSettled() {
+    private void checkIfSettled() {
         Block[] blockArray = blocks.toArray(new Block[0]);
         boolean blockSettled = false;
 
@@ -164,23 +173,27 @@ public class Grid {
         }
 
         if (blockSettled) {
-            manager.addToGrid(this, new Location(0, new Random().nextInt(this.getSize()[1] - 2)));
-            System.out.println("> Calling spawn");
+            //spawnNewBlock();
             blockSettled = false;
         }
     }
 
-    public void setManager(BlockManager<Block> manager) {
-        this.manager = manager;
+    public synchronized void spawnNewBlock() {
+        //manager.addToGrid(this, new Location(0, new Random().nextInt(this.getSize()[1] - 2)));
+        spawner.run();
+        System.out.println("> Calling spawn");
+    }
+
+    public void setSpawner(BlockSpawner s) {
+        this.spawner = s;
     }
 
     /**
-     * Sets the {@code SpawnBlock} of this
-     * {@code Grid} (the thing that spawns stuff).
-     * @param s the {@code SpawnBlock}
+     * Sets the {@code BlockManager} to spawn objects.
+     * @param manager the {@code BlockManager} to set
      */
-    public void setSpawnBlock(SpawnBlock s) {
-        this.spawnBlock = s;
+    public void setManager(BlockManager<Block> manager) {
+        this.manager = manager;
     }
 
     private void sleep(int ms) {

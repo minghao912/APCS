@@ -3,8 +3,10 @@ package Blocks;
 import Game.Grid;
 import Game.Location;
 import Game.Manager;
+import Exceptions.BlockOutOfBoundsException;
 
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 public class BlockManager<T extends Block> extends Manager<T> {
     public BlockManager(ArrayList<T> members) {
@@ -18,7 +20,13 @@ public class BlockManager<T extends Block> extends Manager<T> {
 
     public void addToGrid(Grid grid, Location location) {
         Block nextBlock = Block.clone(getNextMember());
-        grid.addBlock(nextBlock, location);
+        try {
+            grid.addBlock(nextBlock, location);
+        } catch (Throwable e) {
+            if (e instanceof BlockOutOfBoundsException) {   //Game over
+                JOptionPane.showMessageDialog(null, "You Lost!", "Game Over", JOptionPane.INFORMATION_MESSAGE);
+            } else throw e;
+        }
     }
 
     private int getRandomIndex(int min, int max) {

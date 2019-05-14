@@ -1,20 +1,23 @@
 import Blocks.Block;
 import Blocks.Square;
 import Blocks.BlockManager;
-import Blocks.SpawnBlock;
 import Game.Grid;
 import Game.Location;
 import Game.BlockSpawner;
 import UI.GridPanel;
+import UI.KeyEventHandler;
 import Exceptions.BlockOutOfBoundsException;
 import Exceptions.IncorrectBlockDefinitionException;
 
 import java.util.ArrayList;
 import java.util.Timer;
 import java.awt.Color;
+import java.awt.Dimension;
 import javax.swing.JPanel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
+import javax.swing.JScrollPane;
 
 public class Main {
     private static JFrame win;
@@ -24,8 +27,17 @@ public class Main {
         try {
             doStuff();
         } catch (Throwable e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(win, e, "Error", JOptionPane.ERROR_MESSAGE);
+            String errorMessage = e + "\n";
+            for (StackTraceElement traceE : e.getStackTrace()) {
+                errorMessage += traceE + "\n";
+            }
+            JTextArea ta = new JTextArea(errorMessage);
+            JScrollPane sp = new JScrollPane(ta);
+            ta.setLineWrap(true);
+            ta.setWrapStyleWord(true);
+            sp.setPreferredSize(new Dimension(400, 100));
+
+            JOptionPane.showMessageDialog(win, sp, "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -61,6 +73,8 @@ public class Main {
         Grid game = new Grid(20, 10);
         startSpawning(game, blockManager);
 
+        KeyEventHandler.setGrid(game);
+
         System.out.println(game);
 
         createAndShowGame(game);
@@ -81,8 +95,10 @@ public class Main {
 
     public static void startSpawning(Grid grid, BlockManager<Block> blockManager) {
         //new Thread(new BlockSpawner(grid, blockManager)).run();
-        new BlockSpawner(grid, blockManager).run();
-        grid.setManager(blockManager);
+        BlockSpawner s = new BlockSpawner(grid, blockManager);
+        //grid.setManager(blockManager);
+        grid.setSpawner(s);
+        s.run();
     }
 
     public static void createAndShowGame(Grid gameGrid) {
