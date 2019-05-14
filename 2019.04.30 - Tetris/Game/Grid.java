@@ -47,7 +47,7 @@ public class Grid {
         if (location.getC() + tile.length > grid.length - 1)    //If it goes out on the bottom
             return false;
 
-        //Overlap detection
+        //Overlap detection (NOT WORKING)
         for (int r = 0; r < tile.length; r++) {
             for (int c = 0; c < tile[0].length; c++) { 
                 System.out.println("> Checking if there's overlap at location (" + (location.getR() + r) + ", " + (location.getC() + c) + ")");
