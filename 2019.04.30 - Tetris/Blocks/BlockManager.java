@@ -17,7 +17,7 @@ public class BlockManager<T extends Block> extends Manager<T> {
     }
 
     public void addToGrid(Grid grid, Location location) {
-        Block nextBlock = getNextMember();
+        Block nextBlock = Block.clone(getNextMember());
         grid.addBlock(nextBlock, location);
     }
 

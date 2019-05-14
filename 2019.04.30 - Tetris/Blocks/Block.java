@@ -70,15 +70,42 @@ public class Block {
     }
 
     /**
-     * Gets the {@code Square} objects located in the bottom row.
+     * Gets the {@code Square} objects located on the edge of the {@code Block},
+     * i.e. the ones that can touch other objects.
      * @return {@code ArrayList<Square>} the {@code Square} objects
      */
-    public ArrayList<Square> getBottomSquares() {
+    public ArrayList<Square> getEdgeSquares() {
         ArrayList<Square> list = new ArrayList<Square>();
+
+        //Get edge squares (not in bottom row)
+        for (int r = 0; r < shape.length - 1; r++)
+            for (int c = 0; c < shape[0].length; c++)
+                if (shape[r][c] != null && shape[r + 1][c] == null)
+                    list.add(shape[r][c]);
+
+        //Get bottom row squares
         for (int c = 0; c < shape[shape.length - 1].length; c++)
             if (shape[shape.length - 1][c] != null)
                 list.add(shape[shape.length - 1][c]);
+
         return list;
+    }
+
+    /**
+     * Clones the passed {@code Block}.
+     * @param block the {@code Block} to be cloned
+     * @return the cloned {@code Block}
+     */
+    public static Block clone(Block block) {
+        Square[][] oldShape = block.getShape();
+        Square[][] newShape = new Square[oldShape.length][oldShape[0].length];
+
+        for (int r = 0; r < oldShape.length; r++)
+            for (int c = 0; c < oldShape[0].length; c++) 
+                if (oldShape[r][c] != null)
+                    newShape[r][c] = new Square(oldShape[r][c].getColor());
+
+        return new Block(newShape);
     }
 
     /**

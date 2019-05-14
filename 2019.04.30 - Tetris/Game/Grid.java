@@ -4,8 +4,10 @@ import Exceptions.BlockOutOfBoundsException;
 import Blocks.Block;
 import Blocks.Square;
 import Blocks.SpawnBlock;
+import Blocks.BlockManager;
 
 import java.util.ArrayList;
+import java.util.Random;
 //import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
@@ -15,6 +17,7 @@ public class Grid {
     private Square[][] grid;
     private ArrayList<Block> blocks;
     private SpawnBlock spawnBlock;
+    private BlockManager<Block> manager;
 
     /**
      * Creates a new {@code Grid} with the given height and width.
@@ -69,9 +72,8 @@ public class Grid {
 
             block.setLocation(location);
             blocks.add(block);
+            System.out.println("> Block successfully added");
         }
-
-        //else System.out.println("Block placed successfully!");  //Placeholder
     }
 
     /**
@@ -95,7 +97,7 @@ public class Grid {
     /**
      * Standard update to the {@code Grid}; each block is moved one unit down.
      */
-    public void regularStep() {
+    public synchronized void regularStep() {
         for (int r = grid.length - 2; r >= 0; r--) {    //Start up from bottom
             for (int c = 0; c < grid[0].length; c++) {
                 //If the square is supposed to be moving
@@ -116,14 +118,15 @@ public class Grid {
      * of each {@code Block} in the {@code Grid}.
      */
     private void updateBlockLocations() {
-        blocks.forEach(b -> {
+        for (int i = 0; i < blocks.size(); i++) {
+            Block b = blocks.get(i);
             System.out.println("> Updater checking a block");
-            System.out.println("> Block is settled: " + b.isSettled());
+            System.out.println("> Block " + i + " is settled: " + b.isSettled());
             if (!b.isSettled()) {
                 b.setLocation(new Location(b.getLocation().getR() + 1, b.getLocation().getC()));
-                System.out.println("> Updated location" + b.getLocation());
+                System.out.println("> Updated location " + b.getLocation());
             }
-        });
+        }
     }
 
     /**
@@ -143,13 +146,16 @@ public class Grid {
 
             //Automatically settled if it's at the bottom
             if (loc.getR() + shape.length - 1 >= grid.length - 1) {
+                System.out.println("> Block settled");
                 b.settle();
                 blockSettled = true;
             } else {
                 //Get bottom blocks
-                ArrayList<Square> bottomSquares = b.getBottomSquares();
+                ArrayList<Square> bottomSquares = b.getEdgeSquares();
                 for (Square square : bottomSquares) {
-                    if (grid[square.getLocation().getR() + 1][square.getLocation().getC()] != null) {                        
+                    System.out.println("> Checking new bottom square at " + square.getLocation());
+                    if (grid[square.getLocation().getR() + 1][square.getLocation().getC()] != null) {   
+                        System.out.println("> Block settled");                     
                         b.settle();
                         blockSettled = true;
                     }
@@ -158,9 +164,14 @@ public class Grid {
         }
 
         if (blockSettled) {
-            spawnBlock.spawn(); //Spawn new block
+            manager.addToGrid(this, new Location(0, new Random().nextInt(this.getSize()[1] - 2)));
             System.out.println("> Calling spawn");
+            blockSettled = false;
         }
+    }
+
+    public void setManager(BlockManager<Block> manager) {
+        this.manager = manager;
     }
 
     /**

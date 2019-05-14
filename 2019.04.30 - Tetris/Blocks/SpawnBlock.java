@@ -10,6 +10,7 @@ import Blocks.BlockManager;
 /**
  * Literally the only purpose of this
  * is to run the {@code BlockSpawner}.
+ * DEPRECATED.
  */
 public class SpawnBlock {
     private Grid grid;

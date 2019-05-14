@@ -71,7 +71,7 @@ public class Main {
             field.repaint();
             
             try {
-                Thread.sleep(250);
+                Thread.sleep(200);
             } catch (Throwable e) {
                 e.printStackTrace();
             }
@@ -82,7 +82,7 @@ public class Main {
     public static void startSpawning(Grid grid, BlockManager<Block> blockManager) {
         //new Thread(new BlockSpawner(grid, blockManager)).run();
         new BlockSpawner(grid, blockManager).run();
-        grid.setSpawnBlock(new SpawnBlock(grid, blockManager));
+        grid.setManager(blockManager);
     }
 
     public static void createAndShowGame(Grid gameGrid) {

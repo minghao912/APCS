@@ -10,6 +10,7 @@ import java.util.TimerTask;
  * {@code Thread} that spawns a {@code Block} at a 
  * {@code Location} at the top of the {@code Grid} at 
  * a specified interval.
+ * DEPRECATED.
  */
 public class BlockSpawner {
     Grid grid;
