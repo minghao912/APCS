@@ -15,7 +15,7 @@ public class BlockManager<T extends Block> extends Manager<T> {
 
     @Override
     protected T getNextMember() {
-        return members.get(getRandomIndex(0, members.size()));
+        return members.get(getRandomIndex(0, members.size() + 1));
     }
 
     public void addToGrid(Grid grid, Location location) {

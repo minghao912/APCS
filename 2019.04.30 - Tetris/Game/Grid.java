@@ -6,8 +6,6 @@ import Blocks.Square;
 import Blocks.BlockManager;
 
 import java.util.ArrayList;
-import java.util.Random;
-//import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * A {@code Grid} represents the game field of Tetris.
@@ -17,6 +15,7 @@ public class Grid {
     private ArrayList<Block> blocks;
     private BlockManager<Block> manager;
     private BlockSpawner spawner;
+    private static boolean gameOver;
 
     /**
      * Creates a new {@code Grid} with the given height and width.
@@ -107,6 +106,8 @@ public class Grid {
      * Standard update to the {@code Grid}; each block is moved one unit down.
      */
     public synchronized void regularStep() {
+        if (gameOver) return;
+
         for (int r = grid.length - 2; r >= 0; r--) {    //Start up from bottom
             for (int c = 0; c < grid[0].length; c++) {
                 //If the square is supposed to be moving
@@ -149,6 +150,9 @@ public class Grid {
         boolean blockSettled = false;
 
         for (Block b : blockArray) {
+            if (b.isSettled()) 
+                continue;
+
             Location loc = b.getLocation();
             Square[][] shape = b.getShape();
             System.out.println("> Now determining whether to settle " + loc);
@@ -173,17 +177,24 @@ public class Grid {
         }
 
         if (blockSettled) {
-            //spawnNewBlock();
+            spawnNewBlock();
             blockSettled = false;
         }
     }
 
+    /**
+     * Spawns a new {@code Block} in the {@code Grid}.
+     */
     public synchronized void spawnNewBlock() {
         //manager.addToGrid(this, new Location(0, new Random().nextInt(this.getSize()[1] - 2)));
         spawner.run();
         System.out.println("> Calling spawn");
     }
 
+    /** 
+     * Sets the {@code BlockSpawner} for the {@code Grid}
+     * instance.
+     */
     public void setSpawner(BlockSpawner s) {
         this.spawner = s;
     }
@@ -194,6 +205,14 @@ public class Grid {
      */
     public void setManager(BlockManager<Block> manager) {
         this.manager = manager;
+    }
+
+    /**
+     * Sets the {@code Grid} into the 
+     * game over state.
+     */
+    public static void gameOver() {
+        Grid.gameOver = true;
     }
 
     private void sleep(int ms) {

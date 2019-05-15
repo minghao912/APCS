@@ -104,7 +104,7 @@ public class Main {
     public static void createAndShowGame(Grid gameGrid) {
         field = new GridPanel(gameGrid);
 
-        win = new JFrame("Tetrisk");    //window setup
+        win = new JFrame("Tetris");    //window setup
         win.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         win.setPreferredSize(field.getPreferredSize());
         win.setResizable(false);
