@@ -59,8 +59,15 @@ public class Main {
         };
 
         Square[][] sample4Shape = {
-            {null,                    new Square(Color.BLACK), null},
-            {new Square(Color.BLACK), new Square(Color.BLACK), new Square(Color.BLACK)}
+            {null,                   new Square(Color.GRAY), null},
+            {new Square(Color.GRAY), new Square(Color.GRAY), new Square(Color.GRAY)}
+        };
+
+        Square[][] sample5Shape = {
+            {new Square(Color.GREEN)},
+            {new Square(Color.GREEN)},
+            {new Square(Color.GREEN)},
+            {new Square(Color.GREEN)}
         };
 
         ArrayList<Block> blocksForBlockManager = new ArrayList<Block>();
@@ -68,6 +75,7 @@ public class Main {
         blocksForBlockManager.add(new Block(sample2Shape));
         blocksForBlockManager.add(new Block(sample3Shape));
         blocksForBlockManager.add(new Block(sample4Shape));
+        blocksForBlockManager.add(new Block(sample5Shape));
         BlockManager<Block> blockManager = new BlockManager<Block>(blocksForBlockManager);
         
         Grid game = new Grid(20, 10);

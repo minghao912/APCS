@@ -3,6 +3,7 @@ package Blocks;
 import Game.Grid;
 import Game.Location;
 import Game.Manager;
+import Game.Counter;
 import Exceptions.BlockOutOfBoundsException;
 
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ public class BlockManager<T extends Block> extends Manager<T> {
             grid.addBlock(nextBlock, location);
         } catch (Throwable e) {
             if (e instanceof BlockOutOfBoundsException) {   //Game over
-                JOptionPane.showMessageDialog(null, "You Lost!", "Game Over", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "You Lost!\nLines Cleared: " + Counter.linesCleared, "Game Over", JOptionPane.INFORMATION_MESSAGE);
             } else throw e;
         }
     }
