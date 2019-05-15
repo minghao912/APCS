@@ -215,6 +215,15 @@ public class Grid {
         Grid.gameOver = true;
     }
 
+    /**
+     * Returns {@code true} if the {@code Grid}
+     * is in the 'Game Over' state.
+     * @return if the game is over or not
+     */
+    public static boolean isGameOver() {
+        return Grid.gameOver;
+    }
+
     private void sleep(int ms) {
         try {
             Thread.sleep(ms);

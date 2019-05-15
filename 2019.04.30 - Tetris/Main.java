@@ -89,6 +89,8 @@ public class Main {
 
         //Make blocks move
         for(;;) {
+            if (Grid.isGameOver()) continue;
+
             game.regularStep();
             field.repaint();
             
