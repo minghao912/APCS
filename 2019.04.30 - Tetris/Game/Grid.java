@@ -4,6 +4,7 @@ import Exceptions.BlockOutOfBoundsException;
 import Blocks.Block;
 import Blocks.Square;
 import Blocks.BlockManager;
+import Game.Location.Direction;
 
 import java.util.ArrayList;
 
@@ -101,7 +102,6 @@ public class Grid {
         return new int[] {grid.length, grid[0].length};
     }
 
-    //Still needs work
     /**
      * Standard update to the {@code Grid}; each block is moved one unit down.
      */
@@ -189,6 +189,19 @@ public class Grid {
         //manager.addToGrid(this, new Location(0, new Random().nextInt(this.getSize()[1] - 2)));
         spawner.run();
         System.out.println("> Calling spawn");
+    }
+
+    /**
+     * Moves the {@code Block} in the given {@code Direction}. A
+     * {@code Direction} can either be {@code LEFT} or {@code RIGHT},
+     * and is specified in {@link Direction}.
+     */
+    public void moveBlock(Block block, Direction direction) throws IllegalStateException{
+        //Check if the block is movable
+        if (!block.isSettled()) throw new IllegalStateException("The block that needs to be moved is not movable.");
+
+        //If move right
+        if (direction == Direction.RIGHT) block.setLocation(new Location(block.getLocation().getR() + 1, block.getLocation().getC() + 1));
     }
 
     /** 

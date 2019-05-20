@@ -2,15 +2,8 @@ package UI;
 
 import java.awt.Graphics;
 import java.awt.Dimension;
-import java.awt.Event;
-import java.awt.event.KeyListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseEvent;
 import javax.swing.JPanel;
-import javax.swing.JOptionPane;
 
-import Blocks.Block;
 import Blocks.Square;
 import Game.Grid;
 import Game.Location;
@@ -18,7 +11,7 @@ import Game.Location;
 /**
  * A {@code GridPanel} is the graphical representation of a {@code Grid}.
  */
-public class GridPanel extends JPanel implements KeyListener {
+public class GridPanel extends JPanel {
     private Grid grid;
     private Graphics g;
     private static final int SQUARESIZE = 20;
@@ -30,8 +23,7 @@ public class GridPanel extends JPanel implements KeyListener {
      */
     public GridPanel(Grid passedGrid) {
         grid = passedGrid;
-        addKeyListener(this);   //Add KeyListener to the JPanel
-        // this.setBorder(BorderFactory.createLineBorder(Color.black));
+        addKeyListener(new KeyEventHandler());   //Add KeyListener to the JPanel
     }
 
     /**
@@ -65,21 +57,6 @@ public class GridPanel extends JPanel implements KeyListener {
     public void addNotify() {
         super.addNotify();
         requestFocus();
-    }
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-        KeyEventHandler.printEventInfo("Key Pressed", e);
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-        //KeyEventHandler.printEventInfo("Key Released", e);    //test only
-    }
-
-    @Override
-    public void keyTyped(KeyEvent e) {
-        //KeyEventHandler.printEventInfo("Key Typed", e);   //test only
     }
 
     @Override

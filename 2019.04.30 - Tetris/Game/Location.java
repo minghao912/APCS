@@ -10,6 +10,13 @@ public class Location {
     private HashMap<String, Integer> map;
 
     /**
+     * {@code Direction}s that can be used.
+     */
+    enum Direction {
+        LEFT, RIGHT;
+    }
+
+    /**
      * Creates a {@code Location} object with x-value {@code x}
      * and y-value {@code y}.
      * @param r the x-value
