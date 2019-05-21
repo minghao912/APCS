@@ -69,11 +69,10 @@ public class Main {
         Grid game = new Grid(20, 10);
         startSpawning(game, blockManager);
 
-        KeyEventHandler.setGrid(game);
-
         System.out.println(game);
 
         createAndShowGame(game);
+        KeyEventHandler.setHandlerInfo(game, field);
 
         //Make blocks move
         for(;;) {

@@ -6,12 +6,15 @@ import Exceptions.ExceptionHandler;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import javax.swing.JPanel;
 
 public class KeyEventHandler implements KeyListener{
     private static Grid grid;
+    private static JPanel panel;
 
-    public static void setGrid(Grid grid0) {
+    public static void setHandlerInfo(Grid grid0, JPanel panel0) {
         grid = grid0;
+        panel = panel0;
     }
 
     public static <T extends KeyEvent> void handleEvent(String str, T e) {
@@ -23,8 +26,10 @@ public class KeyEventHandler implements KeyListener{
                 case (KeyEvent.VK_F1):  grid.spawnNewBlock();
                                         break;
                 case (KeyEvent.VK_F2):  grid.moveBlock(null, Direction.LEFT);
+                                        panel.repaint();
                                         break;
                 case (KeyEvent.VK_F3):  grid.moveBlock(null, Direction.RIGHT);
+                                        panel.repaint();
                                         break;
             }
         } catch (Throwable err) {
@@ -35,12 +40,12 @@ public class KeyEventHandler implements KeyListener{
 
     @Override
     public void keyPressed(KeyEvent e) {
-        KeyEventHandler.handleEvent("Key Pressed", e);
+        //KeyEventHandler.printEventInfo("Key Pressed", e);   //test only
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        //KeyEventHandler.printEventInfo("Key Released", e);    //test only
+        KeyEventHandler.handleEvent("Key Released", e);
     }
 
     @Override

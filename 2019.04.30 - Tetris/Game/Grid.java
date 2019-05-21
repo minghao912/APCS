@@ -6,8 +6,11 @@ import Blocks.Block;
 import Blocks.Square;
 import Blocks.BlockManager;
 import Game.Location.Direction;
+import jdk.nashorn.internal.runtime.Context.ThrowErrorManager;
 
 import java.util.ArrayList;
+
+import javax.swing.JOptionPane;
 
 /**
  * A {@code Grid} represents the game field of Tetris.
@@ -15,7 +18,6 @@ import java.util.ArrayList;
 public class Grid {
     private Square[][] grid;
     private ArrayList<Block> blocks;
-    private BlockManager<Block> manager;
     private BlockSpawner spawner;
     private Block currentBlock;
     private static boolean gameOver;
@@ -167,7 +169,7 @@ public class Grid {
                 blockSettled = true;
             } else {
                 //Get bottom blocks
-                ArrayList<Square> bottomSquares = b.getEdgeSquares();
+                ArrayList<Square> bottomSquares = b.getOuterSquares();
                 for (Square square : bottomSquares) {
                     System.out.println("> Checking new bottom square at " + square.getLocation());
                     if (grid[square.getLocation().getR() + 1][square.getLocation().getC()] != null) {   
@@ -199,38 +201,76 @@ public class Grid {
      * {@code Direction} can either be {@code LEFT} or {@code RIGHT},
      * and is specified in {@link Direction}.
      */
-    public void moveBlock(Block block, Direction direction) throws IllegalStateException{
-        //Check if the block is movable
-        if (block == null) block = this.currentBlock;
-        if (!block.isSettled()) throw new IllegalStateException("The block that needs to be moved is not movable.");
+    public synchronized void moveBlock(Block block, Direction direction) throws IllegalStateException {
+        if (block == null) block = this.currentBlock;   //Move current control block if no block specified
+        if (block.isSettled()) throw new IllegalStateException("The block that needs to be moved is not movable."); //Check if the block is movable
 
         Location oldLocation = block.getLocation(); //Store old location
+
         if (direction == Direction.RIGHT) {
-            //Modify grid
             Square[][] shape = block.getShape();
+
+            if (!blockMovable(block, oldLocation, direction)) return;
+
+            //Modify grid
             for (int r = 0; r < shape.length; r++) {
-                for (int c = shape[r].length; c >= 0; c--) {    //work backwards
+                for (int c = shape[r].length - 1; c >= 0; c--) {    //work backwards
                     if (shape[r][c] != null) {
-                        grid[r][c] = null;
-                        grid[r + 1][c + 1] = shape[r][c];
+                        grid[oldLocation.getR() + r][oldLocation.getC() + c] = null;
+                        try {
+                            grid[oldLocation.getR() + r + 1][oldLocation.getC() + c + 1] = shape[r][c];
+                        } catch (Throwable e) {
+                            JOptionPane.showMessageDialog(null, "Block current location: " + oldLocation + "\nr: " + r + ", " + c);
+                        }
                     }
                 }
             }
 
             block.setLocation(new Location(oldLocation.getR() + 1, oldLocation.getC() + 1));    //update block location
-        } else if (direction == Direction.LEFT) {
-            //Modify grid
+        } else if (direction == Direction.LEFT) {          
             Square[][] shape = block.getShape();
+
+            if (!blockMovable(block, oldLocation, direction)) return;
+
+            //Modify grid
             for (int r = 0; r < shape.length; r++) {
                 for (int c = 0; c < shape[r].length; c++) {    //work forwards
                     if (shape[r][c] != null) {
-                        grid[r][c] = null;
-                        grid[r - 1][c - 1] = shape[r][c];
+                        grid[oldLocation.getR() + r][oldLocation.getC() + c] = null;
+                        try {
+                            grid[oldLocation.getR() + r - 1][oldLocation.getC() + c - 1] = shape[r][c];
+                        } catch (Throwable e) {
+                            JOptionPane.showMessageDialog(null, "Block current location: " + oldLocation + "\nr: " + r + ", " + c);
+                        }
                     }
                 }
             }
 
             block.setLocation(new Location(oldLocation.getR() - 1, oldLocation.getC() - 1));    //update block location
+        } else throw new IllegalStateException("The specified direction to move the block is invalid.");
+    }
+
+    private boolean blockMovable(Block block, Location location, Direction direction) {
+        Square[][] shape = block.getShape();
+        
+        if (direction == Direction.RIGHT) {
+            if (location.getC() + shape[0].length >= grid.length) return false;
+
+            ArrayList<Square> rightsquares = block.getRightSquares();
+
+            for (Square rs : block.getRightSquares()) 
+                if (rs.getLocation().getC() >= grid.length - 2 || grid[rs.getLocation().getR()][rs.getLocation().getC() + 1] != null)
+                    return false;
+
+            return true;
+        } else if (direction == Direction.LEFT) {
+            if (location.getC() == 0) return false;
+
+            for (Square ls : block.getLeftSquares())
+                if (grid[ls.getLocation().getR()][ls.getLocation().getC() - 1] != null)
+                    return false;
+
+            return true;
         } else throw new IllegalStateException("The specified direction to move the block is invalid.");
     }
 
@@ -240,14 +280,6 @@ public class Grid {
      */
     public void setSpawner(BlockSpawner s) {
         this.spawner = s;
-    }
-
-    /**
-     * Sets the {@code BlockManager} to spawn objects.
-     * @param manager the {@code BlockManager} to set
-     */
-    public void setManager(BlockManager<Block> manager) {
-        this.manager = manager;
     }
 
     /**

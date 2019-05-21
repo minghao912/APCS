@@ -70,11 +70,11 @@ public class Block {
     }
 
     /**
-     * Gets the {@code Square} objects located on the edge of the {@code Block},
-     * i.e. the ones that can touch other objects.
+     * Gets the {@code Square} objects located on the outside 
+     * edges of the {@code Block}.
      * @return {@code ArrayList<Square>} the {@code Square} objects
      */
-    public ArrayList<Square> getEdgeSquares() {
+    public ArrayList<Square> getOuterSquares() {
         ArrayList<Square> list = new ArrayList<Square>();
 
         //Get edge squares (not in bottom row)
@@ -87,6 +87,36 @@ public class Block {
         for (int c = 0; c < shape[shape.length - 1].length; c++)
             if (shape[shape.length - 1][c] != null)
                 list.add(shape[shape.length - 1][c]);
+
+        return list;
+    }
+
+    /**
+     * Gets the {@code Square} objects located on the left
+     * edge of the {@code Block}.
+     * @return {@code ArrayList<Square>} the {@code Square} objects
+     */
+    public ArrayList<Square> getLeftSquares() {
+        ArrayList<Square> list = new ArrayList<Square>();
+
+        for (int r = 0; r < shape.length; r++)
+            if (shape[r][0] != null) 
+                list.add(shape[r][0]);
+
+        return list;
+    }
+
+    /**
+     * Gets the {@code Square} objects located on the right
+     * edge of the {@code Block}.
+     * @return {@code ArrayList<Square>} the {@code Square} objects
+     */
+    public ArrayList<Square> getRightSquares() {
+        ArrayList<Square> list = new ArrayList<Square>();
+
+        for (int r = 0; r < shape.length; r++)
+            if (shape[r][shape[r].length - 1] != null) 
+                list.add(shape[r][shape[r].length - 1]);
 
         return list;
     }
