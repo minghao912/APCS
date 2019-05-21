@@ -5,14 +5,15 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 
+/**
+ * Handles all {@code Exception}s within the game.
+ */
 public class ExceptionHandler {
-    public static <T extends Throwable> void showError(T e) {
-        display(e);
-
-        if (e instanceof Error) System.exit(1); //Exit if error
-    }
-
-    private static <Q extends Throwable> void display(Q e) {
+    /**
+     * Shows the error message and stack trace to the
+     * screen via message box.
+     */
+    public static <Q extends Throwable> void showError(Q e) {
         String errorMessage = e + "\n";
         for (StackTraceElement traceE : e.getStackTrace()) {
             errorMessage += traceE + "\n";
