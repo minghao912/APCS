@@ -1,6 +1,8 @@
 package UI;
 
 import Game.Grid;
+import Game.Location.Direction;
+import Exceptions.ExceptionHandler;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -16,8 +18,19 @@ public class KeyEventHandler implements KeyListener{
         //String message = "str\nCode: " + KeyEvent.getKeyText(e.getKeyCode()) + "\nChar: " + e.getKeyChar() + "\nMods: " + KeyEvent.getModifiersExText(e.getModifiersEx()) + "\nAction: " + e.isActionKey();
         //JOptionPane.showMessageDialog(null, message, "KeyEvent Detected", JOptionPane.INFORMATION_MESSAGE);
     
-        if (e.getKeyCode() == KeyEvent.VK_F1) 
-            grid.spawnNewBlock();
+        try {
+            switch (e.getKeyCode()) {
+                case (KeyEvent.VK_F1):  grid.spawnNewBlock();
+                                        break;
+                case (KeyEvent.VK_F2):  grid.moveBlock(null, Direction.LEFT);
+                                        break;
+                case (KeyEvent.VK_F3):  grid.moveBlock(null, Direction.RIGHT);
+                                        break;
+            }
+        } catch (Throwable err) {
+            ExceptionHandler.showError(err);
+        }
+
     }
 
     @Override

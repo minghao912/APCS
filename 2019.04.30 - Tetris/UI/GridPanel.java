@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import Blocks.Square;
 import Game.Grid;
 import Game.Location;
+import Game.Location.Direction;
 
 /**
  * A {@code GridPanel} is the graphical representation of a {@code Grid}.

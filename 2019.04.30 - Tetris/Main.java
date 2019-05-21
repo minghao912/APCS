@@ -6,6 +6,7 @@ import Game.Location;
 import Game.BlockSpawner;
 import UI.GridPanel;
 import UI.KeyEventHandler;
+import Exceptions.ExceptionHandler;
 import Exceptions.BlockOutOfBoundsException;
 import Exceptions.IncorrectBlockDefinitionException;
 
@@ -15,9 +16,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.JPanel;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JTextArea;
-import javax.swing.JScrollPane;
 
 public class Main {
     private static JFrame win;
@@ -27,17 +25,7 @@ public class Main {
         try {
             doStuff();
         } catch (Throwable e) {
-            String errorMessage = e + "\n";
-            for (StackTraceElement traceE : e.getStackTrace()) {
-                errorMessage += traceE + "\n";
-            }
-            JTextArea ta = new JTextArea(errorMessage);
-            JScrollPane sp = new JScrollPane(ta);
-            ta.setLineWrap(true);
-            ta.setWrapStyleWord(true);
-            sp.setPreferredSize(new Dimension(400, 100));
-
-            JOptionPane.showMessageDialog(win, sp, "Error", JOptionPane.ERROR_MESSAGE);
+            ExceptionHandler.showError(e);
         }
     }
 
@@ -97,7 +85,7 @@ public class Main {
             try {
                 Thread.sleep(200);
             } catch (Throwable e) {
-                e.printStackTrace();
+                ExceptionHandler.showError(e);
             }
         }
 

@@ -12,7 +12,7 @@ public class Location {
     /**
      * {@code Direction}s that can be used.
      */
-    enum Direction {
+    public enum Direction {
         LEFT, RIGHT;
     }
 

@@ -1,5 +1,6 @@
 package Game;
 
+import Exceptions.ExceptionHandler;
 import Exceptions.BlockOutOfBoundsException;
 import Blocks.Block;
 import Blocks.Square;
@@ -16,6 +17,7 @@ public class Grid {
     private ArrayList<Block> blocks;
     private BlockManager<Block> manager;
     private BlockSpawner spawner;
+    private Block currentBlock;
     private static boolean gameOver;
 
     /**
@@ -47,7 +49,7 @@ public class Grid {
         if (location.getC() + tile.length > grid.length - 1)    //If it goes out on the bottom
             return false;
 
-        //Overlap detection (NOT WORKING)
+        //Overlap detection (SEMI-WORKING)
         for (int r = 0; r < tile.length; r++) {
             for (int c = 0; c < tile[0].length; c++) { 
                 System.out.println("> Checking if there's overlap at location (" + (location.getR() + r) + ", " + (location.getC() + c) + ")");
@@ -81,6 +83,7 @@ public class Grid {
 
             block.setLocation(location);
             blocks.add(block);
+            currentBlock = block;   //update current block to control
             System.out.println("> Block successfully added");
         }
     }
@@ -198,10 +201,37 @@ public class Grid {
      */
     public void moveBlock(Block block, Direction direction) throws IllegalStateException{
         //Check if the block is movable
+        if (block == null) block = this.currentBlock;
         if (!block.isSettled()) throw new IllegalStateException("The block that needs to be moved is not movable.");
 
-        //If move right
-        if (direction == Direction.RIGHT) block.setLocation(new Location(block.getLocation().getR() + 1, block.getLocation().getC() + 1));
+        Location oldLocation = block.getLocation(); //Store old location
+        if (direction == Direction.RIGHT) {
+            //Modify grid
+            Square[][] shape = block.getShape();
+            for (int r = 0; r < shape.length; r++) {
+                for (int c = shape[r].length; c >= 0; c--) {    //work backwards
+                    if (shape[r][c] != null) {
+                        grid[r][c] = null;
+                        grid[r + 1][c + 1] = shape[r][c];
+                    }
+                }
+            }
+
+            block.setLocation(new Location(oldLocation.getR() + 1, oldLocation.getC() + 1));    //update block location
+        } else if (direction == Direction.LEFT) {
+            //Modify grid
+            Square[][] shape = block.getShape();
+            for (int r = 0; r < shape.length; r++) {
+                for (int c = 0; c < shape[r].length; c++) {    //work forwards
+                    if (shape[r][c] != null) {
+                        grid[r][c] = null;
+                        grid[r - 1][c - 1] = shape[r][c];
+                    }
+                }
+            }
+
+            block.setLocation(new Location(oldLocation.getR() - 1, oldLocation.getC() - 1));    //update block location
+        } else throw new IllegalStateException("The specified direction to move the block is invalid.");
     }
 
     /** 
@@ -241,7 +271,7 @@ public class Grid {
         try {
             Thread.sleep(ms);
         } catch (Throwable e) {
-            e.printStackTrace();
+            ExceptionHandler.showError(e);
         }
     }
 
