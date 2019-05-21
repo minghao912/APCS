@@ -256,8 +256,6 @@ public class Grid {
         if (direction == Direction.RIGHT) {
             if (location.getC() + shape[0].length >= grid.length) return false;
 
-            ArrayList<Square> rightsquares = block.getRightSquares();
-
             for (Square rs : block.getRightSquares()) 
                 if (rs.getLocation().getC() >= grid.length - 2 || grid[rs.getLocation().getR()][rs.getLocation().getC() + 1] != null)
                     return false;
