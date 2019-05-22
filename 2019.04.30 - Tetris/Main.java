@@ -3,7 +3,9 @@ import Blocks.Square;
 import Blocks.BlockManager;
 import Game.Grid;
 import Game.Location;
+import Game.GameRunner;
 import Game.BlockSpawner;
+import Game.Counter;
 import UI.GridPanel;
 import UI.KeyEventHandler;
 import Exceptions.ExceptionHandler;
@@ -11,7 +13,9 @@ import Exceptions.BlockOutOfBoundsException;
 import Exceptions.IncorrectBlockDefinitionException;
 
 import java.util.ArrayList;
-import java.util.Timer;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.ScheduledExecutorService;
 import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.JPanel;
@@ -72,22 +76,14 @@ public class Main {
         System.out.println(game);
 
         createAndShowGame(game);
-        KeyEventHandler.setHandlerInfo(game, field);
 
         //Make blocks move
-        for(;;) {
-            if (Grid.isGameOver()) continue;
-
-            game.regularStep();
-            field.repaint();
-            
-            try {
-                Thread.sleep(200);
-            } catch (Throwable e) {
-                ExceptionHandler.showError(e);
-            }
-        }
-
+        GameRunner runner = new GameRunner(game, field);
+        ScheduledExecutorService runService = Executors.newSingleThreadScheduledExecutor();
+        Counter.timeInterval = 250;
+        runService.scheduleAtFixedRate(runner, 300, Counter.timeInterval, TimeUnit.MILLISECONDS);
+    
+        KeyEventHandler.setHandlerInfo(game, field, runner);
     }
 
     public static void startSpawning(Grid grid, BlockManager<Block> blockManager) {
