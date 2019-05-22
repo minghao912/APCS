@@ -6,10 +6,8 @@ import Blocks.Block;
 import Blocks.Square;
 import Blocks.BlockManager;
 import Game.Location.Direction;
-import jdk.nashorn.internal.runtime.Context.ThrowErrorManager;
 
 import java.util.ArrayList;
-
 import javax.swing.JOptionPane;
 
 /**

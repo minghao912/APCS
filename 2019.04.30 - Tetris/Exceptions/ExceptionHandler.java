@@ -12,6 +12,8 @@ public class ExceptionHandler {
     /**
      * Shows the error message and stack trace to the
      * screen via message box.
+     * @param <Q> extends {@code Throwable}
+     * @param e the error to display
      */
     public static <Q extends Throwable> void showError(Q e) {
         String errorMessage = e + "\n";

@@ -19,6 +19,14 @@ public class BlockManager<T extends Block> extends Manager<T> {
         return members.get(getRandomIndex(0, members.size() + 1));
     }
 
+    /**
+     * Adds a new {@code Block}, as determined
+     * by {@code getNextMember()}, to the given
+     * {@code Grid} at the given {@code Location}.
+     * @param grid the grid to which the {@code Block}
+     *             is to be added to
+     * @param location the location for the {@code Block}
+     */
     public void addToGrid(Grid grid, Location location) {
         Block nextBlock = Block.clone(getNextMember());
         try {
