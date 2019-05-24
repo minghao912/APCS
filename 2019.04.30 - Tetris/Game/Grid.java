@@ -18,6 +18,7 @@ public class Grid {
     private ArrayList<Block> blocks;
     private BlockSpawner spawner;
     private Block currentBlock;
+    private Lock lock;
     private static boolean gameOver;
 
     /**
@@ -25,9 +26,10 @@ public class Grid {
      * @param height the height of the {@code Grid}
      * @param width the width of the {@code Grid}
      */
-    public Grid(int height, int width) {
+    public Grid(int height, int width, Lock lock) {
         grid = new Square[height][width];
         blocks = new ArrayList<Block>();
+        this.lock = lock;
     }
 
     /**
@@ -108,29 +110,34 @@ public class Grid {
     /**
      * Standard update to the {@code Grid}; each block is moved one unit down.
      */
-    public synchronized void regularStep() {
-        if (gameOver) return;
+    public void regularStep() {
+        synchronized (lock) {
+            System.out.println("> Starting step");
 
-        for (int r = grid.length - 2; r >= 0; r--) {    //Start up from bottom
-            for (int c = 0; c < grid[0].length; c++) {
-                //If the square is supposed to be moving
-                if (grid[r][c] != null && !grid[r][c].isSettled()) {
-                    grid[r + 1][c] = grid[r][c];
-                    grid[r][c] = null;
+            if (gameOver) return;
+
+            for (int r = grid.length - 2; r >= 0; r--) {    //Start up from bottom
+                for (int c = 0; c < grid[0].length; c++) {
+                    //If the square is supposed to be moving
+                    if (grid[r][c] != null && !grid[r][c].isSettled()) {
+                        grid[r + 1][c] = grid[r][c];
+                        grid[r][c] = null;
+                    }
                 }
             }
+            
+            updateBlockLocations();        
+            checkIfSettled();   //Settle all blocks that have settled      
+            //System.out.println(this);   //Display grid to console
+            System.out.println("> End step");
         }
-        
-        updateBlockLocations();        
-        checkIfSettled();   //Settle all blocks that have settled      
-        //System.out.println(this);   //Display grid to console
     }
 
     /**
      * Update the {@code location} instance variables
      * of each {@code Block} in the {@code Grid}.
      */
-    private void updateBlockLocations() {
+    private synchronized void updateBlockLocations() {
         for (int i = 0; i < blocks.size(); i++) {
             Block b = blocks.get(i);
             System.out.println("> Updater checking a block");
@@ -148,7 +155,7 @@ public class Grid {
      * is settled, the instance variable {@code settled} of the 
      * {@code Block} will be changed to reflect this. 
      */
-    private void checkIfSettled() {
+    private synchronized void checkIfSettled() {
         Block[] blockArray = blocks.toArray(new Block[0]);
         boolean blockSettled = false;
 
@@ -200,6 +207,8 @@ public class Grid {
      * and is specified in {@link Direction}.
      */
     public synchronized void moveBlock(Block block, Direction direction) throws IllegalStateException {
+        System.out.println("> Starting move");
+
         if (block == null) block = this.currentBlock;   //Move current control block if no block specified
         if (block.isSettled()) throw new IllegalStateException("The block that needs to be moved is not movable."); //Check if the block is movable
 
@@ -212,19 +221,25 @@ public class Grid {
 
             //Modify grid
             for (int r = 0; r < shape.length; r++) {
-                for (int c = shape[r].length - 1; c >= 0; c--) {    //work backwards
+                for (int c = 0; c < shape[r].length; c++) {    //work backwards
                     if (shape[r][c] != null) {
                         grid[oldLocation.getR() + r][oldLocation.getC() + c] = null;
-                        try {
-                            grid[oldLocation.getR() + r + 1][oldLocation.getC() + c + 1] = shape[r][c];
-                        } catch (Throwable e) {
-                            JOptionPane.showMessageDialog(null, "Block current location: " + oldLocation + "\nr: " + r + ", " + c);
-                        }
                     }
                 }
             }
 
-            block.setLocation(new Location(oldLocation.getR() + 1, oldLocation.getC() + 1));    //update block location
+            for (int r = 0; r < shape.length; r++) {
+                for (int c = 0; c < shape[r].length; c++) {
+                    try {
+                        grid[oldLocation.getR() + r][oldLocation.getC() + c + 1] = shape[r][c];
+                    } catch (Throwable e) {
+                        JOptionPane.showMessageDialog(null, "Block current location: " + oldLocation + "\nr: " + r + ", " + c);
+                    }
+                }
+            }
+
+            //the problem i spent an entire week on was this fucking line
+            block.setLocation(new Location(oldLocation.getR(), oldLocation.getC() + 1));    //update block location
         } else if (direction == Direction.LEFT) {          
             Square[][] shape = block.getShape();
 
@@ -235,17 +250,25 @@ public class Grid {
                 for (int c = 0; c < shape[r].length; c++) {    //work forwards
                     if (shape[r][c] != null) {
                         grid[oldLocation.getR() + r][oldLocation.getC() + c] = null;
-                        try {
-                            grid[oldLocation.getR() + r - 1][oldLocation.getC() + c - 1] = shape[r][c];
-                        } catch (Throwable e) {
-                            JOptionPane.showMessageDialog(null, "Block current location: " + oldLocation + "\nr: " + r + ", " + c);
-                        }
                     }
                 }
             }
 
-            block.setLocation(new Location(oldLocation.getR() - 1, oldLocation.getC() - 1));    //update block location
+            for (int r = 0; r < shape.length; r++) {
+                for (int c = 0; c < shape[r].length; c++) {
+                    try {
+                        grid[oldLocation.getR() + r][oldLocation.getC() + c - 1] = shape[r][c];
+                    } catch (Throwable e) {
+                        JOptionPane.showMessageDialog(null,
+                                "Block current location: " + oldLocation + "\nr: " + r + ", " + c);
+                    }
+                }
+            }
+
+            block.setLocation(new Location(oldLocation.getR(), oldLocation.getC() - 1));    //update block location
         } else throw new IllegalStateException("The specified direction to move the block is invalid.");
+
+        System.out.println("> End move");
     }
 
     private boolean blockMovable(Block block, Location location, Direction direction) {

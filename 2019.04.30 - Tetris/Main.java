@@ -6,6 +6,7 @@ import Game.Location;
 import Game.GameRunner;
 import Game.BlockSpawner;
 import Game.Counter;
+import Game.Lock;
 import UI.GridPanel;
 import UI.KeyEventHandler;
 import Exceptions.ExceptionHandler;
@@ -70,7 +71,8 @@ public class Main {
         blocksForBlockManager.add(new Block(sample5Shape));
         BlockManager<Block> blockManager = new BlockManager<Block>(blocksForBlockManager);
         
-        Grid game = new Grid(20, 10);
+        Lock lock = new Lock();
+        Grid game = new Grid(20, 10, lock);
         startSpawning(game, blockManager);
 
         System.out.println(game);
@@ -83,7 +85,7 @@ public class Main {
         Counter.timeInterval = 250;
         runService.scheduleAtFixedRate(runner, 300, Counter.timeInterval, TimeUnit.MILLISECONDS);
     
-        KeyEventHandler.setHandlerInfo(game, field, runner);
+        KeyEventHandler.setHandlerInfo(game, field, runner, lock);
     }
 
     public static void startSpawning(Grid grid, BlockManager<Block> blockManager) {

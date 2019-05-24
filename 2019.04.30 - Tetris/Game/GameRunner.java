@@ -27,8 +27,10 @@ public class GameRunner implements Runnable {
     public void run() {
         //Do checks to see if it should be paused
         synchronized (pauseLock) {
-            if (!running)
+            if (!running) {
+                System.out.println("> Game is paused; not stepping");
                 return;
+            }
 
             if (paused) {
                 try {
@@ -49,17 +51,29 @@ public class GameRunner implements Runnable {
         panel.repaint();
     }
 
+    /**
+     * Stops the running of the game.
+     */
     public void stop() {
         running = false;
         resume();
     }
 
+    /**
+     * Pauses the running of the game
+     * until {@code resume()} is called.
+     * @throws IllegalStateException when the
+     *         {@code Thread} is not currently running
+     */
     public void pause() {
         if (!running)
             throw new IllegalStateException("Thread is not running; cannot be paused");
         paused = true;
     }
 
+    /**
+     * Resumes the running of the game.
+     */
     public void resume() {
         synchronized (pauseLock) {
             paused = false;

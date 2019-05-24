@@ -1,6 +1,7 @@
 package UI;
 
 import Game.GameRunner;
+import Game.Lock;
 import Game.Grid;
 import Game.Location.Direction;
 import Exceptions.ExceptionHandler;
@@ -13,11 +14,13 @@ public class KeyEventHandler implements KeyListener{
     private static Grid grid;
     private static JPanel panel;
     private static GameRunner runner;   //So the stepping is paused when the block is moved
+    private static Lock lock;
 
-    public static void setHandlerInfo(Grid grid0, JPanel panel0, GameRunner runner0) {
+    public static void setHandlerInfo(Grid grid0, JPanel panel0, GameRunner runner0, Lock lock0) {
         grid = grid0;
         panel = panel0;
         runner = runner0;
+        lock = lock0;
     }
 
     public static <T extends KeyEvent> void handleEvent(String str, T e) {
@@ -26,29 +29,28 @@ public class KeyEventHandler implements KeyListener{
 
         try {
             switch (e.getKeyCode()) {
-                case (KeyEvent.VK_F1):  grid.spawnNewBlock();
-                                        break;
-                case (KeyEvent.VK_F2):  {
-                    runner.pause();
-                    grid.moveBlock(null, Direction.LEFT);
-                    panel.repaint();
-                    runner.resume();
+                case (KeyEvent.VK_F1):  
+                    grid.spawnNewBlock();
                     break;
-                }
-                case (KeyEvent.VK_F3):  {
-                    runner.pause();
-                    grid.moveBlock(null, Direction.RIGHT);
-                    panel.repaint();
-                    runner.resume();
+                case (KeyEvent.VK_F2): 
+                    moveBlock(Direction.LEFT);
                     break;
-                }
+                case (KeyEvent.VK_F3): 
+                    moveBlock(Direction.RIGHT);
+                    break;
             }
         } catch (Throwable err) {
             ExceptionHandler.showError(err);
         }
+    }
 
-        runner.resume();    //Resume game
-
+    public static void moveBlock(Direction dir) {
+        runner.pause();
+        synchronized (lock) {
+            grid.moveBlock(null, dir);
+            panel.repaint();
+        }
+        runner.resume();
     }
 
     @Override
