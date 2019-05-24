@@ -103,6 +103,7 @@ public class Block {
             if (shape[r][0] != null) 
                 list.add(shape[r][0]);
 
+        list.forEach(sq -> System.out.println(sq.getLocation()));
         return list;
     }
 

@@ -254,17 +254,21 @@ public class Grid {
         if (direction == Direction.RIGHT) {
             if (location.getC() + shape[0].length >= grid.length) return false;
 
-            for (Square rs : block.getRightSquares()) 
-                if (rs.getLocation().getC() >= grid.length - 2 || grid[rs.getLocation().getR()][rs.getLocation().getC() + 1] != null)
+            for (Square rs : block.getRightSquares()) {
+                if (rs.getLocation().getC() >= grid.length - 2 || grid[rs.getLocation().getR()][rs.getLocation().getC() + 1] != null) {
                     return false;
+                }
+            }
 
             return true;
         } else if (direction == Direction.LEFT) {
             if (location.getC() == 0) return false;
 
-            for (Square ls : block.getLeftSquares())
-                if (grid[ls.getLocation().getR()][ls.getLocation().getC() - 1] != null)
+            for (Square ls : block.getLeftSquares()) {
+                if (grid[ls.getLocation().getR()][ls.getLocation().getC() - 1] != null) {
                     return false;
+                }
+            }
 
             return true;
         } else throw new IllegalStateException("The specified direction to move the block is invalid.");
