@@ -2,7 +2,6 @@ import Blocks.Block;
 import Blocks.Square;
 import Blocks.BlockManager;
 import Game.Grid;
-import Game.Location;
 import Game.GameRunner;
 import Game.BlockSpawner;
 import Game.Counter;
@@ -10,15 +9,12 @@ import Game.Lock;
 import UI.GridPanel;
 import UI.KeyEventHandler;
 import Exceptions.ExceptionHandler;
-import Exceptions.BlockOutOfBoundsException;
-import Exceptions.IncorrectBlockDefinitionException;
 
 import java.util.ArrayList;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.ScheduledExecutorService;
 import java.awt.Color;
-import java.awt.Dimension;
 import javax.swing.JPanel;
 import javax.swing.JFrame;
 

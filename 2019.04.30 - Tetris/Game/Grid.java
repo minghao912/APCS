@@ -4,7 +4,6 @@ import Exceptions.ExceptionHandler;
 import Exceptions.BlockOutOfBoundsException;
 import Blocks.Block;
 import Blocks.Square;
-import Blocks.BlockManager;
 import Game.Location.Direction;
 
 import java.util.ArrayList;
@@ -18,7 +17,7 @@ public class Grid {
     private ArrayList<Block> blocks;
     private BlockSpawner spawner;
     private Block currentBlock;
-    private Lock lock;
+    private Lock lock;  //For inter-class locking only
     private static boolean gameOver;
 
     /**
@@ -110,7 +109,7 @@ public class Grid {
     /**
      * Standard update to the {@code Grid}; each block is moved one unit down.
      */
-    public void regularStep() {
+    public synchronized void regularStep() {
         synchronized (lock) {
             System.out.println("> Starting step");
 
@@ -127,7 +126,7 @@ public class Grid {
             }
             
             updateBlockLocations();        
-            checkIfSettled();   //Settle all blocks that have settled      
+            checkIfSettled();   //Settle all blocks that have settled    
             //System.out.println(this);   //Display grid to console
             System.out.println("> End step");
         }
@@ -187,6 +186,7 @@ public class Grid {
         }
 
         if (blockSettled) {
+            clearLines();  
             spawnNewBlock();
             blockSettled = false;
         }
@@ -195,8 +195,7 @@ public class Grid {
     /**
      * Spawns a new {@code Block} in the {@code Grid}.
      */
-    public synchronized void spawnNewBlock() {
-        //manager.addToGrid(this, new Location(0, new Random().nextInt(this.getSize()[1] - 2)));
+    private synchronized void spawnNewBlock() {
         spawner.run();
         System.out.println("> Calling spawn");
     }
@@ -271,16 +270,28 @@ public class Grid {
         System.out.println("> End move");
     }
 
+    /**
+     * Checks if the block can be moved.
+     * @param block the {@code Block} to be moved
+     * @param location the {@code Location} of the {@code Block}
+     * @param direction the {@code Direction} of the movement
+     * @return {@code true} if the block can be moved,
+     *         {@code false} if not
+     */
     private boolean blockMovable(Block block, Location location, Direction direction) {
         Square[][] shape = block.getShape();
         
         if (direction == Direction.RIGHT) {
-            if (location.getC() + shape[0].length >= grid.length) return false;
+            if (location.getC() + shape[0].length >= grid.length - 1) return false;
 
-            for (Square rs : block.getRightSquares()) {
-                if (rs.getLocation().getC() >= grid.length - 2 || grid[rs.getLocation().getR()][rs.getLocation().getC() + 1] != null) {
-                    return false;
+            try {
+                for (Square rs : block.getRightSquares()) {
+                    if (rs.getLocation().getC() >= grid.length - 2 || grid[rs.getLocation().getR()][rs.getLocation().getC() + 1] != null) {
+                        return false;
+                    }
                 }
+            } catch (ArrayIndexOutOfBoundsException e) {
+                return false;
             }
 
             return true;
@@ -295,6 +306,64 @@ public class Grid {
 
             return true;
         } else throw new IllegalStateException("The specified direction to move the block is invalid.");
+    }
+
+    /**
+     * Clears any lines in the {@code Grid} that have
+     * been cleared by the user.
+     */
+    public synchronized void clearLines() {
+        System.out.println("> Checking for cleared lines");
+
+        ArrayList<Integer> rowsCleared = new ArrayList<Integer>();
+
+        for (int r = grid.length - 1; r >= 0; r--) {    //Goes backwards
+            if (checkLineClear(r))
+                rowsCleared.add(r);
+        }
+
+        rowsCleared.forEach(row -> {
+            for (int c = 0; c < grid[row].length; c++) {
+                grid[row][c] = null;
+            }
+
+            for (int r = row - 1; r >= 0; r--) {
+                for (int c = 0; c < grid[row].length; c++) {
+                    grid[r + 1][c] = grid[r][c];
+                    grid[r][c] = null;
+                }
+            }
+        });
+
+        Counter.linesCleared += rowsCleared.size(); //Add to the counter
+        System.out.println("> Finish cleared lines check");
+    }
+
+    /**
+     * Checks if the given row in the {@code Grid}
+     * has been cleared.
+     * @param row the row to check
+     * @return whether of not the row is clear
+     */
+    private synchronized boolean checkLineClear(int row) {
+        boolean rowClear = true;
+
+        for (int c = 0; c < grid[row].length; c++) {
+            if (grid[row][c] == null) {
+                rowClear = false;
+                break;
+            }
+        }
+
+        return rowClear;
+    }
+
+    /**
+     * Rotates the passed {@code Block} in the
+     * given {@code Direction}
+     */
+    public synchronized void rotateBlock(Block block, Direction direction) {
+
     }
 
     /** 

@@ -29,12 +29,11 @@ public class KeyEventHandler implements KeyListener{
 
         try {
             switch (e.getKeyCode()) {
-                case (KeyEvent.VK_F1):  
-                    grid.spawnNewBlock();
-                    break;
+                case (KeyEvent.VK_LEFT):
                 case (KeyEvent.VK_F2): 
                     moveBlock(Direction.LEFT);
                     break;
+                case (KeyEvent.VK_RIGHT):
                 case (KeyEvent.VK_F3): 
                     moveBlock(Direction.RIGHT);
                     break;
@@ -44,7 +43,7 @@ public class KeyEventHandler implements KeyListener{
         }
     }
 
-    public static void moveBlock(Direction dir) {
+    private static void moveBlock(Direction dir) {
         runner.pause();
         synchronized (lock) {
             grid.moveBlock(null, dir);
