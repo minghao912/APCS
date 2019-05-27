@@ -46,6 +46,9 @@ public class GameRunner implements Runnable {
             }
         }
 
+        if (grid.isGameOver())  //Don't do anything if in game over state
+            return;
+
         //Actually do the thing
         grid.regularStep();
         panel.repaint();

@@ -4,6 +4,7 @@ import Exceptions.IncorrectBlockDefinitionException;
 import Game.Location;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 /**
  * A {@code Block} is a collection of {@code Square} objects
@@ -11,9 +12,10 @@ import java.util.ArrayList;
  */
 public class Block {
     private Square[][] shape;
-    private double speed;
-    private int currentRotation;
     private Location location;
+    private String id;
+    private int gridIndex;
+    private boolean settled;
 
     /**
      * Creates a {@code Block} with the given {@code Square[][]}.
@@ -28,9 +30,9 @@ public class Block {
             if (a.length != firstRowLength) throw new IncorrectBlockDefinitionException("Blocks must be defined in a rectangular, non-staggered 2D array.");
         }
 
+        this.settled = false;
         this.shape = shape;
-        speed = 1;
-        currentRotation = 0;
+        this.id = UUID.randomUUID().toString();
     }
 
     /**
@@ -55,18 +57,14 @@ public class Block {
             for (int c = 0; c < shape[0].length; c++)
                 if (shape[r][c] != null)
                     shape[r][c].settle();
+        settled = true;
     }
 
     /**
      * @return whether the {@code Block} is settled.
      */
     public boolean isSettled() {
-        for (int r = 0; r < shape.length; r++)
-            for (int c = 0; c < shape[0].length; c++)
-                if (shape[r][c] != null)
-                    if (shape[r][c].isSettled())
-                        return true;
-        return false;
+        return this.settled;
     }
 
     /**
@@ -140,24 +138,10 @@ public class Block {
     }
 
     /**
-     * @return  the set speed of the {@code Block}
+     * @return the unique ID of the {@code Block}
      */
-    public double getSpeed() {
-        return speed;
-    }
-
-    /**
-     * @param speed the speed to set
-     */
-    public void setSpeed(double speed) {
-        this.speed = speed;
-    }
-
-    /**
-     * @return the currentRotation
-     */
-    public int getCurrentRotation() {
-        return currentRotation;
+    public String getID() {
+        return this.id;
     }
 
     /**
@@ -171,6 +155,21 @@ public class Block {
             for (int c = 0; c < shape[0].length; c++)
                 if (shape[r][c] != null)
                     shape[r][c].setLocation(new Location(location0.getR() + r, location0.getC() + c));
+    }
+
+    /**
+     * @param index the index to assign
+     */
+    public void setGridIndex(int index) {
+        this.gridIndex = index;
+    }
+
+    /**
+     * @return the index of the {@code Block}
+     *         within the {@code Grid}'s list
+     */
+    public int getGridIndex() {
+        return this.gridIndex;
     }
 
     /**

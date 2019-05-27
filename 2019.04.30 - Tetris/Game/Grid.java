@@ -2,11 +2,16 @@ package Game;
 
 import Exceptions.ExceptionHandler;
 import Exceptions.BlockOutOfBoundsException;
+import Exceptions.ExceededMaximumCapacityException;
 import Blocks.Block;
 import Blocks.Square;
+import Blocks.BlockHoldManager;
+import Blocks.BlockManager;
 import Game.Location.Direction;
 
 import java.util.ArrayList;
+import java.util.function.Function;;
+
 import javax.swing.JOptionPane;
 
 /**
@@ -15,10 +20,16 @@ import javax.swing.JOptionPane;
 public class Grid {
     private Square[][] grid;
     private ArrayList<Block> blocks;
-    private BlockSpawner spawner;
     private Block currentBlock;
-    private Lock lock;  //For inter-class locking only
-    private static boolean gameOver;
+    private BlockSpawner spawner;
+    private BlockHoldManager holdManager;
+    private int currentHoldIndex;
+    private volatile Lock lock;  //For inter-class locking only
+    private boolean gameOver;
+
+    //For rotation
+    private Function<Square[][], Square[][]> clockwiseRotate;
+    private Function<Square[][], Square[][]> counterclockwiseRotate;
 
     /**
      * Creates a new {@code Grid} with the given height and width.
@@ -28,7 +39,11 @@ public class Grid {
     public Grid(int height, int width, Lock lock) {
         grid = new Square[height][width];
         blocks = new ArrayList<Block>();
+        holdManager = new BlockHoldManager<Block>(Counter.maxHoldCount);
+        gameOver = false;
         this.lock = lock;
+
+        setUpRotateAlgorithms();
     }
 
     /**
@@ -41,11 +56,12 @@ public class Grid {
      *          at the given {@code Location}
      */
     private boolean blockPlaceable(Block block, Location location) {
+        System.out.println("> Checking block placability");
         Square[][] tile = block.getShape();
 
         if (location.getR() < 0 || location.getR() >= grid.length || location.getC() < 0 || location.getC() >= grid[0].length)  //If the location doesn't exist
             return false;
-        if (location.getR() + tile[0].length > grid[0].length - 1)  //If it goes out on the right
+        if (location.getC() + tile[0].length > grid[0].length)  //If it goes out on the right
             return false;
         if (location.getC() + tile.length > grid.length - 1)    //If it goes out on the bottom
             return false;
@@ -84,13 +100,14 @@ public class Grid {
 
             block.setLocation(location);
             blocks.add(block);
+            block.setGridIndex(blocks.size() - 1);
             currentBlock = block;   //update current block to control
             System.out.println("> Block successfully added");
         }
     }
 
     /**
-     * Retreives the {@code Square} at given {@code Location} coordinates.
+     * Retrieves the {@code Square} at given {@code Location} coordinates.
      * @param location the {@code Location} to get the {@code Square} at
      * @return the {@code Square} at the passed {@code Location}
      */
@@ -111,10 +128,10 @@ public class Grid {
      */
     public synchronized void regularStep() {
         synchronized (lock) {
-            System.out.println("> Starting step");
-
             if (gameOver) return;
-
+            
+            System.out.println("> Starting step");
+            
             for (int r = grid.length - 2; r >= 0; r--) {    //Start up from bottom
                 for (int c = 0; c < grid[0].length; c++) {
                     //If the square is supposed to be moving
@@ -139,8 +156,8 @@ public class Grid {
     private synchronized void updateBlockLocations() {
         for (int i = 0; i < blocks.size(); i++) {
             Block b = blocks.get(i);
-            System.out.println("> Updater checking a block");
-            System.out.println("> Block " + i + " is settled: " + b.isSettled());
+            System.out.println("> Updater checking Block " + b.getID());
+            System.out.println("> Block is settled: " + b.isSettled());
             if (!b.isSettled()) {
                 b.setLocation(new Location(b.getLocation().getR() + 1, b.getLocation().getC()));
                 System.out.println("> Updated location " + b.getLocation());
@@ -219,25 +236,17 @@ public class Grid {
             if (!blockMovable(block, oldLocation, direction)) return;
 
             //Modify grid
-            for (int r = 0; r < shape.length; r++) {
-                for (int c = 0; c < shape[r].length; c++) {    //work backwards
-                    if (shape[r][c] != null) {
+            for (int r = 0; r < shape.length; r++)
+                for (int c = 0; c < shape[r].length; c++)   //work backwards
+                    if (shape[r][c] != null)
                         grid[oldLocation.getR() + r][oldLocation.getC() + c] = null;
-                    }
-                }
-            }
 
-            for (int r = 0; r < shape.length; r++) {
-                for (int c = 0; c < shape[r].length; c++) {
-                    try {
+            for (int r = 0; r < shape.length; r++)
+                for (int c = 0; c < shape[r].length; c++)
+                    if (shape[r][c] != null)
                         grid[oldLocation.getR() + r][oldLocation.getC() + c + 1] = shape[r][c];
-                    } catch (Throwable e) {
-                        JOptionPane.showMessageDialog(null, "Block current location: " + oldLocation + "\nr: " + r + ", " + c);
-                    }
-                }
-            }
 
-            //the problem i spent an entire week on was this fucking line
+            //this line can go fuck itself
             block.setLocation(new Location(oldLocation.getR(), oldLocation.getC() + 1));    //update block location
         } else if (direction == Direction.LEFT) {          
             Square[][] shape = block.getShape();
@@ -245,28 +254,20 @@ public class Grid {
             if (!blockMovable(block, oldLocation, direction)) return;
 
             //Modify grid
-            for (int r = 0; r < shape.length; r++) {
-                for (int c = 0; c < shape[r].length; c++) {    //work forwards
-                    if (shape[r][c] != null) {
+            for (int r = 0; r < shape.length; r++)
+                for (int c = 0; c < shape[r].length; c++)   //work forwards
+                    if (shape[r][c] != null)
                         grid[oldLocation.getR() + r][oldLocation.getC() + c] = null;
-                    }
-                }
-            }
 
-            for (int r = 0; r < shape.length; r++) {
-                for (int c = 0; c < shape[r].length; c++) {
-                    try {
+            for (int r = 0; r < shape.length; r++)
+                for (int c = 0; c < shape[r].length; c++)
+                    if (shape[r][c] != null)
                         grid[oldLocation.getR() + r][oldLocation.getC() + c - 1] = shape[r][c];
-                    } catch (Throwable e) {
-                        JOptionPane.showMessageDialog(null,
-                                "Block current location: " + oldLocation + "\nr: " + r + ", " + c);
-                    }
-                }
-            }
 
             block.setLocation(new Location(oldLocation.getR(), oldLocation.getC() - 1));    //update block location
         } else throw new IllegalStateException("The specified direction to move the block is invalid.");
 
+        checkIfSettled();
         System.out.println("> End move");
     }
 
@@ -333,6 +334,8 @@ public class Grid {
                     grid[r][c] = null;
                 }
             }
+
+            System.out.println("> Line cleared");
         });
 
         Counter.linesCleared += rowsCleared.size(); //Add to the counter
@@ -359,16 +362,124 @@ public class Grid {
     }
 
     /**
-     * Rotates the passed {@code Block} in the
-     * given {@code Direction}
+     * Sets the {@code clockwiseRotate} and {@code counterclockwiseRotate}
+     * {@code Function}s to predetermined rotation algorithms.
      */
-    public synchronized void rotateBlock(Block block, Direction direction) {
+    private void setUpRotateAlgorithms() {
+        counterclockwiseRotate = (a) -> {
+            Square[][] b = new Square[a[0].length][a.length];
+            for (int r = 0; r < a[0].length; r++)
+                for (int c = a.length - 1; c >= 0; c--)
+                    b[r][c] = a[a.length - c - 1][r];
+            return b;
+        };
 
+        clockwiseRotate = (a) -> {
+            Square[][] b = new Square[a[0].length][a.length];
+            for (int r = 0; r < a[0].length; r++)
+                for (int c = 0; c < a.length; c++) 
+                    b[r][c] = a[c][a[0].length - r - 1];
+            return b;
+        };
+    }
+
+    /**
+     * Rotates the passed {@code Block} in the
+     * given {@code Direction}.
+     * @param block the {@code Block} to be moved
+     * @param direction the {@code Direction} of rotation - either
+     *                  {@code CLOCKWISE} or {@code COUNTERCLOCKWISE}
+     * @throws IllegalArgumentException if the rotation direction is invalid
+     */
+    public synchronized void rotateBlock(Block block, Direction direction) throws IllegalArgumentException {
+        if (block == null) 
+            block = this.currentBlock;
+        if (direction != Direction.CLOCKWISE && direction != Direction.COUNTERCLOCKWISE)
+            throw new IllegalArgumentException("The rotation direction is invalid.");
+
+        System.out.println("> Rotating Block " + block.getID());
+
+        Square[][] shape = block.getShape();
+        Square[][] newShape;
+
+        /* if (direction == Direction.COUNTERCLOCKWISE) {
+            newShape = counterclockwiseRotate.apply(shape);
+        } else if (direction == Direction.CLOCKWISE) {
+            newShape = clockwiseRotate.apply(shape);
+        }  */
+
+        newShape = (direction == Direction.COUNTERCLOCKWISE) ? counterclockwiseRotate.apply(shape) : clockwiseRotate.apply(shape);
+        removeBlock(block);
+        this.addBlock(new Block(newShape), block.getLocation());
+    }
+
+    /**
+     * Removes the passed {@code Block} from the {@code Grid}
+     * @param block the {@code Block} to remove
+     */
+    private synchronized void removeBlock(Block block) {
+        Square[][] shape = block.getShape();
+        Location loc = block.getLocation();
+
+        for (int r = 0; r < shape.length; r++) {
+            for (int c = 0; c < shape[r].length; c++) {
+                if (shape[r][c] != null) {
+                    grid[loc.getR() + r][loc.getC() + c] = null;
+                }
+            }
+        }
+
+        blocks.remove(block.getGridIndex());
+    }
+
+    /**
+     * Holds the given {@code Block} and spawns a new one.
+     * @param block the {@code Block} to hold
+     * @param spawnNewBlock whether or not to spawn a new {@code Block} after holding
+     */
+    public void holdBlock(Block block, boolean spawnNewBlock) {
+        if (block == null) 
+            block = this.currentBlock;
+
+        try {
+            holdManager.holdBlock(block);
+        } catch (ExceededMaximumCapacityException e) { //Hold has reached its maximum capacity
+            Block previousHold = retrieveHold(currentHoldIndex++ % Counter.maxHoldCount);
+            holdBlock(block, false);
+            Location oldLoc = block.getLocation();
+            removeBlock(block);
+
+            try {
+                this.addBlock(previousHold, oldLoc);
+            } catch (BlockOutOfBoundsException err) {
+                return;
+            }
+            return;
+        }
+
+        System.out.println("> Holding Block " + block.getID());
+
+        if (spawnNewBlock) {
+            removeBlock(block);
+            spawnNewBlock();
+        }
+    }
+
+    /**
+     * Retrieves the {@code i}th {@code Block} from
+     * hold and replaces it with the current one.
+     * @param i the {@code Block} to retrieve
+     */
+    public Block retrieveHold(int i) {
+        Block block = holdManager.getMember(i);
+        holdManager.deleteHold(i);
+        return block;
     }
 
     /** 
      * Sets the {@code BlockSpawner} for the {@code Grid}
      * instance.
+     * @param s the {@code BlockSpawner} to be assigned
      */
     public void setSpawner(BlockSpawner s) {
         this.spawner = s;
@@ -378,8 +489,9 @@ public class Grid {
      * Sets the {@code Grid} into the 
      * game over state.
      */
-    public static void gameOver() {
-        Grid.gameOver = true;
+    public void gameOver() {
+        this.gameOver = true;
+        System.out.println("> Game over state triggered");
     }
 
     /**
@@ -387,8 +499,8 @@ public class Grid {
      * is in the 'Game Over' state.
      * @return if the game is over or not
      */
-    public static boolean isGameOver() {
-        return Grid.gameOver;
+    public boolean isGameOver() {
+        return this.gameOver;
     }
 
     private void sleep(int ms) {

@@ -34,6 +34,7 @@ public class BlockManager<T extends Block> extends Manager<T> {
         } catch (Throwable e) {
             if (e instanceof BlockOutOfBoundsException) {   //Game over
                 JOptionPane.showMessageDialog(null, "You Lost!\nLines Cleared: " + Counter.linesCleared, "Game Over", JOptionPane.INFORMATION_MESSAGE);
+                grid.gameOver();
             } else throw e;
         }
     }

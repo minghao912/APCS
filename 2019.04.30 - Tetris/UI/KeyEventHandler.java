@@ -14,7 +14,7 @@ public class KeyEventHandler implements KeyListener{
     private static Grid grid;
     private static JPanel panel;
     private static GameRunner runner;   //So the stepping is paused when the block is moved
-    private static Lock lock;
+    private static volatile Lock lock;
 
     public static void setHandlerInfo(Grid grid0, JPanel panel0, GameRunner runner0, Lock lock0) {
         grid = grid0;
@@ -37,10 +37,37 @@ public class KeyEventHandler implements KeyListener{
                 case (KeyEvent.VK_F3): 
                     moveBlock(Direction.RIGHT);
                     break;
+                case (KeyEvent.VK_UP):
+                    rotateBlock(Direction.COUNTERCLOCKWISE);
+                    break;
+                case (KeyEvent.VK_DOWN):
+                    rotateBlock(Direction.CLOCKWISE);
+                    break;
+                case (KeyEvent.VK_C):
+                    holdBlock();
+                    break;
             }
         } catch (Throwable err) {
             ExceptionHandler.showError(err);
         }
+    }
+
+    private static void holdBlock() {
+        runner.pause();
+        synchronized (lock) {
+            grid.holdBlock(null, true);
+            panel.repaint();
+        }
+        runner.resume();
+    }
+
+    private static void rotateBlock(Direction dir) {
+        runner.pause();
+        synchronized (lock) {
+            grid.rotateBlock(null, dir);
+            panel.repaint();
+        }
+        runner.resume();
     }
 
     private static void moveBlock(Direction dir) {

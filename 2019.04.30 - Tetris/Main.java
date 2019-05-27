@@ -43,8 +43,8 @@ public class Main {
 
         Square[][] sample3Shape = {
             {new Square(Color.PINK), new Square(Color.PINK)},
-            {null,                   new Square(Color.PINK)},
-            {null,                   new Square(Color.PINK)}
+            {new Square(Color.PINK), null},
+            {new Square(Color.PINK), null}
         };
 
         Square[][] sample4Shape = {
@@ -67,6 +67,7 @@ public class Main {
         blocksForBlockManager.add(new Block(sample5Shape));
         BlockManager<Block> blockManager = new BlockManager<Block>(blocksForBlockManager);
         
+        Counter.maxHoldCount = 2;
         Lock lock = new Lock();
         Grid game = new Grid(20, 10, lock);
         startSpawning(game, blockManager);

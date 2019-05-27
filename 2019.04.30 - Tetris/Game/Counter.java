@@ -1,6 +1,7 @@
 package Game;
 
 public class Counter {
-    public static int linesCleared;
-    public static int timeInterval;
+    public static volatile int linesCleared;
+    public static volatile int timeInterval;
+    public static volatile int maxHoldCount;
 }

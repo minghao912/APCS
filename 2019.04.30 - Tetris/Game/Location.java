@@ -13,7 +13,8 @@ public class Location {
      * {@code Direction}s that can be used.
      */
     public enum Direction {
-        LEFT, RIGHT;
+        LEFT, RIGHT,    //For moving blocks
+        CLOCKWISE, COUNTERCLOCKWISE;   //For rotating blocks
     }
 
     /**
@@ -30,7 +31,7 @@ public class Location {
     }
 
     /**
-     * Retreives the {@code Map} that represents the coordinates.
+     * Retrieves the {@code Map} that represents the coordinates.
      * @return  a clone of the {@code Map}
      */
     public HashMap<String, Integer> getMap() {
@@ -38,7 +39,7 @@ public class Location {
     }
 
     /**
-     * Retreives the row-value of the {@code Location}.
+     * Retrieves the row-value of the {@code Location}.
      * @return the row-value
      */
     public Integer getR() {
@@ -46,7 +47,7 @@ public class Location {
     }
 
     /**
-     * Retreives the column-value of the {@code Location}.
+     * Retrieves the column-value of the {@code Location}.
      * @return the column-value
      */
     public Integer getC() {
