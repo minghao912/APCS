@@ -8,6 +8,7 @@ import Blocks.Square;
 import Blocks.BlockHoldManager;
 import Blocks.BlockManager;
 import Game.Location.Direction;
+import UI.HoldPanel;
 
 import java.util.ArrayList;
 import java.util.function.Function;;
@@ -22,8 +23,9 @@ public class Grid {
     private ArrayList<Block> blocks;
     private Block currentBlock;
     private BlockSpawner spawner;
-    private BlockHoldManager holdManager;
+    private BlockHoldManager<Block> holdManager;
     private int currentHoldIndex;
+    private HoldPanel holdPanel;
     private volatile Lock lock;  //For inter-class locking only
     private boolean gameOver;
 
@@ -42,6 +44,7 @@ public class Grid {
         holdManager = new BlockHoldManager<Block>(Counter.maxHoldCount);
         gameOver = false;
         this.lock = lock;
+        this.holdPanel = holdPanel;
 
         setUpRotateAlgorithms();
     }
@@ -463,6 +466,8 @@ public class Grid {
             removeBlock(block);
             spawnNewBlock();
         }
+
+        holdPanel.repaint();
     }
 
     /**
@@ -483,6 +488,17 @@ public class Grid {
      */
     public void setSpawner(BlockSpawner s) {
         this.spawner = s;
+    }
+
+    public void setHoldPanel(HoldPanel hpanel) {
+        this.holdPanel = hpanel;
+    }
+
+    /**
+     * @return the hold manager
+     */
+    public BlockHoldManager<Block> getHoldManager() {
+        return this.holdManager;
     }
 
     /**

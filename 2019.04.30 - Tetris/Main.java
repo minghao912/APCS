@@ -7,6 +7,7 @@ import Game.BlockSpawner;
 import Game.Counter;
 import Game.Lock;
 import UI.GridPanel;
+import UI.HoldPanel;
 import UI.KeyEventHandler;
 import Exceptions.ExceptionHandler;
 
@@ -21,6 +22,8 @@ import javax.swing.JFrame;
 public class Main {
     private static JFrame win;
     private static JPanel field;
+    private static HoldPanel hpanel;
+    private static Grid game;
 
     public static void main(String[] args) {
         try {
@@ -69,7 +72,7 @@ public class Main {
         
         Counter.maxHoldCount = 2;
         Lock lock = new Lock();
-        Grid game = new Grid(20, 10, lock);
+        game = new Grid(20, 10, lock);
         startSpawning(game, blockManager);
 
         System.out.println(game);
@@ -104,5 +107,16 @@ public class Main {
         win.pack();
         win.setLocationRelativeTo(null);
         win.setVisible(true);
+
+        hpanel = new HoldPanel(game.getHoldManager());
+        JFrame hFrame = new JFrame("Hold");
+        hFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        hFrame.setPreferredSize(new java.awt.Dimension(200, 400));
+        hFrame.setResizable(false);
+        hFrame.add(hpanel);
+        hFrame.pack();
+        hFrame.setLocationRelativeTo(null);
+        hFrame.setVisible(true);
+        game.setHoldPanel(hpanel);
     }
 }

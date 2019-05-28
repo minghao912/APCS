@@ -7,15 +7,13 @@ import javax.swing.JPanel;
 import Blocks.Square;
 import Game.Grid;
 import Game.Location;
-import Game.Location.Direction;
 
 /**
  * A {@code GridPanel} is the graphical representation of a {@code Grid}.
  */
 public class GridPanel extends JPanel {
     private Grid grid;
-    private Graphics g;
-    private static final int SQUARESIZE = 20;
+    public static final int SQUARESIZE = 20;
 
     /**
      * Creates a {@code GridPanel} to represent the passed {@code Grid} parameter.

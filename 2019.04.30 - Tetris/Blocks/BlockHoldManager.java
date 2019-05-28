@@ -3,8 +3,6 @@ package Blocks;
 import Game.Manager;
 import Exceptions.ExceededMaximumCapacityException;
 
-import java.util.ArrayList;
-
 public class BlockHoldManager<T extends Block> extends Manager<T> {
     private int max;
 
@@ -35,6 +33,14 @@ public class BlockHoldManager<T extends Block> extends Manager<T> {
      */
     public void deleteHold(int index) {
         super.members.remove(index);
+    }
+
+    /**
+     * @return the maximum amount of {@code Block}s 
+     *         that the manager can hold
+     */
+    public int getMaxHold() {
+        return this.max;
     }
 
     @Override

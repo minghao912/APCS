@@ -6,6 +6,7 @@ import Game.Grid;
 import Game.Location.Direction;
 import Exceptions.ExceptionHandler;
 
+import javax.swing.JOptionPane;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import javax.swing.JPanel;
@@ -93,4 +94,6 @@ public class KeyEventHandler implements KeyListener{
     public void keyTyped(KeyEvent e) {
         //KeyEventHandler.printEventInfo("Key Typed", e);   //test only
     }
+
+
 }
