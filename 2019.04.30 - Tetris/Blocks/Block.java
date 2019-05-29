@@ -32,7 +32,7 @@ public class Block {
 
         this.settled = false;
         this.shape = shape;
-        this.id = UUID.randomUUID().toString();
+        this.id = UUID.randomUUID().toString(); // ☎2
     }
 
     /**

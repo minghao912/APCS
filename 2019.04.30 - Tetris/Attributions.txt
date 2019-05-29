@@ -1,0 +1,5 @@
+ * ☎1 Sutar, Abhijeet."[Java] How to Schedule a Task to Run in an Interval." Java Code Geeks. 2 April 2014. Accessed 29 May 2019. https://www.javacodegeeks.com/2014/04/java-how-to-schedule-a-task-to-run-in-an-interval.html.
+ * ☎2 H, Sakthi Priyan. "Creating Base64 UUID in Java Alphanumeric Unique Id Using Base64 Charset." Creating Base64 UUID in Java - Sakthi Priyan H. 2 April 2017. Accessed 29 May 2019. https://sakthipriyan.com/2017/04/02/creating-base64-uuid-in-java.html.
+ * ☎3 "How to Make Dialogs." How to Make Dialogs (The Java™ Tutorials Creating a GUI With JFC/Swing Using Swing Components). Accessed 29 May 2019. https://docs.oracle.com/javase/tutorial/uiswing/components/dialog.html.
+ * ☎4 Herteladrian, and MrCodeBlokMrCodeBlok. "Printing Stack Trace in JOptionPane." Stack Overflow. 20 January 2013. 29 May 2019. https://stackoverflow.com/questions/14421229/printing-stack-trace-in-joptionpane.
+ *

@@ -79,7 +79,7 @@ public class Main {
 
         createAndShowGame(game);
 
-        //Make blocks move
+        //Make blocks move ☎1
         GameRunner runner = new GameRunner(game, field);
         ScheduledExecutorService runService = Executors.newSingleThreadScheduledExecutor();
         Counter.timeInterval = 250;
