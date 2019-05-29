@@ -36,6 +36,14 @@ public class BlockHoldManager<T extends Block> extends Manager<T> {
     }
 
     /**
+     * @return the number of blocks
+     *         currently being held
+     */
+    public int currentHold() {
+        return super.members.size();
+    }
+
+    /**
      * @return the maximum amount of {@code Block}s 
      *         that the manager can hold
      */

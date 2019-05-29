@@ -41,9 +41,9 @@ public class KeyEventHandler implements KeyListener{
                 case (KeyEvent.VK_UP):
                     rotateBlock(Direction.COUNTERCLOCKWISE);
                     break;
-                case (KeyEvent.VK_DOWN):
+                /* case (KeyEvent.VK_DOWN):
                     rotateBlock(Direction.CLOCKWISE);
-                    break;
+                    break; */
                 case (KeyEvent.VK_C):
                     holdBlock();
                     break;

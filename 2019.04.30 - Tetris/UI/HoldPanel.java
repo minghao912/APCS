@@ -1,12 +1,12 @@
 package UI;
 
+import Blocks.Square;
 import Blocks.Block;
 import Blocks.BlockHoldManager;
 
 import java.util.ArrayList;
 import java.awt.Graphics;
-
-import javax.swing.BoxLayout;
+import java.awt.Dimension;
 import javax.swing.JPanel;
 
 public class HoldPanel extends JPanel {
@@ -15,19 +15,21 @@ public class HoldPanel extends JPanel {
 
     public HoldPanel(BlockHoldManager<Block> blockHoldManager) {
         holdManager = blockHoldManager;
-
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
     }
 
-    public void paintPanel(Graphics g) {
-        ArrayList<HeldBlock> hold = new ArrayList<HeldBlock>(holdManager.getMaxHold());
-        for (int i = 0; i < holdManager.getMaxHold(); i++) {
-            hold.add(new HeldBlock(holdManager.getMember(i)));
-        }
+    private void paintPanel(Graphics g) {
+        for (int i = 0; i < holdManager.currentHold(); i++) {
+            Square[][] shape = holdManager.getMember(i).getShape();
 
-        hold.forEach(hb -> {
-            this.add(hb);
-        });
+            for (int r = 0; r < shape.length; r++) {
+                for (int c = 0; c < shape[0].length; c++) {
+                    if (shape[r][c] == null)
+                        continue;
+                    g.setColor(shape[r][c].getColor());
+                    g.fillRect((c * SQUARESIZE) + (i * 100), r * SQUARESIZE, SQUARESIZE, SQUARESIZE);
+                }
+            }
+        }
     }
 
     @Override

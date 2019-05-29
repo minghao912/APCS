@@ -12,7 +12,6 @@ import UI.HoldPanel;
 
 import java.util.ArrayList;
 import java.util.function.Function;;
-
 import javax.swing.JOptionPane;
 
 /**
@@ -44,7 +43,6 @@ public class Grid {
         holdManager = new BlockHoldManager<Block>(Counter.maxHoldCount);
         gameOver = false;
         this.lock = lock;
-        this.holdPanel = holdPanel;
 
         setUpRotateAlgorithms();
     }
@@ -457,8 +455,10 @@ public class Grid {
             } catch (BlockOutOfBoundsException err) {
                 return;
             }
+            holdPanel.repaint();
             return;
         }
+        holdPanel.repaint();
 
         System.out.println("> Holding Block " + block.getID());
 
@@ -466,8 +466,6 @@ public class Grid {
             removeBlock(block);
             spawnNewBlock();
         }
-
-        holdPanel.repaint();
     }
 
     /**

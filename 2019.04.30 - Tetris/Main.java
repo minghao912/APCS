@@ -111,11 +111,11 @@ public class Main {
         hpanel = new HoldPanel(game.getHoldManager());
         JFrame hFrame = new JFrame("Hold");
         hFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        hFrame.setPreferredSize(new java.awt.Dimension(200, 400));
+        hFrame.setPreferredSize(new java.awt.Dimension(200, 150));
         hFrame.setResizable(false);
-        hFrame.add(hpanel);
+        hFrame.add(hpanel, java.awt.BorderLayout.CENTER);
         hFrame.pack();
-        hFrame.setLocationRelativeTo(null);
+        hFrame.setLocationRelativeTo(win);
         hFrame.setVisible(true);
         game.setHoldPanel(hpanel);
     }
