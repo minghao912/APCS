@@ -8,6 +8,7 @@ import Game.Counter;
 import Game.Lock;
 import UI.GridPanel;
 import UI.HoldPanel;
+import UI.CounterFrame;
 import UI.KeyEventHandler;
 import Exceptions.ExceptionHandler;
 
@@ -118,5 +119,7 @@ public class Main {
         hFrame.setLocationRelativeTo(win);
         hFrame.setVisible(true);
         game.setHoldPanel(hpanel);
+
+        CounterFrame cf = new CounterFrame("Stats", game);
     }
 }
