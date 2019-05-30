@@ -135,11 +135,17 @@ public class Main {
         hFrame.setVisible(true);
         game.setHoldPanel(hpanel);
 
-<<<<<<< HEAD
+        System.out.println("> Setting up CounterFrame");
         CounterFrame cf = new CounterFrame("Stats", game);
-=======
+        cf.setSize(new Dimension(win.getWidth(), 75));
+        cf.pack();
+        cf.setLocation(win.getX(), win.getY() - 75);
+        cf.setVisible(true);
+        
+        ScheduledExecutorService runService = Executors.newSingleThreadScheduledExecutor();
+        runService.scheduleAtFixedRate(cf, 0, 1, TimeUnit.SECONDS);
+
         win.toFront();
         win.setState(Frame.NORMAL);
->>>>>>> d4458d2e895b178d9c0383ebb074fc1441fe4308
     }
 }
