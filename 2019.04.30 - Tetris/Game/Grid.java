@@ -88,7 +88,8 @@ public class Grid {
      */
     public void addBlock(Block block, Location location) {
         //Error if the block will be placed outside of the area
-        if (!blockPlaceable(block, location)) throw new BlockOutOfBoundsException(location);
+        if (!blockPlaceable(block, location)) 
+            throw new BlockOutOfBoundsException(location, block);
         else {
             Square[][] blockShape = block.getShape();
 
@@ -397,6 +398,11 @@ public class Grid {
             block = this.currentBlock;
         if (direction != Direction.CLOCKWISE && direction != Direction.COUNTERCLOCKWISE)
             throw new IllegalArgumentException("The rotation direction is invalid.");
+
+        //Don't rotate if out of bounds
+        if (block.getLocation().getC() + block.getShape().length >= grid[0].length)
+            return;
+        else System.out.println("> No!");
 
         System.out.println("> Rotating Block " + block.getID());
 

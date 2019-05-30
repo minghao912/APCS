@@ -54,7 +54,7 @@ public class BlockHoldManager<T extends Block> extends Manager<T> {
     @Override
     protected void add(T newMember) throws ExceededMaximumCapacityException {
         if (super.members.size() >= max)
-            throw new ExceededMaximumCapacityException("Hold has reached its maximum capacity.");
+            throw new ExceededMaximumCapacityException(this.getMaxHold());
         super.add(newMember);
     }
 

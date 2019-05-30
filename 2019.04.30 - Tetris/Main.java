@@ -17,6 +17,9 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.ScheduledExecutorService;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Frame;
+import java.awt.BorderLayout;
 import javax.swing.JPanel;
 import javax.swing.JFrame;
 
@@ -25,9 +28,11 @@ public class Main {
     private static JPanel field;
     private static HoldPanel hpanel;
     private static Grid game;
+    private static BlockManager<Block> blockManager;
 
     public static void main(String[] args) {
         try {
+            createBlocks();
             doStuff();
         } catch (Throwable e) {
             ExceptionHandler.showError(e);
@@ -35,6 +40,25 @@ public class Main {
     }
 
     public static void doStuff() {
+        Counter.maxHoldCount = 2;
+        Lock lock = new Lock();
+        game = new Grid(20, 10, lock);
+        startSpawning(game, blockManager);
+
+        System.out.println(game);
+
+        createAndShowGame(game);
+
+        //Make blocks move ☎1
+        GameRunner runner = new GameRunner(game, field);
+        ScheduledExecutorService runService = Executors.newSingleThreadScheduledExecutor();
+        Counter.timeInterval = 250;
+        runService.scheduleAtFixedRate(runner, 300, Counter.timeInterval, TimeUnit.MILLISECONDS);
+    
+        KeyEventHandler.setHandlerInfo(game, field, runner, lock);
+    }
+
+    public static void createBlocks() {
         Square[][] sample1Shape = {
             {new Square(Color.RED), new Square(Color.RED), new Square(Color.RED)},
             {new Square(Color.RED), null,                  null}
@@ -63,30 +87,20 @@ public class Main {
             {new Square(Color.GREEN)}
         };
 
+        Square[][] sample6Shape = {
+            {new Square(Color.ORANGE), null},
+            {new Square(Color.ORANGE), new Square(Color.ORANGE)},
+            {null                    , new Square(Color.ORANGE)}
+        };
+
         ArrayList<Block> blocksForBlockManager = new ArrayList<Block>();
         blocksForBlockManager.add(new Block(sample1Shape));
         blocksForBlockManager.add(new Block(sample2Shape));
         blocksForBlockManager.add(new Block(sample3Shape));
         blocksForBlockManager.add(new Block(sample4Shape));
         blocksForBlockManager.add(new Block(sample5Shape));
-        BlockManager<Block> blockManager = new BlockManager<Block>(blocksForBlockManager);
-        
-        Counter.maxHoldCount = 2;
-        Lock lock = new Lock();
-        game = new Grid(20, 10, lock);
-        startSpawning(game, blockManager);
-
-        System.out.println(game);
-
-        createAndShowGame(game);
-
-        //Make blocks move ☎1
-        GameRunner runner = new GameRunner(game, field);
-        ScheduledExecutorService runService = Executors.newSingleThreadScheduledExecutor();
-        Counter.timeInterval = 250;
-        runService.scheduleAtFixedRate(runner, 300, Counter.timeInterval, TimeUnit.MILLISECONDS);
-    
-        KeyEventHandler.setHandlerInfo(game, field, runner, lock);
+        blocksForBlockManager.add(new Block(sample6Shape));
+        blockManager = new BlockManager<Block>(blocksForBlockManager);
     }
 
     public static void startSpawning(Grid grid, BlockManager<Block> blockManager) {
@@ -112,14 +126,20 @@ public class Main {
         hpanel = new HoldPanel(game.getHoldManager());
         JFrame hFrame = new JFrame("Hold");
         hFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        hFrame.setPreferredSize(new java.awt.Dimension(200, 150));
+        hFrame.setPreferredSize(new Dimension(200, 150));
         hFrame.setResizable(false);
-        hFrame.add(hpanel, java.awt.BorderLayout.CENTER);
+        hFrame.add(hpanel, BorderLayout.CENTER);
         hFrame.pack();
-        hFrame.setLocationRelativeTo(win);
+        //hFrame.setLocationRelativeTo(win);
+        hFrame.setLocation(win.getX() + win.getWidth(), win.getY());
         hFrame.setVisible(true);
         game.setHoldPanel(hpanel);
 
+<<<<<<< HEAD
         CounterFrame cf = new CounterFrame("Stats", game);
+=======
+        win.toFront();
+        win.setState(Frame.NORMAL);
+>>>>>>> d4458d2e895b178d9c0383ebb074fc1441fe4308
     }
 }
