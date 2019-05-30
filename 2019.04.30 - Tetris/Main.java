@@ -93,6 +93,12 @@ public class Main {
             {null                    , new Square(Color.ORANGE)}
         };
 
+        Square[][] sample7Shape = {
+            {null                               , new Square(new Color(120, 40, 175))},
+            {new Square(new Color(120, 40, 175)), new Square(new Color(120, 40, 175))},
+            {new Square(new Color(120, 40, 175)), null                               }
+        };
+
         ArrayList<Block> blocksForBlockManager = new ArrayList<Block>();
         blocksForBlockManager.add(new Block(sample1Shape));
         blocksForBlockManager.add(new Block(sample2Shape));
@@ -100,6 +106,7 @@ public class Main {
         blocksForBlockManager.add(new Block(sample4Shape));
         blocksForBlockManager.add(new Block(sample5Shape));
         blocksForBlockManager.add(new Block(sample6Shape));
+        blocksForBlockManager.add(new Block(sample7Shape));
         blockManager = new BlockManager<Block>(blocksForBlockManager);
     }
 
@@ -137,6 +144,7 @@ public class Main {
 
         System.out.println("> Setting up CounterFrame");
         CounterFrame cf = new CounterFrame("Stats", game);
+        cf.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         cf.setSize(new Dimension(win.getWidth(), 75));
         cf.pack();
         cf.setLocation(win.getX(), win.getY() - 75);
