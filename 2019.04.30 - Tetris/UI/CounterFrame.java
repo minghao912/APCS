@@ -1,12 +1,14 @@
 package UI;
 
+import Game.Grid;
+import Game.Counter;
+
+import java.awt.BorderLayout;
 import java.awt.Dimension;
+
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JSplitPane;
-
-import Game.Grid;
-import Game.Counter;
 
 public class CounterFrame extends JFrame implements Runnable{
     private Grid grid;
@@ -19,12 +21,13 @@ public class CounterFrame extends JFrame implements Runnable{
         super(str);
 
         this.grid = grid;
-        lines = new JLabel("<html><div style='text-align: center;'>Lines Cleared<br>" + Counter.linesCleared + "</div></html>");
-        time = new JLabel("<html><div style='text-align: center;'>Time Elapsed<br>00:00</div></html>");
+        lines = new JLabel("<html><div style='text-align: center;'>Lines Cleared<br/>" + Counter.linesCleared + "</div></html>");
+        time = new JLabel("<html><div style='text-align: center;'>Time Elapsed<br/>00:00</div></html>");
 
         sp = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
         sp.setLeftComponent(lines);
         sp.setRightComponent(time);
+        sp.setDividerLocation(60);
         this.add(sp);
 
         System.out.println("> Counter frame setup done");
@@ -40,8 +43,13 @@ public class CounterFrame extends JFrame implements Runnable{
 
         //JLabel text ☎5
         lines.setText("<html><div style='text-align: center;'>Lines Cleared\n" + Counter.linesCleared + "</div></html>");
-        time.setText("<html><div style='text-align: center;'>Time Elapsed\n" + min + ":" + sec + "</div></html>");
+        time.setText("<html><div style='text-align: center;'>Time Elapsed\n" + String.format("%02d", min) + ":" + String.format("%02d", sec) + "</div></html>");
 
         sec++;
+    }
+
+    @Override
+    public Dimension getPreferredSize() {
+        return new Dimension(200, 90);
     }
 }

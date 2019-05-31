@@ -402,22 +402,23 @@ public class Grid {
         //Don't rotate if out of bounds
         if (block.getLocation().getC() + block.getShape().length >= grid[0].length)
             return;
-        else System.out.println("> No!");
-
+        
         System.out.println("> Rotating Block " + block.getID());
 
         Square[][] shape = block.getShape();
         Square[][] newShape;
-
-        /* if (direction == Direction.COUNTERCLOCKWISE) {
+        if (direction == Direction.COUNTERCLOCKWISE) {
             newShape = counterclockwiseRotate.apply(shape);
         } else if (direction == Direction.CLOCKWISE) {
             newShape = clockwiseRotate.apply(shape);
-        }  */
+        } else newShape = null;
 
-        newShape = (direction == Direction.COUNTERCLOCKWISE) ? counterclockwiseRotate.apply(shape) : clockwiseRotate.apply(shape);
         removeBlock(block);
-        this.addBlock(new Block(newShape), block.getLocation());
+        try {
+            this.addBlock(new Block(newShape), block.getLocation());
+        } catch (BlockOutOfBoundsException e) {
+            this.addBlock(new Block(shape), block.getLocation());
+        }
     }
 
     /**

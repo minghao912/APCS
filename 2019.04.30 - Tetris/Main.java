@@ -145,9 +145,8 @@ public class Main {
         System.out.println("> Setting up CounterFrame");
         CounterFrame cf = new CounterFrame("Stats", game);
         cf.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        cf.setSize(new Dimension(win.getWidth(), 75));
         cf.pack();
-        cf.setLocation(win.getX(), win.getY() - 75);
+        cf.setLocation(win.getX(), win.getY() - 90);
         cf.setVisible(true);
         
         ScheduledExecutorService runService = Executors.newSingleThreadScheduledExecutor();
