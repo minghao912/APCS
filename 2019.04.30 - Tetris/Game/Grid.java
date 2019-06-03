@@ -28,7 +28,7 @@ public class Grid {
     private volatile Lock lock;  //For inter-class locking only
     private boolean gameOver;
 
-    //For rotation
+    //For rotation ☎6
     private Function<Square[][], Square[][]> clockwiseRotate;
     private Function<Square[][], Square[][]> counterclockwiseRotate;
 
@@ -68,7 +68,7 @@ public class Grid {
         if (location.getC() + tile.length > grid.length - 1)    //If it goes out on the bottom
             return false;
 
-        //Overlap detection (SEMI-WORKING)
+        //Overlap detection
         for (int r = 0; r < tile.length; r++) {
             for (int c = 0; c < tile[0].length; c++) { 
                 System.out.println("> Checking if there's overlap at location (" + (location.getR() + r) + ", " + (location.getC() + c) + ")");
@@ -370,7 +370,7 @@ public class Grid {
      * Sets the {@code clockwiseRotate} and {@code counterclockwiseRotate}
      * {@code Function}s to predetermined rotation algorithms.
      */
-    private void setUpRotateAlgorithms() {
+    private void setUpRotateAlgorithms() {  // ☎6
         counterclockwiseRotate = (a) -> {
             Square[][] b = new Square[a[0].length][a.length];
             for (int r = 0; r < a[0].length; r++)

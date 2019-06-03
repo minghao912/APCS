@@ -3,14 +3,14 @@ package Game;
 import javax.swing.JPanel;
 
 /**
- * A {@code GameRunner} is a {@code TimerTask}
+ * A {@code GameRunner} is a {@code Runnable}
  * that steps the current game instance forward.
  */
 public class GameRunner implements Runnable {
     private Grid grid;
     private JPanel panel;
 
-    private volatile boolean running = true;
+    private volatile boolean running = true;    // 'volatile' - ☎8
     private volatile boolean paused = false;
     private final Object pauseLock = new Object();
 

@@ -7,12 +7,12 @@ import java.util.HashMap;
  * in the format (x, y).
  */
 public class Location {
-    private HashMap<String, Integer> map;
+    private HashMap<String, Integer> map;   // ☎10
 
     /**
      * {@code Direction}s that can be used.
      */
-    public enum Direction {
+    public enum Direction { // ☎9
         LEFT, RIGHT,    //For moving blocks
         CLOCKWISE, COUNTERCLOCKWISE;   //For rotating blocks
     }

@@ -6,10 +6,8 @@ import Blocks.BlockManager;
 import java.util.TimerTask;
 
 /**
- * The {@code SpawnBlock} class is a {@code Runnable}
- * {@code Thread} that spawns a {@code Block} at a 
- * {@code Location} at the top of the {@code Grid} at 
- * a specified interval.
+ * The {@code SpawnBlock} class spawns a {@code Block} at a 
+ * {@code Location} at the top of the {@code Grid}.
  */
 public class BlockSpawner {
     Grid grid;

@@ -8,9 +8,9 @@ import java.awt.Dimension;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JSplitPane;
+import javax.swing.JSplitPane;  // ☎11
 
-public class CounterFrame extends JFrame implements Runnable{
+public class CounterFrame extends JFrame implements Runnable {
     private Grid grid;
     private JSplitPane sp;
     private JLabel lines;
@@ -43,7 +43,7 @@ public class CounterFrame extends JFrame implements Runnable{
 
         //JLabel text ☎5
         lines.setText("<html><div style='text-align: center;'>Lines Cleared\n" + Counter.linesCleared + "</div></html>");
-        time.setText("<html><div style='text-align: center;'>Time Elapsed\n" + String.format("%02d", min) + ":" + String.format("%02d", sec) + "</div></html>");
+        time.setText("<html><div style='text-align: center;'>Time Elapsed\n" + String.format("%02d", min) + ":" + String.format("%02d", sec) + "</div></html>");    //Formatting text - ☎12
 
         sec++;
     }
