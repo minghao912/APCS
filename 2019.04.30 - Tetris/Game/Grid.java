@@ -6,13 +6,21 @@ import Exceptions.ExceededMaximumCapacityException;
 import Blocks.Block;
 import Blocks.Square;
 import Blocks.BlockHoldManager;
-import Blocks.BlockManager;
 import Game.Location.Direction;
 import UI.HoldPanel;
 
+import java.util.List;
+import java.util.Arrays;
 import java.util.ArrayList;
-import java.util.function.Function;;
+import java.util.function.Function;
+import java.awt.Dimension;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.SwingConstants;
 import javax.swing.JOptionPane;
+import javax.swing.JLabel;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
 
 /**
  * A {@code Grid} represents the game field of Tetris.
@@ -578,7 +586,62 @@ public class Grid {
     public void gameOver() {
         this.gameOver = true;
         System.out.println("> Game over state triggered");
+
+        //Leaderboard stuff
+        //Start the leaderboard/scoring stuff
+        JOptionPane.showMessageDialog(null, "Game over!\nYour score: " + Counter.linesCleared, "Leaderboard", 
+                JOptionPane.INFORMATION_MESSAGE);
+        String username = JOptionPane.showInputDialog(null, "Please enter your name:");
+
+        List<String> leaderboard = new FileReadWrite().read("Game/leaderboard.kylebigdumb");
+
+        if (leaderboard == null) {
+            System.out.println("Fatal Error\nAn unknown error has occured: null returned by FileReadWrite");
+            return;
+        }
+
+        leaderboard.add(Counter.linesCleared + ": " + username);
+
+        String[] sortedLeaderboard = leaderboard.toArray(new String[0]);
+        Arrays.sort(sortedLeaderboard);
+
+        new FileReadWrite().write("Game/leaderboard.kylebigdumb", sortedLeaderboard);
+
+        showLeaderboard(sortedLeaderboard);
+
+        //"Debug" the leaderboard info
+        System.out.println("> New Leaderboard Info:");
+        System.out.println("> " + Arrays.toString(sortedLeaderboard));
     }
+
+    private void showLeaderboard(String[] elements) {
+        Box box = new Box(BoxLayout.Y_AXIS);
+        box.add(Box.createVerticalGlue());
+        for (int i = 0; i < elements.length; i++) {
+            String element = elements[i];
+            JLabel elementLabel;
+
+            if (i >= 10) break;  //Only display the top 10 on the leaderboard
+            else if (i == 0) elementLabel = new JLabel("<html><h1>" + element + "</h1></html>", SwingConstants.CENTER);
+            else {
+                elementLabel = new JLabel("<html><h3>" + element + "</h3></html>", SwingConstants.CENTER);
+            }
+
+            elementLabel.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+            box.add(Box.createRigidArea(new Dimension(0, 5)));
+            box.add(elementLabel);
+        }
+        box.add(Box.createVerticalGlue());
+
+        JFrame leaderboardInternalFrame = new JFrame("Leaderboard");
+        leaderboardInternalFrame.getContentPane().add(box);
+        leaderboardInternalFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        leaderboardInternalFrame.setPreferredSize(new Dimension(680, 480));
+        leaderboardInternalFrame.pack();
+        leaderboardInternalFrame.setLocationRelativeTo(null);
+        leaderboardInternalFrame.setVisible(true);
+    }
+
 
     /**
      * Returns {@code true} if the {@code Grid}
