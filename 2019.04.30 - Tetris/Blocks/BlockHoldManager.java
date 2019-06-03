@@ -14,6 +14,7 @@ public class BlockHoldManager<T extends Block> extends Manager<T> {
     /**
      * Gets the member at an index.
      * @param index the index to retrieve
+     * @return the member at {@code index}
      */
     public T getMember(int index) {
         return super.members.get(index);
@@ -30,6 +31,7 @@ public class BlockHoldManager<T extends Block> extends Manager<T> {
     /**
      * Deletes the object at the index
      * from hold.
+     * @param index the index to delete
      */
     public void deleteHold(int index) {
         super.members.remove(index);

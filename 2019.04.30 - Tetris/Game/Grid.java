@@ -36,6 +36,7 @@ public class Grid {
      * Creates a new {@code Grid} with the given height and width.
      * @param height the height of the {@code Grid}
      * @param width the width of the {@code Grid}
+     * @param lock the game's {@code Lock} object
      */
     public Grid(int height, int width, Lock lock) {
         grid = new Square[height][width];
@@ -223,6 +224,8 @@ public class Grid {
      * Moves the {@code Block} in the given {@code Direction}. A
      * {@code Direction} can either be {@code LEFT} or {@code RIGHT},
      * and is specified in {@link Direction}.
+     * @param block the {@code Block} to move
+     * @param direction the {@code Direction} to move the {@code Block}
      */
     public synchronized void moveBlock(Block block, Direction direction) throws IllegalStateException {
         System.out.println("> Starting move");
@@ -400,17 +403,17 @@ public class Grid {
             throw new IllegalArgumentException("The rotation direction is invalid.");
 
         //Don't rotate if out of bounds
-        if (block.getLocation().getC() + block.getShape().length >= grid[0].length)
+        if (block.getLocation().getC() + block.getShape().length > grid[0].length)
             return;
         
         System.out.println("> Rotating Block " + block.getID());
 
         Square[][] shape = block.getShape();
         Square[][] newShape;
-        if (direction == Direction.COUNTERCLOCKWISE) {
-            newShape = counterclockwiseRotate.apply(shape);
-        } else if (direction == Direction.CLOCKWISE) {
+        if (direction == Direction.CLOCKWISE) {
             newShape = clockwiseRotate.apply(shape);
+        } else if (direction == Direction.COUNTERCLOCKWISE) {
+            newShape = counterclockwiseRotate.apply(shape);
         } else newShape = null;
 
         removeBlock(block);
@@ -476,9 +479,71 @@ public class Grid {
     }
 
     /**
+     * Teleports the {@code Block} to the bottom
+     * of the {@code Grid} and settles it.
+     * @param block the {@code Block} to drop
+     */
+    public synchronized void quickDrop(Block block) {
+        if (block == null)
+            block = this.currentBlock;
+
+        System.out.println("> Quick dropping Block " + block.getID());
+        
+        Location destination = findDropLocation(block);
+        Location oldLocation = block.getLocation();
+
+        System.out.println("> Block " + block.getID() + " old location was " + oldLocation);
+        
+        Square[][] shape = block.getShape();
+        for (int r = 0; r < shape.length; r++) {
+            for (int c = 0; c < shape[r].length; c++) {
+                if (shape[r][c] != null)
+                    grid[oldLocation.getR() + r][oldLocation.getC() + c] = null;
+            }
+        }
+
+        for (int r = 0; r < shape.length; r++) {
+            for (int c = 0; c < shape[r].length; c++) {
+                if (shape[r][c] != null)
+                    grid[destination.getR() + r][destination.getC() + c] = shape[r][c];
+            }
+        }
+
+        block.setLocation(destination);
+        checkIfSettled();
+        System.out.println("> Quick drop finished.");
+    }
+
+    /**
+     * Finds where to drop a {@code Block} for quick drop
+     * @param block the {@code Block} to check
+     * @return the {@code Location} the {@code Block}
+     *         should be at
+     */
+    private synchronized Location findDropLocation(Block block) {
+        int maxDropDistance = grid.length - block.getLocation().getR() - block.getShape().length - 1;
+        for (Square s : block.getOuterSquares()) {
+            int x = s.getLocation().getC();
+            int y = s.getLocation().getR();
+            for (int r = y + 1; r < grid.length; r++) {
+                if (grid[r][x] != null) {
+                    System.out.println("> Block detected at location (" + r + ", " + x + ")");
+                    if (r - y < maxDropDistance)
+                        maxDropDistance = r - y - block.getShape().length - 2;
+                }
+            }
+        }
+
+        //JOptionPane.showMessageDialog(null, "> Maximum drop distance for Block " + block.getID() + " is " + maxDropDistance, "Important", JOptionPane.INFORMATION_MESSAGE);
+        System.out.println("> Maximum drop distance for Block " + block.getID() + " is " + maxDropDistance);
+        return new Location(block.getLocation().getR() + maxDropDistance, block.getLocation().getC());
+    }
+
+    /**
      * Retrieves the {@code i}th {@code Block} from
      * hold and replaces it with the current one.
      * @param i the {@code Block} to retrieve
+     * @return the {@code Block} that was replaced
      */
     public Block retrieveHold(int i) {
         Block block = holdManager.getMember(i);

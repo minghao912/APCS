@@ -17,7 +17,7 @@ public abstract class Manager<T> {
      * Get the next {@code member} from
      * objects under the {@code Manager}'s 
      * management.
-     * @return <T> the next {@code member}
+     * @return the next {@code member}
      */
     protected abstract T getNextMember();
 

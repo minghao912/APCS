@@ -1,6 +1,7 @@
 package UI;
 
 import java.awt.Graphics;
+import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.JPanel;
 
@@ -42,11 +43,16 @@ public class GridPanel extends JPanel {
         // Draw grid
         for (int r = 0; r < gridArray.length; r++) {
             for (int c = 0; c < gridArray[0].length; c++) {
-                if (gridArray[r][c] == null)
-                    continue;
-
-                g.setColor(gridArray[r][c].getColor());
-                g.fillRect(c * SQUARESIZE, r * SQUARESIZE, SQUARESIZE, SQUARESIZE);
+                //Draw lines only for blank squares
+                if (gridArray[r][c] == null) {
+                    g.setColor(Color.LIGHT_GRAY);
+                    g.drawRect(c * SQUARESIZE, r * SQUARESIZE, SQUARESIZE, SQUARESIZE);
+                } else {
+                    g.setColor(gridArray[r][c].getColor());
+                    g.fillRect(c * SQUARESIZE, r * SQUARESIZE, SQUARESIZE, SQUARESIZE);
+                    g.setColor(Color.LIGHT_GRAY);
+                    g.drawRect(c * SQUARESIZE, r * SQUARESIZE, SQUARESIZE, SQUARESIZE);
+                }
             }
         }
     }

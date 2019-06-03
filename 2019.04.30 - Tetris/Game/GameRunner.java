@@ -17,6 +17,8 @@ public class GameRunner implements Runnable {
     /**
      * Creates a {@code GameRunner} to work with
      * the given {@code Grid} and {@code JPanel}.
+     * @param grid the game's {@code Grid}
+     * @param jpanel the game's {@code JPanel}
      */
     public GameRunner(Grid grid, JPanel jpanel) {
         this.grid = grid;
