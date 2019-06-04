@@ -617,19 +617,17 @@ public class Grid {
     }
 
     private void showLeaderboard(String[] elements) {
-        String leaderboardText = "";
-        
         JTextPane ta = new JTextPane();
         JScrollPane sp = new JScrollPane(ta);
         sp.setSize(new Dimension(400, 200));
 
-        //Center text https://stackoverflow.com/questions/31928306/how-to-create-and-use-a-jtextpane
+        //Center text ☎13
         StyledDocument doc = ta.getStyledDocument();
         SimpleAttributeSet center = new SimpleAttributeSet();
         StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
         doc.setParagraphAttributes(0, doc.getLength(), center, false);
 
-        //Styling https://stackoverflow.com/questions/10585956/jtextpane-how-to-set-the-font-size
+        //Styling ☎14
         Style style = ta.addStyle("Color Style", null);
         Font f = new Font(Font.SANS_SERIF, Font.PLAIN, 18);
 
@@ -666,14 +664,6 @@ public class Grid {
      */
     public boolean isGameOver() {
         return this.gameOver;
-    }
-
-    private void sleep(int ms) {
-        try {
-            Thread.sleep(ms);
-        } catch (Throwable e) {
-            ExceptionHandler.showError(e);
-        }
     }
 
     @Override
