@@ -329,32 +329,34 @@ public class Grid {
      * been cleared by the user.
      */
     public synchronized void clearLines() {
-        System.out.println("> Checking for cleared lines");
+        synchronized (lock) {
+            System.out.println("> Checking for cleared lines");
 
-        ArrayList<Integer> rowsCleared = new ArrayList<Integer>();
+            ArrayList<Integer> rowsCleared = new ArrayList<Integer>();
 
-        for (int r = grid.length - 1; r >= 0; r--) {    //Goes backwards
-            if (checkLineClear(r))
-                rowsCleared.add(r);
-        }
-
-        rowsCleared.forEach(row -> {
-            for (int c = 0; c < grid[row].length; c++) {
-                grid[row][c] = null;
+            for (int r = grid.length - 1; r >= 0; r--) {    //Goes backwards
+                if (checkLineClear(r))
+                    rowsCleared.add(r);
             }
 
-            for (int r = row - 1; r >= 0; r--) {
+            rowsCleared.forEach(row -> {
                 for (int c = 0; c < grid[row].length; c++) {
-                    grid[r + 1][c] = grid[r][c];
-                    grid[r][c] = null;
+                    grid[row][c] = null;
                 }
-            }
 
-            System.out.println("> Line cleared");
-        });
+                for (int r = row - 1; r >= 0; r--) {
+                    for (int c = 0; c < grid[row].length; c++) {
+                        grid[r + 1][c] = grid[r][c];
+                        grid[r][c] = null;
+                    }
+                }
 
-        Counter.linesCleared += rowsCleared.size(); //Add to the counter
-        System.out.println("> Finish cleared lines check");
+                System.out.println("> Line cleared");
+            });
+
+            Counter.linesCleared += rowsCleared.size(); //Add to the counter
+            System.out.println("> Finish cleared lines check");
+        }
     }
 
     /**
@@ -364,16 +366,10 @@ public class Grid {
      * @return whether of not the row is clear
      */
     private synchronized boolean checkLineClear(int row) {
-        boolean rowClear = true;
-
-        for (int c = 0; c < grid[row].length; c++) {
-            if (grid[row][c] == null) {
-                rowClear = false;
-                break;
-            }
-        }
-
-        return rowClear;
+        for (int c = 0; c < grid[row].length; c++)
+            if (grid[row][c] == null)
+                return false;
+        return true;
     }
 
     /**
@@ -498,55 +494,11 @@ public class Grid {
             block = this.currentBlock;
 
         System.out.println("> Quick dropping Block " + block.getID());
-        
-        Location destination = findDropLocation(block);
-        Location oldLocation = block.getLocation();
 
-        System.out.println("> Block " + block.getID() + " old location was " + oldLocation);
-        
-        Square[][] shape = block.getShape();
-        for (int r = 0; r < shape.length; r++) {
-            for (int c = 0; c < shape[r].length; c++) {
-                if (shape[r][c] != null)
-                    grid[oldLocation.getR() + r][oldLocation.getC() + c] = null;
-            }
-        }
+        while (!block.isSettled())
+            this.regularStep();
 
-        for (int r = 0; r < shape.length; r++) {
-            for (int c = 0; c < shape[r].length; c++) {
-                if (shape[r][c] != null)
-                    grid[destination.getR() + r][destination.getC() + c] = shape[r][c];
-            }
-        }
-
-        block.setLocation(destination);
-        checkIfSettled();
         System.out.println("> Quick drop finished.");
-    }
-
-    /**
-     * Finds where to drop a {@code Block} for quick drop
-     * @param block the {@code Block} to check
-     * @return the {@code Location} the {@code Block}
-     *         should be at
-     */
-    private synchronized Location findDropLocation(Block block) {
-        int maxDropDistance = grid.length - block.getLocation().getR() - block.getShape().length - 1;
-        for (Square s : block.getOuterSquares()) {
-            int x = s.getLocation().getC();
-            int y = s.getLocation().getR();
-            for (int r = y + 1; r < grid.length; r++) {
-                if (grid[r][x] != null) {
-                    System.out.println("> Block detected at location (" + r + ", " + x + ")");
-                    if (r - y < maxDropDistance)
-                        maxDropDistance = r - y - block.getShape().length - 2;
-                }
-            }
-        }
-
-        //JOptionPane.showMessageDialog(null, "> Maximum drop distance for Block " + block.getID() + " is " + maxDropDistance, "Important", JOptionPane.INFORMATION_MESSAGE);
-        System.out.println("> Maximum drop distance for Block " + block.getID() + " is " + maxDropDistance);
-        return new Location(block.getLocation().getR() + maxDropDistance, block.getLocation().getC());
     }
 
     /**
