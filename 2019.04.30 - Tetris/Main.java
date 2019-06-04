@@ -22,6 +22,7 @@ import java.awt.Frame;
 import java.awt.BorderLayout;
 import javax.swing.JPanel;
 import javax.swing.JFrame;
+import javax.swing.ImageIcon;
 
 public class Main {
     private static JFrame win;
@@ -122,6 +123,7 @@ public class Main {
         field = new GridPanel(gameGrid);
 
         win = new JFrame("Tetris");    //window setup
+        win.setIconImage((new ImageIcon(Main.class.getResource("Game/icon.kylebigdumb"))).getImage());
         win.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         win.setPreferredSize(field.getPreferredSize());
         win.setResizable(false);
@@ -132,6 +134,7 @@ public class Main {
 
         hpanel = new HoldPanel(game.getHoldManager());
         JFrame hFrame = new JFrame("Hold");
+        hFrame.setIconImage((new ImageIcon(Main.class.getResource("Game/icon.kylebigdumb"))).getImage());
         hFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         hFrame.setPreferredSize(new Dimension(200, 150));
         hFrame.setResizable(false);
@@ -144,6 +147,7 @@ public class Main {
 
         System.out.println("> Setting up CounterFrame");
         CounterFrame cf = new CounterFrame("Stats", game);
+        cf.setIconImage((new ImageIcon(Main.class.getResource("Game/icon.kylebigdumb"))).getImage());
         cf.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         cf.pack();
         cf.setLocation(win.getX(), win.getY() - 90);

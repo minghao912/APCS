@@ -42,7 +42,7 @@ public class CounterFrame extends JFrame implements Runnable {
         sec = totalSecElapsed % 60;
 
         //JLabel text ☎5
-        lines.setText("<html><div style='text-align: center;'>Lines Cleared\n" + Counter.linesCleared + "</div></html>");
+        lines.setText("<html><div style='text-align: center;'>Score\n" + Counter.linesCleared + "</div></html>");
         time.setText("<html><div style='text-align: center;'>Time Elapsed\n" + String.format("%02d", min) + ":" + String.format("%02d", sec) + "</div></html>");    //Formatting text - ☎12
 
         sec++;

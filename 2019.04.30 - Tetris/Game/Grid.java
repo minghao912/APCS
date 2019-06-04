@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.function.Function;
 import java.awt.Font;
 import java.awt.Dimension;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JFrame;
 import javax.swing.JTextPane;
@@ -41,6 +42,10 @@ public class Grid {
     //For rotation ☎6
     private Function<Square[][], Square[][]> clockwiseRotate;
     private Function<Square[][], Square[][]> counterclockwiseRotate;
+
+    //For leaderboard
+    private static final String leaderboardFilepath = "./Files/leaderboard.kylebigdumb";
+    private static final String iconFilepath = "icon.kylebigdumb";
 
     /**
      * Creates a new {@code Grid} with the given height and width.
@@ -547,7 +552,7 @@ public class Grid {
                 JOptionPane.INFORMATION_MESSAGE);
         String username = JOptionPane.showInputDialog(null, "Please enter your name:");
 
-        List<String> leaderboard = new FileReadWrite().read("Game/leaderboard.kylebigdumb");
+        List<String> leaderboard = new FileReadWrite().read(leaderboardFilepath);
 
         if (leaderboard == null) {
             System.out.println("Fatal Error\nAn unknown error has occured: null returned by FileReadWrite");
@@ -559,7 +564,7 @@ public class Grid {
         String[] sortedLeaderboard = leaderboard.toArray(new String[0]);
         Arrays.sort(sortedLeaderboard);
 
-        new FileReadWrite().write("Game/leaderboard.kylebigdumb", sortedLeaderboard);
+        new FileReadWrite().write(leaderboardFilepath, sortedLeaderboard);
 
         showLeaderboard(sortedLeaderboard);
 
@@ -600,6 +605,7 @@ public class Grid {
         }
 
         JFrame leaderboardInternalFrame = new JFrame("Leaderboard");
+        leaderboardInternalFrame.setIconImage(new ImageIcon(this.getClass().getResource(iconFilepath)).getImage());
         leaderboardInternalFrame.getContentPane().add(sp);
         leaderboardInternalFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         leaderboardInternalFrame.setPreferredSize(new Dimension(680, 480));

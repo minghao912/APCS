@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "CodeLens (Launch) - FileReadWrite",
+            "request": "launch",
+            "mainClass": "Game.FileReadWrite",
+            "projectName": "2019.04.30 - Tetris_5f5d7f56"
+        },
+        {
+            "type": "java",
             "name": "Debug (Launch) - Current File",
             "request": "launch",
             "mainClass": "${file}"

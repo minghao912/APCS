@@ -21,9 +21,9 @@ public class FileReadWrite {    //This entire class from my Battleship project
      */
     public List<String> read(String filepath) {
         try {
-            Scanner fileIn = new Scanner(new File(filepath)).useDelimiter(",\\s+"); //Split each section by "," followed by 1+ spaces
-        
-            List<String> members = new ArrayList<>();
+            Scanner fileIn = new Scanner(new File(filepath)).useDelimiter(",\\s+");  //Split each section by "," followed by 1+ spaces
+
+            List<String> members = new ArrayList<String>();
             List<String> membersCopy = members;
 
             while (fileIn.hasNext()) {
@@ -42,6 +42,10 @@ public class FileReadWrite {    //This entire class from my Battleship project
             ExceptionHandler.showError(e);
         }
         return null;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(Arrays.toString(new FileReadWrite().read("Files/leaderboard.kylebigdumb").toArray(new String[0])));
     }
 
     /**
