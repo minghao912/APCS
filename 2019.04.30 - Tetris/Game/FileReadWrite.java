@@ -59,7 +59,7 @@ public class FileReadWrite {
                 if (stuffToWrite[i].trim().length() != 0)
                     writer.println(stuffToWrite[i] + ",");
             if (stuffToWrite[stuffToWrite.length - 1].trim().length() != 0)   //Don't want comma on last line
-                writer.println(stuffToWrite[stuffToWrite.length - 1]);  
+                writer.print(stuffToWrite[stuffToWrite.length - 1]);  
             
             writer.close();
         } catch (UnsupportedEncodingException e) {

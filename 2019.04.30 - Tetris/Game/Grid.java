@@ -13,14 +13,16 @@ import java.util.List;
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.function.Function;
+import java.awt.Font;
 import java.awt.Dimension;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.SwingConstants;
 import javax.swing.JOptionPane;
-import javax.swing.JLabel;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JTextPane;
+import javax.swing.JScrollPane;
+import javax.swing.text.Style;
+import javax.swing.text.StyledDocument;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.SimpleAttributeSet;
 
 /**
  * A {@code Grid} represents the game field of Tetris.
@@ -588,7 +590,7 @@ public class Grid {
         System.out.println("> Game over state triggered");
 
         //Leaderboard stuff
-        //Start the leaderboard/scoring stuff
+        //Start the leaderboard/scoring stuff - all taken from Battleship project
         JOptionPane.showMessageDialog(null, "Game over!\nYour score: " + Counter.linesCleared, "Leaderboard", 
                 JOptionPane.INFORMATION_MESSAGE);
         String username = JOptionPane.showInputDialog(null, "Please enter your name:");
@@ -600,7 +602,7 @@ public class Grid {
             return;
         }
 
-        leaderboard.add(Counter.linesCleared + ": " + username);
+        leaderboard.add(String.format("%02d", Counter.linesCleared) + ": " + username);
 
         String[] sortedLeaderboard = leaderboard.toArray(new String[0]);
         Arrays.sort(sortedLeaderboard);
@@ -615,26 +617,40 @@ public class Grid {
     }
 
     private void showLeaderboard(String[] elements) {
-        Box box = new Box(BoxLayout.Y_AXIS);
-        box.add(Box.createVerticalGlue());
-        for (int i = 0; i < elements.length; i++) {
-            String element = elements[i];
-            JLabel elementLabel;
+        String leaderboardText = "";
+        
+        JTextPane ta = new JTextPane();
+        JScrollPane sp = new JScrollPane(ta);
+        sp.setSize(new Dimension(400, 200));
 
-            if (i >= 10) break;  //Only display the top 10 on the leaderboard
-            else if (i == 0) elementLabel = new JLabel("<html><h1>" + element + "</h1></html>", SwingConstants.CENTER);
-            else {
-                elementLabel = new JLabel("<html><h3>" + element + "</h3></html>", SwingConstants.CENTER);
-            }
+        //Center text https://stackoverflow.com/questions/31928306/how-to-create-and-use-a-jtextpane
+        StyledDocument doc = ta.getStyledDocument();
+        SimpleAttributeSet center = new SimpleAttributeSet();
+        StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
+        doc.setParagraphAttributes(0, doc.getLength(), center, false);
 
-            elementLabel.setAlignmentX(JComponent.CENTER_ALIGNMENT);
-            box.add(Box.createRigidArea(new Dimension(0, 5)));
-            box.add(elementLabel);
+        //Styling https://stackoverflow.com/questions/10585956/jtextpane-how-to-set-the-font-size
+        Style style = ta.addStyle("Color Style", null);
+        Font f = new Font(Font.SANS_SERIF, Font.PLAIN, 18);
+
+        ta.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
+        try {   //Do bolded first line
+            doc.insertString(doc.getLength(), elements[elements.length - 1] + "\n", style);
+        } catch (Throwable e) {
+            ExceptionHandler.showError(e);
         }
-        box.add(Box.createVerticalGlue());
+
+        ta.setFont(f);  //Do the rest
+        for (int i = elements.length - 2; i >= 0; i--) {
+            try {
+                doc.insertString(doc.getLength(), elements[i] + "\n", style);
+            } catch (Throwable e) {
+                ExceptionHandler.showError(e);
+            }
+        }
 
         JFrame leaderboardInternalFrame = new JFrame("Leaderboard");
-        leaderboardInternalFrame.getContentPane().add(box);
+        leaderboardInternalFrame.getContentPane().add(sp);
         leaderboardInternalFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         leaderboardInternalFrame.setPreferredSize(new Dimension(680, 480));
         leaderboardInternalFrame.pack();
