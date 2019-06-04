@@ -17,6 +17,7 @@ public class FileReadWrite {
      * returns a {@code List<String>} of elements seperated by commas in the file.
      * 
      * @param filepath - a {@code String} of the file to read
+     * @return a {@code List<String>} of the file
      */
     public List<String> read(String filepath) {
         try {
