@@ -1,3 +1,4 @@
+Attributions
  * ☎01 Sutar, Abhijeet."[Java] How to Schedule a Task to Run in an Interval." Java Code Geeks. 2 April 2014. Accessed 29 May 2019. https://www.javacodegeeks.com/2014/04/java-how-to-schedule-a-task-to-run-in-an-interval.html.
  * ☎02 H, Sakthi Priyan. "Creating Base64 UUID in Java Alphanumeric Unique Id Using Base64 Charset." Creating Base64 UUID in Java - Sakthi Priyan H. 2 April 2017. Accessed 29 May 2019. https://sakthipriyan.com/2017/04/02/creating-base64-uuid-in-java.html.
  * ☎03 Oracle. "How to Make Dialogs." How to Make Dialogs (The Java™ Tutorials Creating a GUI With JFC/Swing Using Swing Components). Accessed 29 May 2019. https://docs.oracle.com/javase/tutorial/uiswing/components/dialog.html.
@@ -12,3 +13,7 @@
  * ☎12 My Head Hurts, Mat, Maerics, and Anil Bharadia. "Format an Integer Using Java String Format." Stack Overflow. 17 May 2011. Accessed 3 June 2019. https://stackoverflow.com/questions/6034523/format-an-integer-using-java-string-format.
  * ☎13 Constantin, Theo, and Pilotito_dev. "How to Create and Use a JTextPane." Stack Overflow. 10 August 2015. Accessed 4 June 2019. https://stackoverflow.com/questions/31928306/how-to-create-and-use-a-jtextpane.
  * ☎14 PeakGen, LoveToCode, and MKorbel. "JTextPane: How to Set the Font Size." Stack Overflow. 14 May 2012. Accessed 4 June 2019. https://stackoverflow.com/questions/10585956/jtextpane-how-to-set-the-font-size.
+
+ Instructions
+ * Make sure the directory has both the "Files" folder and the Tetris.jar file
+ * Run the "Main" class
